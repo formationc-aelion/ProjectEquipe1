@@ -6,6 +6,7 @@
 #include <QSqlDatabase>
 #include <qsortfilterproxymodel.h>
 #include "ajouterfilm.h"
+#include<QDataWidgetMapper>
 
 namespace Ui {
 class MainWindow;
