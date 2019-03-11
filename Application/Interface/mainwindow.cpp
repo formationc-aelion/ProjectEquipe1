@@ -2,6 +2,8 @@
 #include "ui_mainwindow.h"
 #include<QDebug>
 #include<QMessageBox>
+#include "film.h"
+#include <QVariant>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -74,9 +76,7 @@ void MainWindow::Deverouillage()
 void MainWindow::ajouter_Film()
 {
     AjouterFilm af; // déclaration de la boîte de dialogue affichage
-    af.exec(); // affichage de la fenêtre d'ajout
-    //cf HUGO Film film = af.getDetails(); // stockage des info dans un objet film
-
+    af.exec(); // affichage de la fenêtre d'ajout    
 }
 
 void MainWindow::conversion_min_en_heure()
