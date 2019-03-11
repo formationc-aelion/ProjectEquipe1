@@ -6,6 +6,7 @@ AjouterFilm::AjouterFilm(QWidget *parent) :
     ui(new Ui::AjouterFilm)
 {
     ui->setupUi(this);
+
 }
 
 AjouterFilm::~AjouterFilm()

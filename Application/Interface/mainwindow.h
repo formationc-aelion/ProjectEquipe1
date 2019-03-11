@@ -19,9 +19,16 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    void Verouillage();
+    void Deverouillage();
 
 private slots:
     void ajouter_Film();
+    void conversion_min_en_heure();
+    void apparition_texte();
+    void suppression();
+    void modification();
+   // void annuler();
 
 private:
     Ui::MainWindow *ui;
