@@ -33,6 +33,9 @@ private slots:
     void modif_pris_en_compte();
     void masquer_texte();
     void filtreRecherche(QString tri);
+    void demasquage_btn();
+    void cache_btn();
+    void annuler_la_modif();
 
 
 private:

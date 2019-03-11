@@ -235,6 +235,13 @@
          </property>
         </widget>
        </item>
+       <item row="8" column="2">
+        <widget class="QPushButton" name="load_pic">
+         <property name="text">
+          <string>Charger Photo</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
     </item>

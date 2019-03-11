@@ -6,17 +6,21 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
-{
+{  
     ui->setupUi(this);
     Verouillage();
     ui->teInfo->setVisible(false);
     ui->pbMasquer->setVisible(false);
 
+    ui->pbModifOK->setHidden(true);
+    ui->pbModifAnnuler->setHidden(true);
+    ui->load_pic->setHidden(true);
 
     QSqlDatabase db = QSqlDatabase::database("connexionBDDfilm");
     mFilmModel = new QSqlTableModel (this,db);
     mFilmModel->setTable("film");
     mFilmModel->select();
+    mFilmModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
     mFilmSortingModel = new QSortFilterProxyModel(this);
     mFilmSortingModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
@@ -57,9 +61,12 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->pbAjouter,SIGNAL(clicked()),this, SLOT(ajouter_Film()));
     connect(ui->pbModifier,SIGNAL(clicked()),this, SLOT(modification()));
     connect(ui->pbModifOK,SIGNAL(clicked()),this, SLOT(modif_pris_en_compte()));
+    connect(ui->pbModifier,SIGNAL(clicked()),this, SLOT(demasquage_btn()));
+    connect(ui->pbModifOK,SIGNAL(clicked()),this, SLOT(cache_btn()));
+    connect(ui->pbModifAnnuler,SIGNAL(clicked()),this, SLOT(cache_btn()));
+    connect(ui->pbModifAnnuler,SIGNAL(clicked()),this, SLOT(annuler_la_modif()));
 
-
-     connect(ui->leRecherche,SIGNAL(textChanged(QString)),this,SLOT(filtreRecherche(QString)));
+    connect(ui->leRecherche,SIGNAL(textChanged(QString)),this,SLOT(filtreRecherche(QString)));
 
 }
 
@@ -291,5 +298,31 @@ void MainWindow::filtreRecherche(QString tri)
 
     mFilmSortingModel->setFilterWildcard(find);
     mFilmSortingModel->setFilterKeyColumn(1);
+}
+
+void MainWindow::demasquage_btn()
+{
+    ui->pbModifOK->setHidden(false);
+    ui->pbModifAnnuler->setHidden(false);
+    ui->load_pic->setHidden(false);
+
+}
+
+void MainWindow::cache_btn()
+{
+    ui->pbModifOK->setHidden(true);
+    ui->pbModifAnnuler->setHidden(true);
+    ui->load_pic->setHidden(true);
+}
+
+void MainWindow::annuler_la_modif()
+{
+
+    mFilmModel->select();
+
+
+
+    Verouillage();
+
 }
 
