@@ -21,6 +21,7 @@ public:
     ~MainWindow();
     void Verouillage();
     void Deverouillage();
+    int conversion_en_int();
 
 private slots:
     void ajouter_Film();
@@ -29,6 +30,7 @@ private slots:
     void suppression();
     void modification();
    // void annuler();
+    void modif_pris_en_compte();
 
 private:
     Ui::MainWindow *ui;

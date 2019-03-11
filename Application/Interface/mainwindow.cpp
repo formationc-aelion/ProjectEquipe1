@@ -22,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->lvListeRecherche->setModelColumn(1);
 
 
-   QDataWidgetMapper *mapper = new QDataWidgetMapper;
+    QDataWidgetMapper *mapper = new QDataWidgetMapper;
     mapper->setModel(mFilmModel);
     mapper->addMapping(ui->leTitre, 1);
     mapper->addMapping(ui->leAnnee, 2);
@@ -44,7 +44,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->pbSupprimer,SIGNAL(clicked()),this,SLOT(suppression()));
 
     connect(ui->pbAjouter,SIGNAL(clicked()),this, SLOT(ajouter_Film()));
-     connect(ui->pbModifier,SIGNAL(clicked()),this, SLOT(modification()));
+    connect(ui->pbModifier,SIGNAL(clicked()),this, SLOT(modification()));
+    connect(ui->pbModifOK,SIGNAL(clicked()),this, SLOT(modif_pris_en_compte()));
+
 
 }
 
@@ -69,6 +71,64 @@ void MainWindow::Deverouillage()
     ui->leGenre->setReadOnly(false);
     ui->leDuree->setReadOnly(false);
     ui->leVO->setReadOnly(false);
+}
+
+int MainWindow::conversion_en_int()
+{
+    QString conversion_galere = ui->leDuree->text();
+
+   //CaseInsensitive gere h et H et aussi min et MIN
+   //fct contains me renvoi un bool
+    bool contient_h = conversion_galere.contains('h', Qt::CaseInsensitive);
+    bool contient_min = conversion_galere.contains("min", Qt::CaseInsensitive);
+
+   if (contient_h == 1 && contient_min == 1)
+   {
+
+       QStringList list1 = conversion_galere.split('h',QString::SkipEmptyParts);
+       list1[1] = list1[1].remove("min");
+       list1[1] = list1[1].left(2);
+       QString element_heure = list1.at(0);
+       int heure = element_heure.toInt();
+       heure *= 60;
+       QString element_minutes = list1.at(1);
+       int minutes = element_minutes.toInt();
+
+       int resultat = heure + minutes;
+       qDebug()<< resultat;
+   return heure + minutes;
+
+   }
+    else if (contient_h == 0 && contient_min == 1)
+    {
+       QString element_minutes = conversion_galere.left(2);
+       int minutes = element_minutes.toInt();
+
+       qDebug()<< minutes;
+
+   return minutes;
+
+    }
+
+    else if (contient_h == 1 && contient_min == 0)
+
+    {
+       QString element_heure = conversion_galere.left(1);
+       int heure = element_heure.toInt();
+       heure *= 60;
+
+       qDebug()<< heure;
+
+   return heure;
+
+    }
+
+   else
+   {
+       int a = 0;
+       return a;
+   }
+
 }
 
 void MainWindow::ajouter_Film()
@@ -136,26 +196,60 @@ void MainWindow::apparition_texte()
 
 void MainWindow::suppression()
 {
-   int response = QMessageBox::critical(this,"Supprimer le fichier","Voulez-vous vraiment supprimer cette entrée de façon permanente?",
-                         QMessageBox::Yes | QMessageBox::No);
-   if (response == QMessageBox::Yes)
-   {
-       mFilmModel->removeRow(ui->lvListeRecherche->currentIndex().row());
-       ui->leTitre->clear();
-       ui->leAnnee->clear();
-       ui->leGenre->clear();
-       ui->leDuree->clear();
-       ui->leVO->clear();
+    int response = QMessageBox::critical(this,"Supprimer le fichier","Voulez-vous vraiment supprimer cette entrée de façon permanente?",
+                                         QMessageBox::Yes | QMessageBox::No);
+    if (response == QMessageBox::Yes)
+    {
+        mFilmModel->removeRow(ui->lvListeRecherche->currentIndex().row());
+        ui->leTitre->clear();
+        ui->leAnnee->clear();
+        ui->leGenre->clear();
+        ui->leDuree->clear();
+        ui->leVO->clear();
 
-       QMessageBox::information(this,"Suppression","Element supprimé");
+        QMessageBox::information(this,"Suppression","Element supprimé");
 
-   }
+    }
 
 }
 
 void MainWindow::modification()
 {
     Deverouillage();
+
+}
+
+void MainWindow::modif_pris_en_compte()
+{
+
+    QString titre = ui->leTitre->text();
+    QString annee = ui->leAnnee->text();
+    QString genre = ui->leGenre->text();
+    QString duree = ui->leDuree->text();
+    QString vo = ui->leVO->text();
+
+    if (duree.contains('h', Qt::CaseInsensitive) || duree.contains("min", Qt::CaseInsensitive))
+
+    {
+        int a = conversion_en_int();
+        duree = QString("%1")
+                .arg(a);
+    }
+
+
+    ui->leTitre->setText(titre);
+    ui->leAnnee->setText(annee);
+    ui->leGenre->setText(genre);
+    ui->leDuree->setText(duree);
+    ui->leVO->setText(vo);
+
+
+    mFilmModel->submitAll();
+
+    this->conversion_min_en_heure();
+
+    Verouillage();
+
 
 }
 
