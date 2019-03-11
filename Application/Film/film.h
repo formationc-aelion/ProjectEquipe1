@@ -8,6 +8,7 @@ class Film
 public:
     Film();
     Film(QString titre, QString genre, QString langue, int annee, int duree);
+    Film(QString titre, QString genre, QString langue, int annee, int duree, QByteArray photo);
 
     QString titre() const;
     void setTitre(const QString &titre);
@@ -30,6 +31,7 @@ private:
     QString mLangue;
     int mAnnee;
     int mDuree;
+    QByteArray mPhoto;
 
 
 };

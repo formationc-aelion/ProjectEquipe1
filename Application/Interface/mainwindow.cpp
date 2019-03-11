@@ -10,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     Verouillage();
     ui->teInfo->setVisible(false);
+    ui->pbMasquer->setVisible(false);
 
 
     QSqlDatabase db = QSqlDatabase::database("connexionBDDfilm");
@@ -17,13 +18,19 @@ MainWindow::MainWindow(QWidget *parent) :
     mFilmModel->setTable("film");
     mFilmModel->select();
 
+    mFilmSortingModel = new QSortFilterProxyModel(this);
+    mFilmSortingModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
+    mFilmSortingModel->setSortCaseSensitivity(Qt::CaseInsensitive);
+    mFilmSortingModel->sort(1, Qt::AscendingOrder);
+    mFilmSortingModel->setDynamicSortFilter(true);
+    mFilmSortingModel->setSourceModel(mFilmModel);
 
-    ui->lvListeRecherche->setModel(mFilmModel);
+    ui->lvListeRecherche->setModel(mFilmSortingModel);
     ui->lvListeRecherche->setModelColumn(1);
 
 
    QDataWidgetMapper *mapper = new QDataWidgetMapper;
-    mapper->setModel(mFilmModel);
+    mapper->setModel(mFilmSortingModel);
     mapper->addMapping(ui->leTitre, 1);
     mapper->addMapping(ui->leAnnee, 2);
     mapper->addMapping(ui->leGenre, 3);
@@ -40,11 +47,14 @@ MainWindow::MainWindow(QWidget *parent) :
             SLOT(conversion_min_en_heure()));
 
     connect(ui->pbInfo,SIGNAL(clicked()),this,SLOT(apparition_texte()));
+    connect(ui->pbMasquer,SIGNAL(clicked()),this,SLOT(masquer_texte()));
 
     connect(ui->pbSupprimer,SIGNAL(clicked()),this,SLOT(suppression()));
 
     connect(ui->pbAjouter,SIGNAL(clicked()),this, SLOT(ajouter_Film()));
      connect(ui->pbModifier,SIGNAL(clicked()),this, SLOT(modification()));
+
+     connect(ui->leRecherche,SIGNAL(textChanged(QString)),this,SLOT(filtreRecherche(QString)));
 
 }
 
@@ -131,6 +141,8 @@ void MainWindow::conversion_min_en_heure()
 void MainWindow::apparition_texte()
 {
     ui->teInfo->setVisible(true);
+    ui->pbMasquer->setVisible(true);
+    ui->pbInfo->setHidden(true);
 
 }
 
@@ -140,7 +152,8 @@ void MainWindow::suppression()
                          QMessageBox::Yes | QMessageBox::No);
    if (response == QMessageBox::Yes)
    {
-       mFilmModel->removeRow(ui->lvListeRecherche->currentIndex().row());
+       QModelIndex a_supprimer = ui->lvListeRecherche->currentIndex();
+       mFilmSortingModel->removeRow(a_supprimer.row());
        ui->leTitre->clear();
        ui->leAnnee->clear();
        ui->leGenre->clear();
@@ -149,6 +162,7 @@ void MainWindow::suppression()
 
        QMessageBox::information(this,"Suppression","Element supprimé");
 
+       mFilmModel->select();
    }
 
 }
@@ -159,5 +173,19 @@ void MainWindow::modification()
 
 }
 
+void MainWindow::masquer_texte()
+{
+    ui->teInfo->setHidden(true);
+    ui->pbMasquer->setHidden(true);
+    ui->pbInfo->setVisible(true);
+}
 
+void MainWindow::filtreRecherche(QString tri)
+{
+    QString find ="*"+tri+"*";
+
+
+    mFilmSortingModel->setFilterWildcard(find);
+    mFilmSortingModel->setFilterKeyColumn(1);
+}
 
