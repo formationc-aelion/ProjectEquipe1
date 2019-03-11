@@ -76,8 +76,32 @@ void MainWindow::Deverouillage()
 void MainWindow::ajouter_Film()
 {
     AjouterFilm af; // déclaration de la boîte de dialogue affichage
-    af.exec(); // affichage de la fenêtre d'ajout    
+    af.exec(); // affichage de la fenêtre d'ajout
+
+    int result = af.exec();
+    if(result==QDialog::DialogCode::Accepted)
+    {
+       Film film = af.validation_donnees();
+       this->enregistrementAjout(film);
+       //emit
+    }
+    else{}
 }
+
+void MainWindow::enregistrementAjout(Film filmAjoute)
+{
+    mFilmModel->insertRow(mFilmModel->rowCount());
+    //ui->lvListeRecherche->
+    ui->leTitre->setText(filmAjoute.titre());
+    ui->leAnnee->setText(QString::number(filmAjoute.annee()));
+    ui->leGenre->setText(filmAjoute.genre());
+    ui->leDuree->setText(QString::number(filmAjoute.duree()));
+    ui->leVO->setText(filmAjoute.langue());
+
+    mFilmModel->submitAll();
+}
+
+
 
 void MainWindow::conversion_min_en_heure()
 {

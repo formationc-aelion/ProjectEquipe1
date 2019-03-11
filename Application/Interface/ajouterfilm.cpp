@@ -18,7 +18,7 @@ AjouterFilm::~AjouterFilm()
     delete ui;
 }
 
-Film AjouterFilm::entree_donnees()
+Film AjouterFilm::validation_donnees()
 {
     Film film;
     film.setTitre(ui->leAjoutTitre->text());
@@ -26,8 +26,9 @@ Film AjouterFilm::entree_donnees()
     film.setGenre(ui->leAjoutGenre->text());
     film.setDuree(ui->leAjoutDuree->text().toInt());
     film.setLangue(ui->leAjoutVO->text());
-    // ? QString infoFilm = ui-> teAjoutInfo->toPlainText();
+    // att: .h QString infoFilm = ui-> teAjoutInfo->toPlainText();
     // ? ui->labelPhoto->pixmap()->toImage());
+
     return film;
 }
 

@@ -16,9 +16,9 @@ class AjouterFilm : public QDialog
 public:
     explicit AjouterFilm(QWidget *parent = nullptr);
     ~AjouterFilm();
+    Film validation_donnees();
 
 private slots:
-    Film entree_donnees();
     void AjoutPhoto();
 
 private:
