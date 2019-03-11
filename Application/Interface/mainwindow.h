@@ -31,11 +31,15 @@ private slots:
     void modification();
    // void annuler();
     void modif_pris_en_compte();
+    void masquer_texte();
+    void filtreRecherche(QString tri);
+
 
 private:
     Ui::MainWindow *ui;
     QSqlTableModel *mFilmModel;
-    QSortFilterProxyModel *mFilmFilteredModel;
+    QSortFilterProxyModel *mFilmSortingModel;
+
 };
 
 #endif // MAINWINDOW_H

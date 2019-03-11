@@ -124,17 +124,7 @@
        <string/>
       </property>
       <layout class="QGridLayout" name="gridLayout_2">
-       <item row="0" column="0">
-        <widget class="QLabel" name="lbTitre">
-         <property name="text">
-          <string>Titre : </string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QLineEdit" name="leTitre"/>
-       </item>
-       <item row="0" column="2" rowspan="7">
+       <item row="0" column="2" rowspan="8">
         <widget class="QLabel" name="lbAffiche">
          <property name="minimumSize">
           <size>
@@ -153,15 +143,12 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="lbAnnee">
+       <item row="4" column="0">
+        <widget class="QLabel" name="lbVO">
          <property name="text">
-          <string>Année :</string>
+          <string>VO :</string>
          </property>
         </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QLineEdit" name="leAnnee"/>
        </item>
        <item row="2" column="0">
         <widget class="QLabel" name="lbGenre">
@@ -170,40 +157,14 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="1">
-        <widget class="QLineEdit" name="leGenre"/>
-       </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="lbDuree">
+       <item row="1" column="0">
+        <widget class="QLabel" name="lbAnnee">
          <property name="text">
-          <string>Durée :</string>
+          <string>Année :</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="1">
-        <widget class="QLineEdit" name="leDuree"/>
-       </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="lbVO">
-         <property name="text">
-          <string>VO :</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="1">
-        <widget class="QLineEdit" name="leVO"/>
-       </item>
-       <item row="5" column="0" colspan="2">
-        <widget class="QPushButton" name="pbInfo">
-         <property name="text">
-          <string>Plus d'infos...</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="0" colspan="2">
-        <widget class="QTextEdit" name="teInfo"/>
-       </item>
-       <item row="7" column="0" colspan="2">
+       <item row="8" column="0" colspan="2">
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <item>
           <widget class="QPushButton" name="pbModifier">
@@ -227,6 +188,52 @@
           </widget>
          </item>
         </layout>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLineEdit" name="leGenre"/>
+       </item>
+       <item row="4" column="1">
+        <widget class="QLineEdit" name="leVO"/>
+       </item>
+       <item row="3" column="1">
+        <widget class="QLineEdit" name="leDuree"/>
+       </item>
+       <item row="7" column="0" colspan="2">
+        <widget class="QTextEdit" name="teInfo"/>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="lbTitre">
+         <property name="text">
+          <string>Titre : </string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="leTitre"/>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="leAnnee"/>
+       </item>
+       <item row="5" column="0" colspan="2">
+        <widget class="QPushButton" name="pbInfo">
+         <property name="text">
+          <string>Plus d'infos...</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="lbDuree">
+         <property name="text">
+          <string>Durée :</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0" colspan="2">
+        <widget class="QPushButton" name="pbMasquer">
+         <property name="text">
+          <string>Masquer</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
