@@ -43,6 +43,8 @@ MainWindow::MainWindow(QWidget *parent) :
     mapper->addMapping(ui->leGenre, 3);
     mapper->addMapping(ui->leDuree, 4);
     mapper->addMapping(ui->leVO, 5);
+    mapper->addMapping(ui->lbAffiche,6);
+    mapper->addMapping(ui->teInfo, 7);
 
 
     connect(ui->lvListeRecherche->selectionModel(),SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
@@ -82,6 +84,7 @@ void MainWindow::Verouillage()
     ui->leGenre->setReadOnly(true);
     ui->leDuree->setReadOnly(true);
     ui->leVO->setReadOnly(true);
+    ui->teInfo->setReadOnly(true);
 }
 
 void MainWindow::Deverouillage()
@@ -91,6 +94,7 @@ void MainWindow::Deverouillage()
     ui->leGenre->setReadOnly(false);
     ui->leDuree->setReadOnly(false);
     ui->leVO->setReadOnly(false);
+    ui->teInfo->setReadOnly(false);
 }
 
 int MainWindow::conversion_en_int()
@@ -230,6 +234,7 @@ void MainWindow::suppression()
        ui->leGenre->clear();
        ui->leDuree->clear();
        ui->leVO->clear();
+       ui->teInfo->clear();
 
 
         QMessageBox::information(this,"Suppression","Element supprimé");
@@ -256,6 +261,7 @@ void MainWindow::modif_pris_en_compte()
     QString genre = ui->leGenre->text();
     QString duree = ui->leDuree->text();
     QString vo = ui->leVO->text();
+    //QString resume = ui->teInfo->text();
 
     if (duree.contains('h', Qt::CaseInsensitive) || duree.contains("min", Qt::CaseInsensitive))
 
@@ -318,8 +324,8 @@ void MainWindow::cache_btn()
 void MainWindow::annuler_la_modif()
 {
 
-    mFilmModel->select();
 
+   mFilmModel->select();
 
 
     Verouillage();
