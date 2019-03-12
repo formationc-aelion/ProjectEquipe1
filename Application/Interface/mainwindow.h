@@ -23,9 +23,11 @@ public:
     void Verouillage();
     void Deverouillage();
     int conversion_en_int();
+    void DisplayFilm(Film f);
 
 private slots:
     void ajouter_Film();
+    void enregistrementAjout();
     void conversion_min_en_heure();
     void apparition_texte();
     void suppression();
