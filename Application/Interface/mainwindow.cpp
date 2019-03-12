@@ -179,15 +179,15 @@ void MainWindow::ajouter_Film()
     int result = af.exec();// affichage de la fenêtre d'ajout
     if(result==QDialog::DialogCode::Accepted)
     {
-        Film film = af.validation_donnees();
-        this->DisplayFilm(film);
-        this->enregistrementAjout(film);
+        Film filmAjoute = af.validation_donnees();
+        this->DisplayFilm(filmAjoute);
+        this->enregistrementAjout();
 
     }
     else{}
 }
 
-void MainWindow::enregistrementAjout(Film filmAjoute)
+void MainWindow::enregistrementAjout()
 {
     mFilmModel->insertRow(mFilmModel->rowCount());
     int lastrow=mFilmModel->rowCount()-1;
@@ -234,17 +234,16 @@ void MainWindow::conversion_min_en_heure()
         }
 
 
-        conversion_en_heure = QString ("%1%2%3%4")
+        conversion_en_heure = QString ("%1%2%3")
                 .arg(resultat)
                 .arg(heure)
-                .arg(modulo_avec_zero)
-                .arg(minutes);
+                .arg(modulo_avec_zero);
         qDebug () << conversion_en_heure << "condition 1het qques min";
     }
-    else {
+    /*else {
         conversion_en_heure += "min";
         qDebug () << conversion_en_heure << "condition min";
-    }
+    }*/
 
     ui->leDuree->setText(conversion_en_heure);
     qDebug () << conversion_en_heure << "resultat apres conversion";
@@ -263,6 +262,7 @@ void MainWindow::apparition_texte()
 void MainWindow::suppression()
 {
 
+<<<<<<< HEAD
    int response = QMessageBox::critical(this,"Supprimer le fichier","Voulez-vous vraiment supprimer cette entrée de façon permanente?",
                          QMessageBox::Yes | QMessageBox::No);
    if (response == QMessageBox::Yes)
@@ -276,6 +276,20 @@ void MainWindow::suppression()
        ui->leDuree->clear();
        ui->leVO->clear();
        ui->teInfo->clear();
+=======
+    int response = QMessageBox::critical(this,"Supprimer le fichier","Voulez-vous vraiment supprimer cette entrée de façon permanente?",
+                                         QMessageBox::Yes | QMessageBox::No);
+    if (response == QMessageBox::Yes)
+    {
+        QModelIndex a_supprimer = ui->lvListeRecherche->currentIndex();
+        mFilmSortingModel->removeRow(a_supprimer.row());
+        ui->leTitre->clear();
+        ui->leAnnee->clear();
+        ui->leGenre->clear();
+        ui->leDuree->clear();
+        ui->leVO->clear();
+        ui->teInfo->clear();
+>>>>>>> b421ae89664df0f65eb9189751df5491ed3fecc7
 
 
         QMessageBox::information(this,"Suppression","Element supprimé");
@@ -283,6 +297,7 @@ void MainWindow::suppression()
     }
     mFilmModel->submitAll();
     mFilmModel->select();
+
 }
 
 
@@ -365,15 +380,15 @@ void MainWindow::cache_btn()
 void MainWindow::annuler_la_modif()
 {
 
-   mFilmModel->select();
+    mFilmModel->select();
 
     Verouillage();
 }
 
 void MainWindow::modification_photo()
 {
-   QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "c:/", tr("Image Files (*.png *.jpg *.bmp)"));
-   QImage img= QImage(fileName).scaled(ui->lbAffiche->size(),Qt::KeepAspectRatio,Qt::SmoothTransformation);
-   ui->lbAffiche->setPixmap(QPixmap::fromImage(img));
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "c:/", tr("Image Files (*.png *.jpg *.bmp)"));
+    QImage img= QImage(fileName).scaled(ui->lbAffiche->size(),Qt::KeepAspectRatio,Qt::SmoothTransformation);
+    ui->lbAffiche->setPixmap(QPixmap::fromImage(img));
 }
 

@@ -27,7 +27,7 @@ public:
 
 private slots:
     void ajouter_Film();
-    void enregistrementAjout(Film filmAjoute);
+    void enregistrementAjout();
     void conversion_min_en_heure();
     void apparition_texte();
     void suppression();
