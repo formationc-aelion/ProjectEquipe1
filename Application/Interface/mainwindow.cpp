@@ -241,6 +241,7 @@ void MainWindow::suppression()
         QMessageBox::information(this,"Suppression","Element supprimé");
 
     }
+      mFilmModel->submitAll();
 
        mFilmModel->select();
    }
@@ -324,15 +325,9 @@ void MainWindow::cache_btn()
 
 void MainWindow::annuler_la_modif()
 {
-<<<<<<< HEAD
-
 
    mFilmModel->select();
 
-
-=======
-    mFilmModel->select();
->>>>>>> b7e6cfa5e505025bc681706ea6548d381f1c9297
     Verouillage();
 }
 
