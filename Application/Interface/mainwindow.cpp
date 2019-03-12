@@ -46,8 +46,9 @@ MainWindow::MainWindow(QWidget *parent) :
     mapper->addMapping(ui->lbAffiche,6);
     mapper->addMapping(ui->teInfo, 7);
 
+    ui->lvListeRecherche->setCurrentIndex(mFilmSortingModel->index(0,1));
 
-    connect(ui->lvListeRecherche->selectionModel(),SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
+   connect(ui->lvListeRecherche->selectionModel(),SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
             mapper,
             SLOT(setCurrentModelIndex(QModelIndex)));
 
@@ -324,15 +325,7 @@ void MainWindow::cache_btn()
 
 void MainWindow::annuler_la_modif()
 {
-<<<<<<< HEAD
-
-
    mFilmModel->select();
-
-
-=======
-    mFilmModel->select();
->>>>>>> b7e6cfa5e505025bc681706ea6548d381f1c9297
     Verouillage();
 }
 
