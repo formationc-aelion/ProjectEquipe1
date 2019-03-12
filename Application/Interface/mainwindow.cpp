@@ -4,6 +4,7 @@
 #include<QMessageBox>
 #include "film.h"
 #include <QVariant>
+#include <QSqlRecord>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -37,7 +38,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
 
-   QDataWidgetMapper *mapper = new QDataWidgetMapper;
+    QDataWidgetMapper *mapper = new QDataWidgetMapper;
     mapper->setModel(mFilmSortingModel);
 
     mapper->addMapping(ui->leTitre, 1);
@@ -99,71 +100,80 @@ int MainWindow::conversion_en_int()
 {
     QString conversion_galere = ui->leDuree->text();
 
-   //CaseInsensitive gere h et H et aussi min et MIN
-   //fct contains me renvoi un bool
+    //CaseInsensitive gere h et H et aussi min et MIN
+    //fct contains me renvoi un bool
     bool contient_h = conversion_galere.contains('h', Qt::CaseInsensitive);
     bool contient_min = conversion_galere.contains("min", Qt::CaseInsensitive);
 
-   if (contient_h == 1 && contient_min == 1)
-   {
+    if (contient_h == 1 && contient_min == 1)
+    {
 
-       QStringList list1 = conversion_galere.split('h',QString::SkipEmptyParts);
-       list1[1] = list1[1].remove("min");
-       list1[1] = list1[1].left(2);
-       QString element_heure = list1.at(0);
-       int heure = element_heure.toInt();
-       heure *= 60;
-       QString element_minutes = list1.at(1);
-       int minutes = element_minutes.toInt();
+        QStringList list1 = conversion_galere.split('h',QString::SkipEmptyParts);
+        list1[1] = list1[1].remove("min");
+        list1[1] = list1[1].left(2);
+        QString element_heure = list1.at(0);
+        int heure = element_heure.toInt();
+        heure *= 60;
+        QString element_minutes = list1.at(1);
+        int minutes = element_minutes.toInt();
 
-       int resultat = heure + minutes;
-       qDebug()<< resultat;
-   return heure + minutes;
+        int resultat = heure + minutes;
+        qDebug()<< resultat;
+        return heure + minutes;
 
-   }
+    }
     else if (contient_h == 0 && contient_min == 1)
     {
-       QString element_minutes = conversion_galere.left(2);
-       int minutes = element_minutes.toInt();
+        QString element_minutes = conversion_galere.left(2);
+        int minutes = element_minutes.toInt();
 
-       qDebug()<< minutes;
+        qDebug()<< minutes;
 
-   return minutes;
+        return minutes;
 
     }
 
     else if (contient_h == 1 && contient_min == 0)
 
     {
-       QString element_heure = conversion_galere.left(1);
-       int heure = element_heure.toInt();
-       heure *= 60;
+        QString element_heure = conversion_galere.left(1);
+        int heure = element_heure.toInt();
+        heure *= 60;
 
-       qDebug()<< heure;
+        qDebug()<< heure;
 
-   return heure;
+        return heure;
 
     }
 
-   else
-   {
-       int a = 0;
-       return a;
-   }
+    else
+    {
+        int a = 0;
+        return a;
+    }
 
+}
+
+void MainWindow::DisplayFilm(Film filmAjoute)
+{
+    ui->leTitre->setText(filmAjoute.titre());
+    ui->leAnnee->setText(QString::number(filmAjoute.annee()));
+    ui->leGenre->setText(filmAjoute.genre());
+    ui->leDuree->setText(QString::number(filmAjoute.duree()));
+    ui->leVO->setText(filmAjoute.langue());
 }
 
 void MainWindow::ajouter_Film()
 {
     AjouterFilm af; // déclaration de la boîte de dialogue affichage
-    af.exec(); // affichage de la fenêtre d'ajout
 
-    int result = af.exec();
+    int result = af.exec();// affichage de la fenêtre d'ajout
     if(result==QDialog::DialogCode::Accepted)
     {
-       Film film = af.validation_donnees();
-       this->enregistrementAjout(film);
-       //emit
+        Film film = af.validation_donnees();
+        this->DisplayFilm(film);
+        this->enregistrementAjout(film);
+
     }
     else{}
 }
@@ -171,12 +181,13 @@ void MainWindow::ajouter_Film()
 void MainWindow::enregistrementAjout(Film filmAjoute)
 {
     mFilmModel->insertRow(mFilmModel->rowCount());
-    //ui->lvListeRecherche->
-    ui->leTitre->setText(filmAjoute.titre());
-    ui->leAnnee->setText(QString::number(filmAjoute.annee()));
-    ui->leGenre->setText(filmAjoute.genre());
-    ui->leDuree->setText(QString::number(filmAjoute.duree()));
-    ui->leVO->setText(filmAjoute.langue());
+    int lastrow=mFilmModel->rowCount()-1;
+
+    mFilmModel->setData(mFilmModel->index(lastrow,1),ui->leTitre->text());
+    mFilmModel->setData(mFilmModel->index(lastrow,2),ui->leAnnee->text());
+    mFilmModel->setData(mFilmModel->index(lastrow,3),ui->leGenre->text());
+    mFilmModel->setData(mFilmModel->index(lastrow,4),ui->leDuree->text());
+    mFilmModel->setData(mFilmModel->index(lastrow,5),ui->leVO->text());
 
     mFilmModel->submitAll();
 }
@@ -243,25 +254,25 @@ void MainWindow::apparition_texte()
 void MainWindow::suppression()
 {
 
-   int response = QMessageBox::critical(this,"Supprimer le fichier","Voulez-vous vraiment supprimer cette entrée de façon permanente?",
-                         QMessageBox::Yes | QMessageBox::No);
-   if (response == QMessageBox::Yes)
-   {
-       QModelIndex a_supprimer = ui->lvListeRecherche->currentIndex();
-       mFilmSortingModel->removeRow(a_supprimer.row());
-       ui->leTitre->clear();
-       ui->leAnnee->clear();
-       ui->leGenre->clear();
-       ui->leDuree->clear();
-       ui->leVO->clear();
+    int response = QMessageBox::critical(this,"Supprimer le fichier","Voulez-vous vraiment supprimer cette entrée de façon permanente?",
+                                         QMessageBox::Yes | QMessageBox::No);
+    if (response == QMessageBox::Yes)
+    {
+        QModelIndex a_supprimer = ui->lvListeRecherche->currentIndex();
+        mFilmSortingModel->removeRow(a_supprimer.row());
+        ui->leTitre->clear();
+        ui->leAnnee->clear();
+        ui->leGenre->clear();
+        ui->leDuree->clear();
+        ui->leVO->clear();
 
 
         QMessageBox::information(this,"Suppression","Element supprimé");
 
     }
 
-       mFilmModel->select();
-   }
+    mFilmModel->select();
+}
 
 
 

@@ -22,6 +22,7 @@ public:
     void Verouillage();
     void Deverouillage();
     int conversion_en_int();
+    void DisplayFilm(Film f);
 
 private slots:
     void ajouter_Film();
