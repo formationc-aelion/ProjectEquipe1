@@ -2,6 +2,8 @@
 #define AJOUTERFILM_H
 
 #include <QDialog>
+#include<QFileDialog>
+#include <film.h>
 
 namespace Ui {
 class AjouterFilm;
@@ -14,6 +16,10 @@ class AjouterFilm : public QDialog
 public:
     explicit AjouterFilm(QWidget *parent = nullptr);
     ~AjouterFilm();
+    Film validation_donnees();
+
+private slots:
+    void AjoutPhoto();
 
 private:
     Ui::AjouterFilm *ui;
