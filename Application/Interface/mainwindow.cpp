@@ -175,6 +175,7 @@ void MainWindow::ajouter_Film()
     int result = af.exec();// affichage de la fenêtre d'ajout
     if(result==QDialog::DialogCode::Accepted)
     {
+
         Film film = af.validation_donnees();
         this->DisplayFilm(film);
         this->enregistrementAjout();
@@ -230,17 +231,16 @@ void MainWindow::conversion_min_en_heure()
         }
 
 
-        conversion_en_heure = QString ("%1%2%3%4")
+        conversion_en_heure = QString ("%1%2%3")
                 .arg(resultat)
                 .arg(heure)
-                .arg(modulo_avec_zero)
-                .arg(minutes);
+                .arg(modulo_avec_zero);
         qDebug () << conversion_en_heure << "condition 1het qques min";
     }
-    else {
+    /*else {
         conversion_en_heure += "min";
         qDebug () << conversion_en_heure << "condition min";
-    }
+    }*/
 
     ui->leDuree->setText(conversion_en_heure);
     qDebug () << conversion_en_heure << "resultat apres conversion";
