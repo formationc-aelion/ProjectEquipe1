@@ -24,6 +24,20 @@ int main(int argc, char *argv[])
         qDebug() <<"la connexion a échouée";
         exit(0);
     }
+    QSqlDatabase dbstaff = QSqlDatabase::addDatabase("QPSQL", "connexionBDDStaff");
+    db.setHostName("10.31.1.72");
+    db.setDatabaseName("Application_Film");
+    db.setUserName("postgres");
+    db.setPassword("password");
+    bool ok2 = db.open();
+
+    qDebug ()<< ok;
+
+    if (ok2==false)
+    {
+        qDebug() <<"la connexion a échouée";
+        exit(0);
+    }
 
     QString locale = QLocale::system().name().section('_', 0, 0);
     QTranslator translator;

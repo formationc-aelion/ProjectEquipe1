@@ -6,243 +6,463 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1004</width>
-    <height>558</height>
+    <width>1396</width>
+    <height>770</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QGridLayout" name="gridLayout_3">
-    <item row="0" column="0" colspan="2">
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <item>
-       <widget class="QComboBox" name="cbType">
-        <item>
-         <property name="text">
-          <string>Type</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Films</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Réalisateurs</string>
-         </property>
-        </item>
-       </widget>
-      </item>
-      <item>
-       <widget class="QComboBox" name="cbGenre">
-        <item>
-         <property name="text">
-          <string>Genre</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Comédies</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Fantastique</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Drames</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Science-Fiction</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Historique</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Documentaires</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Stand-up</string>
-         </property>
-        </item>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="lbRecherche">
-        <property name="text">
-         <string>Recherche : </string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="leRecherche"/>
-      </item>
-     </layout>
-    </item>
-    <item row="1" column="0">
-     <widget class="QGroupBox" name="gbListe">
-      <property name="title">
-       <string/>
+   <layout class="QGridLayout" name="gridLayout_6">
+    <item row="0" column="0">
+     <widget class="QTabWidget" name="TbWSelectType">
+      <property name="currentIndex">
+       <number>0</number>
       </property>
-      <layout class="QGridLayout" name="gridLayout">
-       <item row="0" column="0" colspan="2">
-        <widget class="QListView" name="lvListeRecherche"/>
-       </item>
-       <item row="1" column="0">
-        <widget class="QPushButton" name="pbAjouter">
-         <property name="text">
-          <string>Ajouter</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QPushButton" name="pbSupprimer">
-         <property name="text">
-          <string>Supprimer</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-    </item>
-    <item row="1" column="1">
-     <widget class="QGroupBox" name="groupBox">
-      <property name="title">
-       <string/>
-      </property>
-      <layout class="QGridLayout" name="gridLayout_2">
-       <item row="0" column="2" rowspan="8">
-        <widget class="QLabel" name="lbAffiche">
-         <property name="minimumSize">
-          <size>
-           <width>251</width>
-           <height>371</height>
-          </size>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::StyledPanel</enum>
-         </property>
-         <property name="lineWidth">
-          <number>11</number>
-         </property>
-         <property name="text">
-          <string>AfficheQuiPrendBeaucoupDePlace</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="lbVO">
-         <property name="text">
-          <string>VO :</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="lbGenre">
-         <property name="text">
-          <string>Genre :</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="lbAnnee">
-         <property name="text">
-          <string>Année :</string>
-         </property>
-        </widget>
-       </item>
-       <item row="8" column="0" colspan="2">
-        <layout class="QHBoxLayout" name="horizontalLayout_2">
-         <item>
-          <widget class="QPushButton" name="pbModifier">
-           <property name="text">
-            <string>Modifier</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="pbModifOK">
-           <property name="text">
-            <string>OK</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="pbModifAnnuler">
-           <property name="text">
-            <string>Annuler</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item row="2" column="1">
-        <widget class="QLineEdit" name="leGenre"/>
-       </item>
-       <item row="4" column="1">
-        <widget class="QLineEdit" name="leVO"/>
-       </item>
-       <item row="3" column="1">
-        <widget class="QLineEdit" name="leDuree"/>
-       </item>
-       <item row="7" column="0" colspan="2">
-        <widget class="QTextEdit" name="teInfo"/>
-       </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="lbTitre">
-         <property name="text">
-          <string>Titre : </string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QLineEdit" name="leTitre"/>
-       </item>
-       <item row="1" column="1">
-        <widget class="QLineEdit" name="leAnnee"/>
-       </item>
-       <item row="5" column="0" colspan="2">
-        <widget class="QPushButton" name="pbInfo">
-         <property name="text">
-          <string>Plus d'infos...</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="lbDuree">
-         <property name="text">
-          <string>Durée :</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="0" colspan="2">
-        <widget class="QPushButton" name="pbMasquer">
-         <property name="text">
-          <string>Masquer</string>
-         </property>
-        </widget>
-       </item>
-       <item row="8" column="2">
-        <widget class="QPushButton" name="load_pic">
-         <property name="text">
-          <string>Charger Photo</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
+      <widget class="QWidget" name="Film">
+       <attribute name="title">
+        <string>Film</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_5">
+        <item row="0" column="0" colspan="2">
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="QComboBox" name="cbGenreFilm">
+            <item>
+             <property name="text">
+              <string>Genre</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Comédies</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Fantastique</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Drames</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Science-Fiction</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Historique</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Documentaires</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Stand-up</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="lbRechercheFilm">
+            <property name="text">
+             <string>Recherche : </string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="leRechercheFilm"/>
+          </item>
+         </layout>
+        </item>
+        <item row="1" column="0">
+         <widget class="QGroupBox" name="gbListe">
+          <property name="title">
+           <string/>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_3">
+           <item row="0" column="0" colspan="2">
+            <widget class="QListView" name="lvListeRechercheFilm"/>
+           </item>
+           <item row="1" column="0">
+            <widget class="QPushButton" name="pbAjouterFilm">
+             <property name="text">
+              <string>Ajouter</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QPushButton" name="pbSupprimerFilm">
+             <property name="text">
+              <string>Supprimer</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QGroupBox" name="groupBox">
+          <property name="title">
+           <string/>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_4">
+           <item row="0" column="2" rowspan="8">
+            <widget class="QLabel" name="lbAfficheFilm">
+             <property name="minimumSize">
+              <size>
+               <width>251</width>
+               <height>371</height>
+              </size>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="lineWidth">
+              <number>11</number>
+             </property>
+             <property name="text">
+              <string>AfficheQuiPrendBeaucoupDePlace</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="0">
+            <widget class="QLabel" name="lbVO_2">
+             <property name="text">
+              <string>VO :</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="lbGenre_2">
+             <property name="text">
+              <string>Genre :</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="lbAnnee_2">
+             <property name="text">
+              <string>Année :</string>
+             </property>
+            </widget>
+           </item>
+           <item row="8" column="0" colspan="2">
+            <layout class="QHBoxLayout" name="horizontalLayout_4">
+             <item>
+              <widget class="QPushButton" name="pbModifierFilm">
+               <property name="text">
+                <string>Modifier</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pbModifOKFilm">
+               <property name="text">
+                <string>OK</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pbModifAnnulerFilm">
+               <property name="text">
+                <string>Annuler</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item row="2" column="1">
+            <widget class="QLineEdit" name="leGenreFilm"/>
+           </item>
+           <item row="4" column="1">
+            <widget class="QLineEdit" name="leVOFilm"/>
+           </item>
+           <item row="3" column="1">
+            <widget class="QLineEdit" name="leDureeFilm"/>
+           </item>
+           <item row="7" column="0" colspan="2">
+            <widget class="QTextEdit" name="teInfoFilm"/>
+           </item>
+           <item row="0" column="0">
+            <widget class="QLabel" name="lbTitre_2">
+             <property name="text">
+              <string>Titre : </string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLineEdit" name="leTitreFilm"/>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLineEdit" name="leAnneeFilm"/>
+           </item>
+           <item row="5" column="0" colspan="2">
+            <widget class="QPushButton" name="pbInfoFilm">
+             <property name="text">
+              <string>Plus d'infos...</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="lbDuree_2">
+             <property name="text">
+              <string>Durée :</string>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="0" colspan="2">
+            <widget class="QPushButton" name="pbMasquerFilm">
+             <property name="text">
+              <string>Masquer</string>
+             </property>
+            </widget>
+           </item>
+           <item row="8" column="2">
+            <widget class="QPushButton" name="load_picFilm">
+             <property name="text">
+              <string>Charger Photo</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="Realisateur">
+       <attribute name="title">
+        <string>Réalisateur</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_9">
+        <item row="0" column="0" colspan="2">
+         <layout class="QHBoxLayout" name="horizontalLayout_5">
+          <item>
+           <widget class="QLabel" name="lbRecherche_3">
+            <property name="text">
+             <string>Recherche : </string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="leRechercheStaff"/>
+          </item>
+         </layout>
+        </item>
+        <item row="1" column="0">
+         <widget class="QGroupBox" name="gbListe_2">
+          <property name="title">
+           <string/>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_7">
+           <item row="0" column="0" colspan="2">
+            <widget class="QListView" name="lvListeRechercheStaff"/>
+           </item>
+           <item row="1" column="0">
+            <widget class="QPushButton" name="pbAjouterStaff">
+             <property name="text">
+              <string>Ajouter</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QPushButton" name="pbSupprimerStaff">
+             <property name="text">
+              <string>Supprimer</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QGroupBox" name="groupBox_2">
+          <property name="title">
+           <string/>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_8">
+           <item row="0" column="0">
+            <layout class="QFormLayout" name="formLayout">
+             <item row="0" column="0">
+              <widget class="QLabel" name="lbNomStaff">
+               <property name="text">
+                <string>Nom et Prénom :</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QLineEdit" name="LENomPrenom"/>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="lbBirthday">
+               <property name="text">
+                <string>Date de Naissance: </string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QLineEdit" name="LEDateNaissance">
+               <property name="clearButtonEnabled">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="lbSexe">
+               <property name="text">
+                <string>Genre :</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QLineEdit" name="LESexe"/>
+             </item>
+             <item row="3" column="0">
+              <widget class="QLabel" name="lbNationalite">
+               <property name="text">
+                <string>Nationalité: </string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1">
+              <widget class="QLineEdit" name="LENationalite"/>
+             </item>
+             <item row="4" column="0">
+              <widget class="QLabel" name="lbVO_3">
+               <property name="text">
+                <string>Profession: </string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="1">
+              <widget class="QLineEdit" name="LEProfession"/>
+             </item>
+            </layout>
+           </item>
+           <item row="0" column="1" rowspan="3">
+            <layout class="QVBoxLayout" name="verticalLayout_3">
+             <item>
+              <widget class="QLabel" name="lbAffiche_3">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>150</width>
+                 <height>250</height>
+                </size>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+               </property>
+               <property name="lineWidth">
+                <number>11</number>
+               </property>
+               <property name="text">
+                <string>AfficheQuiPrendBeaucoupDePlace</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="load_pic_3">
+               <property name="text">
+                <string>Charger Photo</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item row="1" column="0">
+            <widget class="QPushButton" name="pbBio">
+             <property name="text">
+              <string>BioGraphie</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QPushButton" name="pbMasquerBio">
+             <property name="text">
+              <string>Masquer</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="0" colspan="2">
+            <layout class="QHBoxLayout" name="horizontalLayout_6">
+             <item>
+              <widget class="QPushButton" name="pbModifierStaff">
+               <property name="text">
+                <string>Modifier</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pbModifOKStaff">
+               <property name="text">
+                <string>OK</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pbModifAnnulerStaff">
+               <property name="text">
+                <string>Annuler</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item row="3" column="0" colspan="2">
+            <layout class="QHBoxLayout" name="horizontalLayout_7">
+             <item>
+              <widget class="QTextEdit" name="TEBio">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>256</width>
+                 <height>192</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QTableView" name="TVFilmo">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>256</width>
+                 <height>192</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </item>
    </layout>
@@ -252,7 +472,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1004</width>
+     <width>1396</width>
      <height>26</height>
     </rect>
    </property>
