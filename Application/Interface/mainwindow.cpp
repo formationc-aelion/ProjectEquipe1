@@ -259,25 +259,26 @@ void MainWindow::apparition_texte()
 void MainWindow::suppression()
 {
 
-   int response = QMessageBox::critical(this,"Supprimer le fichier","Voulez-vous vraiment supprimer cette entrée de façon permanente?",
-                         QMessageBox::Yes | QMessageBox::No);
-   if (response == QMessageBox::Yes)
-   {
-       QModelIndex a_supprimer = ui->lvListeRecherche->currentIndex();
-       mFilmSortingModel->removeRow(a_supprimer.row());
-       ui->leTitre->clear();
-       ui->leAnnee->clear();
-       ui->leGenre->clear();
-       ui->leDuree->clear();
-       ui->leVO->clear();
-       ui->teInfo->clear();
+    int response = QMessageBox::critical(this,"Supprimer le fichier","Voulez-vous vraiment supprimer cette entrée de façon permanente?",
+                                         QMessageBox::Yes | QMessageBox::No);
+    if (response == QMessageBox::Yes)
+    {
+        QModelIndex a_supprimer = ui->lvListeRecherche->currentIndex();
+        mFilmSortingModel->removeRow(a_supprimer.row());
+        ui->leTitre->clear();
+        ui->leAnnee->clear();
+        ui->leGenre->clear();
+        ui->leDuree->clear();
+        ui->leVO->clear();
+        ui->teInfo->clear();
 
 
         QMessageBox::information(this,"Suppression","Element supprimé");
 
     }
-
+    mFilmModel->submitAll();
     mFilmModel->select();
+
 }
 
 
@@ -360,15 +361,15 @@ void MainWindow::cache_btn()
 void MainWindow::annuler_la_modif()
 {
 
-   mFilmModel->select();
+    mFilmModel->select();
 
     Verouillage();
 }
 
 void MainWindow::modification_photo()
 {
-   QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "c:/", tr("Image Files (*.png *.jpg *.bmp)"));
-   QImage img= QImage(fileName).scaled(ui->lbAffiche->size(),Qt::KeepAspectRatio,Qt::SmoothTransformation);
-   ui->lbAffiche->setPixmap(QPixmap::fromImage(img));
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "c:/", tr("Image Files (*.png *.jpg *.bmp)"));
+    QImage img= QImage(fileName).scaled(ui->lbAffiche->size(),Qt::KeepAspectRatio,Qt::SmoothTransformation);
+    ui->lbAffiche->setPixmap(QPixmap::fromImage(img));
 }
 
