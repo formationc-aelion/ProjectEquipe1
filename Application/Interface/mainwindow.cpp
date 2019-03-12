@@ -65,6 +65,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->pbModifOK,SIGNAL(clicked()),this, SLOT(cache_btn()));
     connect(ui->pbModifAnnuler,SIGNAL(clicked()),this, SLOT(cache_btn()));
     connect(ui->pbModifAnnuler,SIGNAL(clicked()),this, SLOT(annuler_la_modif()));
+    connect(ui->load_pic,SIGNAL(clicked()),this,SLOT(modification_photo()));
 
     connect(ui->leRecherche,SIGNAL(textChanged(QString)),this,SLOT(filtreRecherche(QString)));
 
@@ -317,12 +318,14 @@ void MainWindow::cache_btn()
 
 void MainWindow::annuler_la_modif()
 {
-
     mFilmModel->select();
-
-
-
     Verouillage();
+}
 
+void MainWindow::modification_photo()
+{
+   QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "c:/", tr("Image Files (*.png *.jpg *.bmp)"));
+   QImage img= QImage(fileName).scaled(ui->lbAffiche->size(),Qt::KeepAspectRatio,Qt::SmoothTransformation);
+   ui->lbAffiche->setPixmap(QPixmap::fromImage(img));
 }
 

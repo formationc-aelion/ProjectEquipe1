@@ -7,6 +7,7 @@
 #include <qsortfilterproxymodel.h>
 #include "ajouterfilm.h"
 #include<QDataWidgetMapper>
+#include<QFileDialog>
 
 namespace Ui {
 class MainWindow;
@@ -36,6 +37,7 @@ private slots:
     void demasquage_btn();
     void cache_btn();
     void annuler_la_modif();
+    void modification_photo();
 
 
 private:
