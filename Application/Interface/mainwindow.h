@@ -21,6 +21,7 @@ public:
     ~MainWindow();
     void Verouillage();
     void Deverouillage();
+    int conversion_en_int();
 
 private slots:
     void ajouter_Film();
@@ -30,11 +31,19 @@ private slots:
     void suppression();
     void modification();
    // void annuler();
+    void modif_pris_en_compte();
+    void masquer_texte();
+    void filtreRecherche(QString tri);
+    void demasquage_btn();
+    void cache_btn();
+    void annuler_la_modif();
+
 
 private:
     Ui::MainWindow *ui;
     QSqlTableModel *mFilmModel;
-    QSortFilterProxyModel *mFilmFilteredModel;
+    QSortFilterProxyModel *mFilmSortingModel;
+
 };
 
 #endif // MAINWINDOW_H

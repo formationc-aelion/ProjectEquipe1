@@ -1,12 +1,18 @@
 #include "film.h"
 
-Film::Film():Film("titre","genre","langue",0,0)
+Film::Film():Film("titre","genre","langue",0,0,QByteArray())
 {
 
 }
 
 Film::Film(QString titre, QString genre, QString langue, int annee, int duree):
-    mTitre(titre), mGenre(genre), mLangue(langue), mAnnee(annee), mDuree(duree)
+    Film(titre,genre,langue,annee,duree,QByteArray())
+{
+
+}
+
+Film::Film(QString titre, QString genre, QString langue, int annee, int duree,QByteArray photo):
+    mTitre(titre), mGenre(genre), mLangue(langue), mAnnee(annee), mDuree(duree),mPhoto (photo)
 {
 }
 
