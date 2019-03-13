@@ -32,3 +32,12 @@ INCLUDEPATH += Film Interface
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+HEADERS += \
+    staff.h
+
+SOURCES += \
+    staff.cpp
+
+DISTFILES += \
+    staff.pri
