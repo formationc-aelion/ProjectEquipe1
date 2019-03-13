@@ -148,8 +148,13 @@ QString ConversionMinHeure(int DureeMin){
 
 }
 
-void DeleteFilm(QSqlTableModel *FilmSortingModel,QModelIndex IndexASuppr){
+void DeleteFilm(QSortFilterProxyModel *FilmSortingModel,QModelIndex IndexASuppr,QSqlTableModel *FilmModel){
 
+
+    FilmSortingModel->removeRow(IndexASuppr.row());
+
+    FilmModel->submitAll();
+    FilmModel->select();
 }
 
 #endif // TRAITEMENTDATA_H
