@@ -6,6 +6,7 @@
 #include <QVariant>
 #include <QSqlRecord>
 #include "traitementdataFilm.h"
+#include "traitementdatestaff.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
