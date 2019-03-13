@@ -21,8 +21,10 @@ public:
 private slots:
     void AjoutPhoto();
 
+
 private:
     Ui::AjouterFilm *ui;
+    Film mFilm;
 };
 
 #endif // AJOUTERFILM_H

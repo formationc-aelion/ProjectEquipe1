@@ -48,11 +48,17 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->load_picFilm,SIGNAL(clicked()),this,SLOT(modification_photo_Film()));
     connect(ui->leRechercheFilm,SIGNAL(textChanged(QString)),this,SLOT(filtreRechercheFilm(QString)));
 
+
+
+    connect(ui->lvListeRechercheFilm->selectionModel(),SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
+            this,
+            SLOT(image_loading(QModelIndex)));
+
+
+    connect(ui->pbInfoFilm,SIGNAL(clicked()),this,SLOT(apparition_texte()));
+    connect(ui->pbMasquerFilm,SIGNAL(clicked()),this,SLOT(masquer_texte()));
+
     //Connection des boutons de l'interface Staff
-
-
-
-
 }
 
 MainWindow::~MainWindow()
@@ -73,10 +79,12 @@ void MainWindow::VerouillageFilm()
 void MainWindow::VerouillageStaff()
 {
     ui->leNomPrenom->setReadOnly(true);
-    ui->leSexe->setReadOnly(true);
-    ui->leProfession->setReadOnly(true);
-    ui->leNationalite->setReadOnly(true);
     ui->leDateNaissance->setReadOnly(true);
+    ui->leNationalite->setReadOnly(true);
+    ui->leNationaliteB->setReadOnly(true);
+    ui->leProfessionA->setReadOnly(true);
+    ui->leProfessionB->setReadOnly(true);
+    ui->leProfessionC->setReadOnly(true);
     ui->teBio->setReadOnly(true);
 }
 
@@ -129,11 +137,14 @@ void MainWindow::DeverouillageFilm()
 void MainWindow::DeverouillageStaff()
 {
     ui->leNomPrenom->setReadOnly(false);
-    ui->leSexe->setReadOnly(false);
-    ui->leProfession->setReadOnly(false);
-    ui->leNationalite->setReadOnly(false);
     ui->leDateNaissance->setReadOnly(false);
+    ui->leNationalite->setReadOnly(false);
+    ui->leNationaliteB->setReadOnly(false);
+    ui->leProfessionA->setReadOnly(false);
+    ui->leProfessionB->setReadOnly(false);
+    ui->leProfessionC->setReadOnly(false);
     ui->teBio->setReadOnly(false);
+    //
 }
 
 int MainWindow::conversion_en_int()
@@ -157,6 +168,23 @@ QDataWidgetMapper* MainWindow::MappingFilm(QSortFilterProxyModel *FilmSortingMod
     return mapperfilm;
 }
 
+QDataWidgetMapper* MainWindow::MappingStaff(QSortFilterProxyModel *StaffSortingModel)
+{
+    QDataWidgetMapper *mapperstaff = new QDataWidgetMapper;
+    mapperstaff->setModel(StaffSortingModel);
+
+    mapperstaff->addMapping(ui->leNomPrenom, 1);
+    mapperstaff->addMapping(ui->leDateNaissance, 2);
+    mapperstaff->addMapping(ui->leNationalite, 3);
+    mapperstaff->addMapping(ui->leNationaliteB, 4);
+    mapperstaff->addMapping(ui->leProfessionA, 5);
+    mapperstaff->addMapping(ui->leProfessionB, 6);
+    mapperstaff->addMapping(ui->leProfessionC, 7);
+    mapperstaff->addMapping(ui->lbAffiche_3, 8);
+    mapperstaff->addMapping(ui->teBio, 9);
+    return mapperstaff;
+}
+
 void MainWindow::ajouter_Film()
 {
     AjouterFilm af; // déclaration de la boîte de dialogue affichage
@@ -164,13 +192,17 @@ void MainWindow::ajouter_Film()
     int result = af.exec();// affichage de la fenêtre d'ajout
     if(result==QDialog::DialogCode::Accepted)
     {
+
         Film filmAjoute = af.validation_donnees();
         this->DisplayFilm(filmAjoute);
         this->enregistrementAjoutFilm(filmAjoute);
 
+
     }
     else{}
 }
+
+
 
 void MainWindow::DisplayFilm(Film filmAjoute)
 {
@@ -179,7 +211,9 @@ void MainWindow::DisplayFilm(Film filmAjoute)
     ui->leGenreFilm->setText(filmAjoute.genre());
     ui->leDureeFilm->setText(QString::number(filmAjoute.duree()));
     ui->leVOFilm->setText(filmAjoute.langue());
+    //ui->leAffiche->setpixmap(film_ajoute.photo());
 }
+
 
 void MainWindow::enregistrementAjoutFilm(Film filmAjoute)
 {
@@ -221,11 +255,19 @@ void MainWindow::suppressionFilm()
         ui->leDureeFilm->clear();
         ui->leVOFilm->clear();
         ui->teInfoFilm->clear();
+
+        mFilmModel->submitAll();
+        mFilmModel->select();
     }
-}
+
+
+    }
+
+
 
 void MainWindow::modificationFilm()
 {
+
     DeverouillageFilm();
 
 }
@@ -235,7 +277,8 @@ void MainWindow::modif_pris_en_compte_Film()
 {
 
     QString titre = ui->leTitreFilm->text();
-    QString annee = ui->leAnneeFilm->text();
+    QString anneestring = ui->leAnneeFilm->text();
+    int annee=anneestring.toInt();
     QString genre = ui->leGenreFilm->text();
     QString duree = ui->leDureeFilm->text();
     QString vo = ui->leVOFilm->text();
@@ -248,18 +291,11 @@ void MainWindow::modif_pris_en_compte_Film()
         duree = QString("%1")
                 .arg(a);
     }
-    ui->leTitreFilm->setText(titre);
-    ui->leAnneeFilm->setText(annee);
-    ui->leGenreFilm->setText(genre);
-    ui->leDureeFilm->setText(duree);
-    ui->leVOFilm->setText(vo);
 
-
-    mFilmModel->submitAll();
-
+    Film Filmtemp (titre,genre,vo,annee,duree.toInt());
+    QModelIndex a_modifier = ui->lvListeRechercheFilm->currentIndex();
+    modificationfilm(Filmtemp,mFilmModel,mFilmSortingModel,a_modifier);
     VerouillageFilm();
-
-
 }
 
 
@@ -282,6 +318,7 @@ void MainWindow::filtreRechercheFilm(QString tri)
 
 void MainWindow::demasquage_btn()
 {
+    ui->pbModifierFilm->setHidden(true);
     ui->pbModifOKFilm->setHidden(false);
     ui->pbModifAnnulerFilm->setHidden(false);
     ui->load_picFilm->setHidden(false);
@@ -293,19 +330,52 @@ void MainWindow::cache_btn()
     ui->pbModifOKFilm->setHidden(true);
     ui->pbModifAnnulerFilm->setHidden(true);
     ui->load_picFilm->setHidden(true);
+    ui->pbModifierFilm->setHidden(false);
 }
 
 void MainWindow::annuler_la_modif_Film()
 {
 
+
     mFilmModel->select();
     VerouillageFilm();
+
 }
 
 void MainWindow::modification_photo_Film()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "c:/", tr("Image Files (*.png *.jpg *.bmp)"));
+
     QImage img= QImage(fileName).scaled(ui->lbAfficheFilm->size(),Qt::KeepAspectRatio,Qt::SmoothTransformation);
     ui->lbAfficheFilm->setPixmap(QPixmap::fromImage(img));
+
+}
+
+void MainWindow::image_loading(QModelIndex indexselected)
+{
+
+       //QString photo= ui->lbAffiche->text();
+        QVariant datacurrent = mFilmSortingModel->data(mFilmSortingModel->index(indexselected.row(), 6));
+        QByteArray image = datacurrent.toByteArray();
+        //QString photo = image;
+
+       qDebug () << image;
+
+       QImage affiche;
+
+   if (image.isNull())
+       {
+           //voir comment le gerer dans le .qrc
+           affiche.load(":/img/Interface/img/cinema.jpg");
+       }
+       else
+       {
+           affiche.loadFromData(image);//conversion
+       }
+
+       QPixmap PhotoPix; // transformation QImage en QPixmap
+
+           PhotoPix.convertFromImage(affiche);//conversion
+           ui->lbAfficheFilm->setPixmap(PhotoPix);//affichage de la QPixmap
 }
 

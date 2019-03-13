@@ -76,6 +76,7 @@ void Film::setPhoto(const QByteArray &photo)
     mPhoto = photo;
 }
 
+
 QString Film::info() const
 {
     return mInfo;
@@ -85,3 +86,4 @@ void Film::setInfo(const QString &info)
 {
     mInfo = info;
 }
+

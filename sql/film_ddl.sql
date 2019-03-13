@@ -8,5 +8,7 @@ Create Table Film
  FI_DATE_SORTIE int,
  FI_GENRE Varchar (20) ,
  FI_DUREE int,
- FI_LANGUE Varchar (50)
+ FI_LANGUE Varchar (50),
+ FI_PHOTO bytea, 
+ FI_RESUME text 
 );

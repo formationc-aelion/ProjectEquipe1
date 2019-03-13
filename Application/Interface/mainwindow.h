@@ -30,9 +30,11 @@ public:
     int conversion_en_int();
     void DisplayFilm(Film f);
     QDataWidgetMapper * MappingFilm(QSortFilterProxyModel *FilmSortingModel);
+    QDataWidgetMapper * MappingStaff(QSortFilterProxyModel *StaffSortingModel);
 
 private slots:
     void ajouter_Film();
+
     void enregistrementAjoutFilm(Film filmAjoute);
     void conversion_min_en_heure();
     void apparition_texte();
@@ -44,8 +46,12 @@ private slots:
     void filtreRechercheFilm(QString tri);
     void demasquage_btn();
     void cache_btn();
+
+    void image_loading(QModelIndex);
+
     void annuler_la_modif_Film();
     void modification_photo_Film();
+
 
 
 private:

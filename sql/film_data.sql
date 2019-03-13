@@ -35,6 +35,7 @@ Values                      ('Orange Mecanique',
                             'Au XXIème siècle, où règnent la violence et le sexe, Alex, jeune chef de bande, exerce avec sadisme une terreur aveugle. 
                             Après son emprisonnement, des psychanalystes l emploient comme cobaye dans des expériences destinées à juguler la criminalité...',
                             2);
+
 Insert into Film           (FI_TITRE,
                             FI_DATE_SORTIE,
                             FI_GENRE,
@@ -56,10 +57,3 @@ Values                      ('Psychose',
                              nouvelle vie, Marion roule vers une destination qu elle n atteindra jamais. La pluie est battante, la jeune femme s arrête près 
                              d un motel, tenu par un sympathique gérant nommé Norman Bates, mais qui doit supporter le caractère possessif de sa mère.',
                              3);
-                             
-            
-
-
-
-
-
