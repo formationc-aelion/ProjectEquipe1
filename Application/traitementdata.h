@@ -1,0 +1,4 @@
+#ifndef TRAITEMENTDATA_H
+#define TRAITEMENTDATA_H
+
+#endif // TRAITEMENTDATA_H
