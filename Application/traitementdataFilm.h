@@ -1,6 +1,6 @@
 #ifndef TRAITEMENTDATA_H
 #define TRAITEMENTDATA_H
-#include <QMainWindow>
+#include <QObject>
 #include"film.h"
 #include "Staff.h"
 #include<QDebug>
@@ -9,7 +9,7 @@
 #include <QSqlDatabase>
 #include <QSqlTableModel>
 #include <QSortFilterProxyModel>
-#include <mainwindow.h>
+
 
 
 QSqlTableModel* CreateModelFilm (QObject *ui);
