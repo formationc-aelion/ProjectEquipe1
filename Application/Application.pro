@@ -34,13 +34,15 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    traitementdata.h \
-    Staff.h
+    Staff.h \
+    traitementdataFilm.h \
+    traitementdatestaff.h
 
 
 SOURCES += \
     staff.cpp \
-    traitementdata.cpp
+    traitementdata.cpp \
+    traitementdatastaff.cpp
 
 DISTFILES += \
     staff.pri
