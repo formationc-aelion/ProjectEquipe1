@@ -5,71 +5,22 @@
 #include "film.h"
 #include <QVariant>
 #include <QSqlRecord>
+#include "traitementdataFilm.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    Verouillage();
-    ui->teInfoFilm->setVisible(false);
-    ui->pbMasquerFilm->setVisible(false);
-
-    ui->pbModifOKFilm->setHidden(true);
-    ui->pbModifAnnulerFilm->setHidden(true);
-    ui->load_picFilm->setHidden(true);
-
-    QSqlDatabase db = QSqlDatabase::database("connexionBDDfilm");
-    mFilmModel = new QSqlTableModel (this,db);
-    mFilmModel->setTable("film");
-    mFilmModel->select();
-
-    mFilmModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
-
-    mFilmSortingModel = new QSortFilterProxyModel(this);
-    mFilmSortingModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
-    mFilmSortingModel->setSortCaseSensitivity(Qt::CaseInsensitive);
-    mFilmSortingModel->sort(1, Qt::AscendingOrder);
-    mFilmSortingModel->setDynamicSortFilter(true);
-    mFilmSortingModel->setSourceModel(mFilmModel);
 
 
-    ui->lvListeRechercheFilm->setModel(mFilmSortingModel);
-    ui->lvListeRechercheFilm->setModelColumn(1);
+    initialisation(); //Initialisation de l'interface
+    ModelFilmSetup();// Création et liaison à l'interface du model de film ainsi que le tri
+    ModelStaffSetup();// Création et liason à l'interface du model de Staff ainsi que le tri
 
-    QSqlDatabase dbstaff = QSqlDatabase::database("connexionBDDStaff");
-    mStaffModel = new QSqlTableModel (this,dbstaff);
-    mStaffModel->setTable("Staff");
-    mStaffModel->select();
-    mStaffModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    QDataWidgetMapper * mapperfilm = MappingFilm( mFilmSortingModel ); // Création du Mapper pour l'interface Film
 
-    mStaffSortingModel = new QSortFilterProxyModel(this);
-    mStaffSortingModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
-    mStaffSortingModel->setSortCaseSensitivity(Qt::CaseInsensitive);
-    mStaffSortingModel->sort(1, Qt::AscendingOrder);
-    mStaffSortingModel->setDynamicSortFilter(true);
-    mStaffSortingModel->setSourceModel(mStaffModel);
-
-
-    ui->lvListeRechercheStaff->setModel(mStaffSortingModel);
-    ui->lvListeRechercheStaff->setModelColumn(1);
-
-
-
-
-
-    QDataWidgetMapper *mapperfilm = new QDataWidgetMapper;
-    mapperfilm->setModel(mFilmSortingModel);
-
-    mapperfilm->addMapping(ui->leTitreFilm, 1);
-    mapperfilm->addMapping(ui->leAnneeFilm, 2);
-    mapperfilm->addMapping(ui->leGenreFilm, 3);
-    mapperfilm->addMapping(ui->leDureeFilm, 4);
-    mapperfilm->addMapping(ui->leVOFilm, 5);
-    mapperfilm->addMapping(ui->lbAfficheFilm,6);
-    mapperfilm->addMapping(ui->teInfoFilm, 7);
-
-
+    //Connection des boutons de l'interface Film
     connect(ui->lvListeRechercheFilm->selectionModel(),SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
             mapperfilm,
 
@@ -84,18 +35,22 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->pbMasquerFilm,SIGNAL(clicked()),this,SLOT(masquer_texte()));
 
 
-    connect(ui->pbSupprimerFilm,SIGNAL(clicked()),this,SLOT(suppression()));
+    connect(ui->pbSupprimerFilm,SIGNAL(clicked()),this,SLOT(suppressionFilm()));
 
     connect(ui->pbAjouterFilm,SIGNAL(clicked()),this, SLOT(ajouter_Film()));
-    connect(ui->pbModifierFilm,SIGNAL(clicked()),this, SLOT(modification()));
-    connect(ui->pbModifOKFilm,SIGNAL(clicked()),this, SLOT(modif_pris_en_compte()));
+    connect(ui->pbModifierFilm,SIGNAL(clicked()),this, SLOT(modificationFilm()));
+    connect(ui->pbModifOKFilm,SIGNAL(clicked()),this, SLOT(modif_pris_en_compte_Film()));
     connect(ui->pbModifierFilm,SIGNAL(clicked()),this, SLOT(demasquage_btn()));
     connect(ui->pbModifOKFilm,SIGNAL(clicked()),this, SLOT(cache_btn()));
     connect(ui->pbModifAnnulerFilm,SIGNAL(clicked()),this, SLOT(cache_btn()));
-    connect(ui->pbModifAnnulerFilm,SIGNAL(clicked()),this, SLOT(annuler_la_modif()));
-    connect(ui->load_picFilm,SIGNAL(clicked()),this,SLOT(modification_photo()));
+    connect(ui->pbModifAnnulerFilm,SIGNAL(clicked()),this, SLOT(annuler_la_modif_Film()));
+    connect(ui->load_picFilm,SIGNAL(clicked()),this,SLOT(modification_photo_Film()));
+    connect(ui->leRechercheFilm,SIGNAL(textChanged(QString)),this,SLOT(filtreRechercheFilm(QString)));
 
-    connect(ui->leRechercheFilm,SIGNAL(textChanged(QString)),this,SLOT(filtreRecherche(QString)));
+    //Connection des boutons de l'interface Staff
+
+
+
 
 }
 
@@ -104,7 +59,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::Verouillage()
+void MainWindow::VerouillageFilm()
 {
     ui->leTitreFilm->setReadOnly(true);
     ui->leAnneeFilm->setReadOnly(true);
@@ -114,7 +69,53 @@ void MainWindow::Verouillage()
     ui->teInfoFilm->setReadOnly(true);
 }
 
-void MainWindow::Deverouillage()
+void MainWindow::VerouillageStaff()
+{
+    ui->leNomPrenom->setReadOnly(true);
+    ui->leSexe->setReadOnly(true);
+    ui->leProfession->setReadOnly(true);
+    ui->leNationalite->setReadOnly(true);
+    ui->leDateNaissance->setReadOnly(true);
+    ui->teBio->setReadOnly(true);
+}
+
+void MainWindow::initialisation()
+{
+    //Initialisation de l'interface Film
+    ui->teInfoFilm->setVisible(false);
+    ui->pbMasquerFilm->setVisible(false);
+    ui->pbModifOKFilm->setHidden(true);
+    ui->pbModifAnnulerFilm->setHidden(true);
+    ui->load_picFilm->setHidden(true);
+    VerouillageFilm();
+
+    //Initialisation de l'interface Staff
+    ui->pbModifAnnulerStaff->setHidden(true);
+    ui->pbModifOKStaff->setHidden(true);
+    ui->load_pic_3->setHidden(true);
+    VerouillageStaff();
+
+}
+
+void MainWindow::ModelFilmSetup()
+{
+    mFilmModel =CreateModelFilm(this);
+    mFilmSortingModel = CreateSortingModelFilm(this , mFilmModel);
+
+    ui->lvListeRechercheFilm->setModel(mFilmSortingModel);
+    ui->lvListeRechercheFilm->setModelColumn(1);
+}
+
+void MainWindow::ModelStaffSetup()
+{
+    mStaffModel= CreateModelStaff(this);
+    mStaffSortingModel=CreateSortingModelStaff(this,mStaffModel);
+
+    ui->lvListeRechercheStaff->setModel(mStaffSortingModel);
+    ui->lvListeRechercheStaff->setModelColumn(1);
+}
+
+void MainWindow::DeverouillageFilm()
 {
     ui->leTitreFilm->setReadOnly(false);
     ui->leAnneeFilm->setReadOnly(false);
@@ -124,66 +125,35 @@ void MainWindow::Deverouillage()
     ui->teInfoFilm->setReadOnly(false);
 }
 
-int MainWindow::conversion_en_int()
+void MainWindow::DeverouillageStaff()
 {
-    QString conversion_galere = ui->leDureeFilm->text();
-
-    //CaseInsensitive gere h et H et aussi min et MIN
-    //fct contains me renvoi un bool
-    bool contient_h = conversion_galere.contains('h', Qt::CaseInsensitive);
-    bool contient_min = conversion_galere.contains("min", Qt::CaseInsensitive);
-
-    if (contient_h == 1 && contient_min == 1)
-    {
-
-        QStringList list1 = conversion_galere.split('h',QString::SkipEmptyParts);
-        list1[1] = list1[1].remove("min");
-        list1[1] = list1[1].left(2);
-        QString element_heure = list1.at(0);
-        int heure = element_heure.toInt();
-        heure *= 60;
-        QString element_minutes = list1.at(1);
-        int minutes = element_minutes.toInt();
-        int resultat = heure + minutes;
-        qDebug()<< resultat;
-        return heure + minutes;
-
-    }
-    else if (contient_h == 0 && contient_min == 1)
-    {
-        QString element_minutes = conversion_galere.left(2);
-        int minutes = element_minutes.toInt();
-        qDebug()<< minutes;
-        return minutes;
-    }
-
-    else if (contient_h == 1 && contient_min == 0)
-
-    {
-        QString element_heure = conversion_galere.left(1);
-        int heure = element_heure.toInt();
-        heure *= 60;
-        qDebug()<< heure;
-
-        return heure;
-
-    }
-
-    else
-    {
-        int a = 0;
-        return a;
-    }
-
+    ui->leNomPrenom->setReadOnly(false);
+    ui->leSexe->setReadOnly(false);
+    ui->leProfession->setReadOnly(false);
+    ui->leNationalite->setReadOnly(false);
+    ui->leDateNaissance->setReadOnly(false);
+    ui->teBio->setReadOnly(false);
 }
 
-void MainWindow::DisplayFilm(Film filmAjoute)
+int MainWindow::conversion_en_int()
 {
-    ui->leTitreFilm->setText(filmAjoute.titre());
-    ui->leAnneeFilm->setText(QString::number(filmAjoute.annee()));
-    ui->leGenreFilm->setText(filmAjoute.genre());
-    ui->leDureeFilm->setText(QString::number(filmAjoute.duree()));
-    ui->leVOFilm->setText(filmAjoute.langue());
+    return Conversionint(ui->leDureeFilm->text());
+}
+
+
+QDataWidgetMapper* MainWindow::MappingFilm(QSortFilterProxyModel *FilmSortingModel)
+{
+    QDataWidgetMapper *mapperfilm = new QDataWidgetMapper;
+    mapperfilm->setModel(FilmSortingModel);
+
+    mapperfilm->addMapping(ui->leTitreFilm, 1);
+    mapperfilm->addMapping(ui->leAnneeFilm, 2);
+    mapperfilm->addMapping(ui->leGenreFilm, 3);
+    mapperfilm->addMapping(ui->leDureeFilm, 4);
+    mapperfilm->addMapping(ui->leVOFilm, 5);
+    mapperfilm->addMapping(ui->lbAfficheFilm,6);
+    mapperfilm->addMapping(ui->teInfoFilm, 7);
+    return mapperfilm;
 }
 
 void MainWindow::ajouter_Film()
@@ -195,24 +165,24 @@ void MainWindow::ajouter_Film()
     {
         Film filmAjoute = af.validation_donnees();
         this->DisplayFilm(filmAjoute);
-        this->enregistrementAjout();
+        this->enregistrementAjoutFilm(filmAjoute);
 
     }
     else{}
 }
 
-void MainWindow::enregistrementAjout()
+void MainWindow::DisplayFilm(Film filmAjoute)
 {
-    mFilmModel->insertRow(mFilmModel->rowCount());
-    int lastrow=mFilmModel->rowCount()-1;
+    ui->leTitreFilm->setText(filmAjoute.titre());
+    ui->leAnneeFilm->setText(QString::number(filmAjoute.annee()));
+    ui->leGenreFilm->setText(filmAjoute.genre());
+    ui->leDureeFilm->setText(QString::number(filmAjoute.duree()));
+    ui->leVOFilm->setText(filmAjoute.langue());
+}
 
-    mFilmModel->setData(mFilmModel->index(lastrow,1),ui->leTitreFilm->text());
-    mFilmModel->setData(mFilmModel->index(lastrow,2),ui->leAnneeFilm->text());
-    mFilmModel->setData(mFilmModel->index(lastrow,3),ui->leGenreFilm->text());
-    mFilmModel->setData(mFilmModel->index(lastrow,4),ui->leDureeFilm->text());
-    mFilmModel->setData(mFilmModel->index(lastrow,5),ui->leVOFilm->text());
-
-    mFilmModel->submitAll();
+void MainWindow::enregistrementAjoutFilm(Film filmAjoute)
+{
+    AjoutFilm(filmAjoute,mFilmModel);
 }
 
 
@@ -221,47 +191,8 @@ void MainWindow::conversion_min_en_heure()
 {
     QString conversion_en_heure = ui->leDureeFilm->text();
     int chiffre = conversion_en_heure.toInt();
-
-    qDebug () << chiffre;
-
-    if (chiffre == 60)
-    {
-        conversion_en_heure = "1h";
-        qDebug () << conversion_en_heure <<"condition 1h";
-    }
-    else if (chiffre > 60)
-    {
-        int a = conversion_en_heure.toInt();
-        int resultat = a/60;
-        int modulo = a%60;
-        char heure = 'h';
-        QString minutes = "min";;
-        QString modulo_avec_zero = QString ("%1")
-                .arg(modulo);
-
-        if (modulo < 10)
-
-        { modulo_avec_zero = QString("%1%2")
-                    .arg("0")
-                    .arg(modulo);
-            qDebug () << modulo_avec_zero << "condition ou module<10";
-        }
-
-
-        conversion_en_heure = QString ("%1%2%3")
-                .arg(resultat)
-                .arg(heure)
-                .arg(modulo_avec_zero);
-        qDebug () << conversion_en_heure << "condition 1het qques min";
-    }
-    /*else {
-        conversion_en_heure += "min";
-        qDebug () << conversion_en_heure << "condition min";
-    }*/
-
-    ui->leDureeFilm->setText(conversion_en_heure);
+    ui->leDureeFilm->setText(ConversionMinHeure(chiffre));
     qDebug () << conversion_en_heure << "resultat apres conversion";
-
 
 }
 
@@ -273,7 +204,7 @@ void MainWindow::apparition_texte()
 
 }
 
-void MainWindow::suppression()
+void MainWindow::suppressionFilm()
 {
 
     int response = QMessageBox::critical(this,"Supprimer le fichier","Voulez-vous vraiment supprimer cette entrée de façon permanente?",
@@ -302,14 +233,14 @@ void MainWindow::suppression()
 
 
 
-void MainWindow::modification()
+void MainWindow::modificationFilm()
 {
-    Deverouillage();
+    DeverouillageFilm();
 
 }
 
 
-void MainWindow::modif_pris_en_compte()
+void MainWindow::modif_pris_en_compte_Film()
 {
 
     QString titre = ui->leTitreFilm->text();
@@ -319,15 +250,13 @@ void MainWindow::modif_pris_en_compte()
     QString vo = ui->leVOFilm->text();
     //QString resume = ui->teInfo->text();
 
-    if (duree.contains('h', Qt::CaseInsensitive) || duree.contains("min", Qt::CaseInsensitive))
+    if (duree.contains('h', Qt::CaseInsensitive))
 
     {
         int a = conversion_en_int();
         duree = QString("%1")
                 .arg(a);
     }
-
-
     ui->leTitreFilm->setText(titre);
     ui->leAnneeFilm->setText(annee);
     ui->leGenreFilm->setText(genre);
@@ -337,15 +266,13 @@ void MainWindow::modif_pris_en_compte()
 
     mFilmModel->submitAll();
 
-    this->conversion_min_en_heure();
-
-    Verouillage();
+    VerouillageFilm();
 
 
 }
 
 
-void MainWindow::masquer_texte()
+void MainWindow::masquer_texte_Film()
 {
     ui->teInfoFilm->setHidden(true);
     ui->pbMasquerFilm->setHidden(true);
@@ -353,7 +280,7 @@ void MainWindow::masquer_texte()
 }
 
 
-void MainWindow::filtreRecherche(QString tri)
+void MainWindow::filtreRechercheFilm(QString tri)
 {
     QString find ="*"+tri+"*";
 
@@ -377,15 +304,14 @@ void MainWindow::cache_btn()
     ui->load_picFilm->setHidden(true);
 }
 
-void MainWindow::annuler_la_modif()
+void MainWindow::annuler_la_modif_Film()
 {
 
     mFilmModel->select();
-
-    Verouillage();
+    VerouillageFilm();
 }
 
-void MainWindow::modification_photo()
+void MainWindow::modification_photo_Film()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "c:/", tr("Image Files (*.png *.jpg *.bmp)"));
     QImage img= QImage(fileName).scaled(ui->lbAfficheFilm->size(),Qt::KeepAspectRatio,Qt::SmoothTransformation);

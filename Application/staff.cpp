@@ -1,4 +1,4 @@
-#include "staff.h"
+#include "Staff.h"
 #include <QDate>
 
 
