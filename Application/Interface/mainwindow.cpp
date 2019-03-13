@@ -226,6 +226,7 @@ void MainWindow::suppressionFilm()
 
 void MainWindow::modificationFilm()
 {
+
     DeverouillageFilm();
 
 }
@@ -276,6 +277,7 @@ void MainWindow::filtreRechercheFilm(QString tri)
 
 void MainWindow::demasquage_btn()
 {
+    ui->pbModifierFilm->setHidden(true);
     ui->pbModifOKFilm->setHidden(false);
     ui->pbModifAnnulerFilm->setHidden(false);
     ui->load_picFilm->setHidden(false);
@@ -287,6 +289,7 @@ void MainWindow::cache_btn()
     ui->pbModifOKFilm->setHidden(true);
     ui->pbModifAnnulerFilm->setHidden(true);
     ui->load_picFilm->setHidden(true);
+    ui->pbModifierFilm->setHidden(false);
 }
 
 void MainWindow::annuler_la_modif_Film()
