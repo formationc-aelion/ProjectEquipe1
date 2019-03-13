@@ -2,7 +2,8 @@
 #include <QDate>
 
 
-Staff::Staff():Staff("nom",QDate(), "nationaliteA", 0,"professionA",0,0, QByteArray(),"")
+Staff::Staff():
+    Staff("nom",QDate(), "nationaliteA", "","professionA","","", QByteArray(),"")
 {
 
 }
@@ -13,7 +14,7 @@ Staff::~Staff()
 }
 
 Staff::Staff(QString nom, QDate dateNaissance, QString nationaliteA, QString professionA):
-    Staff(nom, dateNaissance, nationaliteA, 0, professionA, 0, 0, QByteArray(), "")
+    Staff(nom, dateNaissance, nationaliteA, "", professionA, "", "", QByteArray(), "")
 {
 
 }

@@ -1,4 +1,5 @@
 #include "tst_testconstructor.h"
+#include "tst_teststaffgoogle.h"
 
 #include <gtest/gtest.h>
 

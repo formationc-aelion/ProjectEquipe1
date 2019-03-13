@@ -16,4 +16,5 @@ SOURCES += \
 include(../Application/film.pri)
 include(../Application/staff.pri)
 
-INCLUDEPATH += ../Application/Film 
+INCLUDEPATH += ../Application/Film
+INCLUDEPATH += ../Application
