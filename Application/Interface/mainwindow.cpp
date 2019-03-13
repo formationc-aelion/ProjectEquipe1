@@ -50,13 +50,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
 
-    connect(ui->lvListeRecherche->selectionModel(),SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
+    connect(ui->lvListeRechercheFilm->selectionModel(),SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
             this,
             SLOT(image_loading(QModelIndex)));
 
 
-    connect(ui->pbInfo,SIGNAL(clicked()),this,SLOT(apparition_texte()));
-    connect(ui->pbMasquer,SIGNAL(clicked()),this,SLOT(masquer_texte()));
+    connect(ui->pbInfoFilm,SIGNAL(clicked()),this,SLOT(apparition_texte()));
+    connect(ui->pbMasquerFilm,SIGNAL(clicked()),this,SLOT(masquer_texte()));
 
     //Connection des boutons de l'interface Staff
 
@@ -193,7 +193,7 @@ void MainWindow::DisplayFilm(Film filmAjoute)
     ui->leGenreFilm->setText(filmAjoute.genre());
     ui->leDureeFilm->setText(QString::number(filmAjoute.duree()));
     ui->leVOFilm->setText(filmAjoute.langue());
-    ui->leAffiche->setpixmap(film_ajoute.photo());
+    //ui->leAffiche->setpixmap(film_ajoute.photo());
 }
 
 
@@ -334,8 +334,8 @@ void MainWindow::modification_photo_Film()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "c:/", tr("Image Files (*.png *.jpg *.bmp)"));
 
-    QImage img= QImage(fileName).scaled(ui->lbAffiche->size(),Qt::KeepAspectRatio,Qt::SmoothTransformation);
-    ui->lbAffiche->setPixmap(QPixmap::fromImage(img));
+    QImage img= QImage(fileName).scaled(ui->lbAfficheFilm->size(),Qt::KeepAspectRatio,Qt::SmoothTransformation);
+    ui->lbAfficheFilm->setPixmap(QPixmap::fromImage(img));
 
 }
 
@@ -364,6 +364,6 @@ void MainWindow::image_loading(QModelIndex indexselected)
        QPixmap PhotoPix; // transformation QImage en QPixmap
 
            PhotoPix.convertFromImage(affiche);//conversion
-           ui->lbAffiche->setPixmap(PhotoPix);//affichage de la QPixmap
+           ui->lbAfficheFilm->setPixmap(PhotoPix);//affichage de la QPixmap
 }
 
