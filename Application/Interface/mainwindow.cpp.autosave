@@ -338,11 +338,8 @@ void MainWindow::cache_btn()
 
 void MainWindow::annuler_la_modif_Film()
 {
-
-
     mFilmModel->select();
     VerouillageFilm();
-
 }
 
 void MainWindow::modification_photo_Film()
@@ -350,6 +347,10 @@ void MainWindow::modification_photo_Film()
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "c:/", tr("Image Files (*.png *.jpg *.bmp)"));
 
     QImage img= QImage(fileName).scaled(ui->lbAfficheFilm->size(),Qt::KeepAspectRatio,Qt::SmoothTransformation);
+    QModelIndex a_modifier = ui->lvListeRechercheFilm->currentIndex();
+    
+    photoImagetoBytearray(mFilmSortingModel,a_modifier,img);
+    
     ui->lbAfficheFilm->setPixmap(QPixmap::fromImage(img));
 
 }

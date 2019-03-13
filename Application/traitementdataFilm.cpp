@@ -1,26 +1,29 @@
 #include "traitementdataFilm.h"
+#include <QImage>
+#include <QPixmap>
+#include <QBuffer>
 
 QSqlTableModel* CreateModelFilm (QObject *ui)
 {
-QSqlDatabase db = QSqlDatabase::database("connexionBDDfilm");
-QSqlTableModel *mFilmModel = new QSqlTableModel (ui,db);
-mFilmModel->setTable("film");
-mFilmModel->select();
-mFilmModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    QSqlDatabase db = QSqlDatabase::database("connexionBDDfilm");
+    QSqlTableModel *mFilmModel = new QSqlTableModel (ui,db);
+    mFilmModel->setTable("film");
+    mFilmModel->select();
+    mFilmModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
-return mFilmModel;
+    return mFilmModel;
 }
 
 QSortFilterProxyModel* CreateSortingModelFilm (QObject *ui,QSqlTableModel *FilmModel)
 {
-QSqlDatabase db = QSqlDatabase::database("connexionBDDfilm");
-QSortFilterProxyModel *mFilmSortingModel = new QSortFilterProxyModel(ui);
-mFilmSortingModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
-mFilmSortingModel->setSortCaseSensitivity(Qt::CaseInsensitive);
-mFilmSortingModel->sort(1, Qt::AscendingOrder);
-mFilmSortingModel->setDynamicSortFilter(true);
-mFilmSortingModel->setSourceModel(FilmModel);
-return mFilmSortingModel;
+    QSqlDatabase db = QSqlDatabase::database("connexionBDDfilm");
+    QSortFilterProxyModel *mFilmSortingModel = new QSortFilterProxyModel(ui);
+    mFilmSortingModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
+    mFilmSortingModel->setSortCaseSensitivity(Qt::CaseInsensitive);
+    mFilmSortingModel->sort(1, Qt::AscendingOrder);
+    mFilmSortingModel->setDynamicSortFilter(true);
+    mFilmSortingModel->setSourceModel(FilmModel);
+    return mFilmSortingModel;
 }
 
 
@@ -159,4 +162,35 @@ void modificationfilm(Film FilmAdd,QSqlTableModel *FilmModel,QSortFilterProxyMod
     FilmModel->submitAll();
 
 
+}
+
+QPixmap photobytearraytoPixmap(QSortFilterProxyModel *FilmSortingModel, QModelIndex indexselected)
+{
+    QVariant datacurrent = FilmSortingModel->data(FilmSortingModel->index(indexselected.row(), 6));
+    QByteArray image = datacurrent.toByteArray();
+
+    QImage affiche;
+
+    if (image.isNull())
+    {
+        //voir comment le gerer dans le .qrc
+        affiche.load(":/img/Interface/img/cinema.jpg");
+    }
+    else
+    {
+        affiche.loadFromData(image);//conversion
+    }
+    QPixmap PhotoPix;
+    PhotoPix.convertFromImage(affiche);
+    return PhotoPix;
+}
+
+
+void photoImagetoBytearray(QSortFilterProxyModel *FilmSortingModel, QModelIndex indexselected, QImage image)
+{
+    QByteArray byteArray;
+    QBuffer buffer(&byteArray);
+            image.save(&buffer, "PNG");
+    QString photoBase64 = QString::fromLatin1(byteArray.toBase64().data());
+    FilmSortingModel->setData(FilmSortingModel->index(indexselected.row(),6),photoBase64);
 }
