@@ -47,7 +47,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->pbModifAnnulerFilm,SIGNAL(clicked()),this, SLOT(annuler_la_modif_Film()));
     connect(ui->load_picFilm,SIGNAL(clicked()),this,SLOT(modification_photo_Film()));
     connect(ui->leRechercheFilm,SIGNAL(textChanged(QString)),this,SLOT(filtreRechercheFilm(QString)));
-
+    connect(ui->leRechercheStaff,SIGNAL(textChanged(QString)),this,SLOT(filtreRechercheStaff(QString)));
 
 
     connect(ui->lvListeRechercheFilm->selectionModel(),SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
@@ -315,6 +315,18 @@ void MainWindow::filtreRechercheFilm(QString tri)
     mFilmSortingModel->setFilterWildcard(find);
     mFilmSortingModel->setFilterKeyColumn(1);
 }
+
+void MainWindow::filtreRechercheStaff(QString tri)
+{
+    QString find ="*"+tri+"*";
+
+
+    mStaffSortingModel->setFilterWildcard(find);
+    mStaffSortingModel->setFilterKeyColumn(1);
+}
+
+
+
 
 void MainWindow::demasquage_btn()
 {

@@ -33,7 +33,7 @@ Values                      ('Orange Mecanique',
                              'Anglais',
                              pg_read_binary_file('C:/Users/Dell/Documents/ProjectEquipe1/image_projet/orangemeca.jpg')::bytea,
                             'Au XXIème siècle, où règnent la violence et le sexe, Alex, jeune chef de bande, exerce avec sadisme une terreur aveugle. 
-                            Après son emprisonnement, des psychanalystes l emploient comme cobaye dans des expériences destinées à juguler la criminalité...',
+                            Après son emprisonnement, des psychanalystes l''emploient comme cobaye dans des expériences destinées à juguler la criminalité...',
                             2);
 
 Insert into Film           (FI_TITRE,

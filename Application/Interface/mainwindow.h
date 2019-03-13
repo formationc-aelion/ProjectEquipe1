@@ -44,6 +44,7 @@ private slots:
     void modif_pris_en_compte_Film();
     void masquer_texte_Film();
     void filtreRechercheFilm(QString tri);
+    void filtreRechercheStaff(QString tri);
     void demasquage_btn();
     void cache_btn();
 
