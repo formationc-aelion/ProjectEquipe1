@@ -46,6 +46,8 @@ private:
     Ui::MainWindow *ui;
     QSqlTableModel *mFilmModel;
     QSortFilterProxyModel *mFilmSortingModel;
+    QSqlTableModel *mStaffModel;
+    QSortFilterProxyModel *mStaffSortingModel;
 
 };
 

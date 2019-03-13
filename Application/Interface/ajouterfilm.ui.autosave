@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>AjouterFilm</class>
+ <widget class="QDialog" name="AjouterFilm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>574</width>
+    <height>466</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_2">
+   <item row="0" column="0">
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string/>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="3" column="0">
+       <widget class="QLabel" name="lbAjoutDuree">
+        <property name="text">
+         <string>Durée :</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLineEdit" name="leAjoutDuree"/>
+      </item>
+      <item row="4" column="1">
+       <widget class="QLineEdit" name="leAjoutVO"/>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="leAjoutTitre"/>
+      </item>
+      <item row="6" column="0" colspan="2">
+       <widget class="QTextEdit" name="teAjoutInfo"/>
+      </item>
+      <item row="0" column="2">
+       <widget class="QPushButton" name="pbAjoutPhoto">
+        <property name="text">
+         <string>Ajouter photo ...</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="lbAjoutGenre">
+        <property name="text">
+         <string>Genre :</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="lbAjoutAnnee">
+        <property name="text">
+         <string>Année :</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="leAjoutAnnee"/>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="lbAjoutVO">
+        <property name="text">
+         <string>VO :</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="lbAjoutTitre">
+        <property name="text">
+         <string>Titre :</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLineEdit" name="leAjoutGenre"/>
+      </item>
+      <item row="1" column="2" rowspan="6">
+       <widget class="QLabel" name="lbAjoutAffiche">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="lineWidth">
+         <number>1</number>
+        </property>
+        <property name="text">
+         <string>AfficheDeTresTresTresTresGrandFORMAT</string>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="lblInfo">
+        <property name="text">
+         <string>Plus d'informations:</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
