@@ -58,11 +58,13 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->pbInfoFilm,SIGNAL(clicked()),this,SLOT(apparition_texte()));
     connect(ui->pbMasquerFilm,SIGNAL(clicked()),this,SLOT(masquer_texte()));
 
+
     //Connection des boutons de l'interface Staff
     connect(ui->pbModifierStaff, SIGNAL(clicked()),this, SLOT());
     connect(ui->pbModifOKStaff,SIGNAL(clicked()), this, SLOT());
     connect(ui->pbModifAnnulerStaff, SIGNAL(clicked()),SLOT());
     connect(ui->pbSupprimerStaff,SIGNAL(clicked()),SLOT());
+
 }
 
 MainWindow::~MainWindow()
