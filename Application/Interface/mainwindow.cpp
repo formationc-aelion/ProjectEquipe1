@@ -33,7 +33,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     connect(ui->pbInfoFilm,SIGNAL(clicked()),this,SLOT(apparition_texte()));
-    connect(ui->pbMasquerFilm,SIGNAL(clicked()),this,SLOT(masquer_texte()));
+    connect(ui->pbMasquerFilm,SIGNAL(clicked()),this,SLOT(masquer_texte_Film()));
 
 
     connect(ui->pbSupprimerFilm,SIGNAL(clicked()),this,SLOT(suppressionFilm()));
@@ -223,14 +223,14 @@ void MainWindow::apparition_texte()
 
 void MainWindow::suppressionFilm()
 {
-
     int response = QMessageBox::critical(this,"Supprimer le fichier","Voulez-vous vraiment supprimer cette entrée de façon permanente?",
                                          QMessageBox::Yes | QMessageBox::No);
     if (response == QMessageBox::Yes)
     {
         QModelIndex a_supprimer = ui->lvListeRechercheFilm->currentIndex();
-        mFilmSortingModel->removeRow(a_supprimer.row());
+        DeleteFilm(mFilmSortingModel,a_supprimer,mFilmModel);
 
+        QMessageBox::information(this,"Suppression","Element supprimé");
         ui->leTitreFilm->clear();
         ui->leAnneeFilm->clear();
         ui->leGenreFilm->clear();
@@ -238,20 +238,18 @@ void MainWindow::suppressionFilm()
         ui->leVOFilm->clear();
         ui->teInfoFilm->clear();
 
+        mFilmModel->submitAll();
+        mFilmModel->select();
+    }
 
 
     }
-
-    mFilmModel->submitAll();
-    mFilmModel->select();
-
-
-}
 
 
 
 void MainWindow::modificationFilm()
 {
+
     DeverouillageFilm();
 
 }
@@ -261,7 +259,8 @@ void MainWindow::modif_pris_en_compte_Film()
 {
 
     QString titre = ui->leTitreFilm->text();
-    QString annee = ui->leAnneeFilm->text();
+    QString anneestring = ui->leAnneeFilm->text();
+    int annee=anneestring.toInt();
     QString genre = ui->leGenreFilm->text();
     QString duree = ui->leDureeFilm->text();
     QString vo = ui->leVOFilm->text();
@@ -274,18 +273,11 @@ void MainWindow::modif_pris_en_compte_Film()
         duree = QString("%1")
                 .arg(a);
     }
-    ui->leTitreFilm->setText(titre);
-    ui->leAnneeFilm->setText(annee);
-    ui->leGenreFilm->setText(genre);
-    ui->leDureeFilm->setText(duree);
-    ui->leVOFilm->setText(vo);
 
-
-    mFilmModel->submitAll();
-
+    Film Filmtemp (titre,genre,vo,annee,duree.toInt());
+    QModelIndex a_modifier = ui->lvListeRechercheFilm->currentIndex();
+    modificationfilm(Filmtemp,mFilmModel,mFilmSortingModel,a_modifier);
     VerouillageFilm();
-
-
 }
 
 
@@ -308,6 +300,7 @@ void MainWindow::filtreRechercheFilm(QString tri)
 
 void MainWindow::demasquage_btn()
 {
+    ui->pbModifierFilm->setHidden(true);
     ui->pbModifOKFilm->setHidden(false);
     ui->pbModifAnnulerFilm->setHidden(false);
     ui->load_picFilm->setHidden(false);
@@ -319,6 +312,7 @@ void MainWindow::cache_btn()
     ui->pbModifOKFilm->setHidden(true);
     ui->pbModifAnnulerFilm->setHidden(true);
     ui->load_picFilm->setHidden(true);
+    ui->pbModifierFilm->setHidden(false);
 }
 
 void MainWindow::annuler_la_modif_Film()
