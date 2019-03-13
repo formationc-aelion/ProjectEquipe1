@@ -31,6 +31,10 @@ MainWindow::MainWindow(QWidget *parent) :
             this,
             SLOT(conversion_min_en_heure()));
 
+    connect(ui->lvListeRechercheFilm->selectionModel(),SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
+            this,
+            SLOT(image_loading()));
+
 
     connect(ui->pbInfoFilm,SIGNAL(clicked()),this,SLOT(apparition_texte()));
     connect(ui->pbMasquerFilm,SIGNAL(clicked()),this,SLOT(masquer_texte_Film()));
@@ -47,7 +51,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->pbModifAnnulerFilm,SIGNAL(clicked()),this, SLOT(annuler_la_modif_Film()));
     connect(ui->load_picFilm,SIGNAL(clicked()),this,SLOT(modification_photo_Film()));
     connect(ui->leRechercheFilm,SIGNAL(textChanged(QString)),this,SLOT(filtreRechercheFilm(QString)));
-
+    connect(ui->leRechercheStaff,SIGNAL(textChanged(QString)),this,SLOT(filtreRechercheStaff(QString)));
 
 
     connect(ui->lvListeRechercheFilm->selectionModel(),SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
@@ -267,7 +271,7 @@ void MainWindow::suppressionFilm()
     }
 
 
-    }
+}
 
 
 
@@ -291,7 +295,6 @@ void MainWindow::modif_pris_en_compte_Film()
     //QString resume = ui->teInfo->text();
 
     if (duree.contains('h', Qt::CaseInsensitive))
-
     {
         int a = conversion_en_int();
         duree = QString("%1")
@@ -321,6 +324,18 @@ void MainWindow::filtreRechercheFilm(QString tri)
     mFilmSortingModel->setFilterWildcard(find);
     mFilmSortingModel->setFilterKeyColumn(1);
 }
+
+void MainWindow::filtreRechercheStaff(QString tri)
+{
+    QString find ="*"+tri+"*";
+
+
+    mStaffSortingModel->setFilterWildcard(find);
+    mStaffSortingModel->setFilterKeyColumn(1);
+}
+
+
+
 
 void MainWindow::demasquage_btn()
 {
@@ -359,29 +374,8 @@ void MainWindow::modification_photo_Film()
 
 void MainWindow::image_loading(QModelIndex indexselected)
 {
+    QPixmap PhotoPix=photobytearraytoPixmap(mFilmSortingModel,indexselected);
 
-       //QString photo= ui->lbAffiche->text();
-        QVariant datacurrent = mFilmSortingModel->data(mFilmSortingModel->index(indexselected.row(), 6));
-        QByteArray image = datacurrent.toByteArray();
-        //QString photo = image;
-
-       qDebug () << image;
-
-       QImage affiche;
-
-   if (image.isNull())
-       {
-           //voir comment le gerer dans le .qrc
-           affiche.load(":/img/Interface/img/cinema.jpg");
-       }
-       else
-       {
-           affiche.loadFromData(image);//conversion
-       }
-
-       QPixmap PhotoPix; // transformation QImage en QPixmap
-
-           PhotoPix.convertFromImage(affiche);//conversion
-           ui->lbAfficheFilm->setPixmap(PhotoPix);//affichage de la QPixmap
+    ui->lbAfficheFilm->setPixmap(PhotoPix);//affichage de la QPixmap
 }
 
