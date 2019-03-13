@@ -3,6 +3,7 @@
 #include<QDebug>
 #include "film.h"
 #include<QBuffer>
+#include <QIntValidator>
 
 AjouterFilm::AjouterFilm(QWidget *parent) :
     QDialog(parent),
@@ -22,6 +23,8 @@ AjouterFilm::~AjouterFilm()
 
 Film AjouterFilm::validation_donnees()
 {
+    QValidator *validator = new QIntValidator (this);
+    ui->leAjoutDuree->setValidator(validator);
 
     mFilm.setTitre(ui->leAjoutTitre->text());
     mFilm.setAnnee(ui->leAjoutAnnee->text().toInt());

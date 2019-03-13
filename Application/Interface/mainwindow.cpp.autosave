@@ -51,7 +51,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->pbModifAnnulerFilm,SIGNAL(clicked()),this, SLOT(annuler_la_modif_Film()));
     connect(ui->load_picFilm,SIGNAL(clicked()),this,SLOT(modification_photo_Film()));
     connect(ui->leRechercheFilm,SIGNAL(textChanged(QString)),this,SLOT(filtreRechercheFilm(QString)));
-    connect(ui->leRechercheStaff,SIGNAL(textChanged(QString)),this,SLOT(filtreRechercheStaff(QString)));
+
 
 
     connect(ui->lvListeRechercheFilm->selectionModel(),SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
@@ -319,18 +319,6 @@ void MainWindow::filtreRechercheFilm(QString tri)
     mFilmSortingModel->setFilterKeyColumn(1);
 }
 
-void MainWindow::filtreRechercheStaff(QString tri)
-{
-    QString find ="*"+tri+"*";
-
-
-    mStaffSortingModel->setFilterWildcard(find);
-    mStaffSortingModel->setFilterKeyColumn(1);
-}
-
-
-
-
 void MainWindow::demasquage_btn()
 {
     ui->pbModifierFilm->setHidden(true);
@@ -350,11 +338,8 @@ void MainWindow::cache_btn()
 
 void MainWindow::annuler_la_modif_Film()
 {
-
-
     mFilmModel->select();
     VerouillageFilm();
-
 }
 
 void MainWindow::modification_photo_Film()
@@ -362,6 +347,10 @@ void MainWindow::modification_photo_Film()
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "c:/", tr("Image Files (*.png *.jpg *.bmp)"));
 
     QImage img= QImage(fileName).scaled(ui->lbAfficheFilm->size(),Qt::KeepAspectRatio,Qt::SmoothTransformation);
+    QModelIndex a_modifier = ui->lvListeRechercheFilm->currentIndex();
+    
+    photoImagetoBytearray(mFilmSortingModel,a_modifier,img);
+    
     ui->lbAfficheFilm->setPixmap(QPixmap::fromImage(img));
 
 }
