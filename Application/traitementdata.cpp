@@ -144,3 +144,19 @@ void DeleteFilm(QSortFilterProxyModel *FilmSortingModel,QModelIndex IndexASuppr,
     FilmModel->submitAll();
     FilmModel->select();
 }
+
+void modificationfilm(Film FilmAdd,QSqlTableModel *FilmModel,QSortFilterProxyModel *FilmSortingModel,QModelIndex IndexAModifier)
+{
+
+    FilmSortingModel->setData(FilmSortingModel->index(IndexAModifier.row(),1),FilmAdd.titre());
+    FilmSortingModel->setData(FilmSortingModel->index(IndexAModifier.row(),2),FilmAdd.annee());
+    FilmSortingModel->setData(FilmSortingModel->index(IndexAModifier.row(),3),FilmAdd.genre());
+    FilmSortingModel->setData(FilmSortingModel->index(IndexAModifier.row(),4),FilmAdd.duree());
+    FilmSortingModel->setData(FilmSortingModel->index(IndexAModifier.row(),5),FilmAdd.langue());
+    FilmSortingModel->setData(FilmSortingModel->index(IndexAModifier.row(),6),FilmAdd.photo());
+    FilmSortingModel->setData(FilmSortingModel->index(IndexAModifier.row(),7),FilmAdd.info());
+
+    FilmModel->submitAll();
+
+
+}

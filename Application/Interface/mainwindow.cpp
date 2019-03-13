@@ -253,7 +253,6 @@ void MainWindow::modif_pris_en_compte_Film()
     Film Filmtemp (titre,genre,vo,annee,duree.toInt());
     QModelIndex a_modifier = ui->lvListeRechercheFilm->currentIndex();
     modificationfilm(Filmtemp,mFilmModel,mFilmSortingModel,a_modifier);
-
     VerouillageFilm();
 }
 
