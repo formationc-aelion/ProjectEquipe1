@@ -33,7 +33,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     connect(ui->pbInfoFilm,SIGNAL(clicked()),this,SLOT(apparition_texte()));
-    connect(ui->pbMasquerFilm,SIGNAL(clicked()),this,SLOT(masquer_texte()));
+    connect(ui->pbMasquerFilm,SIGNAL(clicked()),this,SLOT(masquer_texte_Film()));
 
 
     connect(ui->pbSupprimerFilm,SIGNAL(clicked()),this,SLOT(suppressionFilm()));
