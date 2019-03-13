@@ -193,7 +193,7 @@ void MainWindow::DisplayFilm(Film filmAjoute)
     ui->leGenreFilm->setText(filmAjoute.genre());
     ui->leDureeFilm->setText(QString::number(filmAjoute.duree()));
     ui->leVOFilm->setText(filmAjoute.langue());
-    ui->leAff->setpix->film_ajoute.photo());
+    ui->leAffiche->setpixmap(film_ajoute.photo());
 }
 
 
