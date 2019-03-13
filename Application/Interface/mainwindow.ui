@@ -263,9 +263,6 @@
            <string/>
           </property>
           <layout class="QGridLayout" name="gridLayout_7">
-           <item row="0" column="0" colspan="2">
-            <widget class="QListView" name="lvListeRechercheStaff"/>
-           </item>
            <item row="1" column="0">
             <widget class="QPushButton" name="pbAjouterStaff">
              <property name="text">
@@ -280,6 +277,9 @@
              </property>
             </widget>
            </item>
+           <item row="0" column="0" colspan="2">
+            <widget class="QListView" name="lvListeRechercheStaff"/>
+           </item>
           </layout>
          </widget>
         </item>
@@ -289,6 +289,31 @@
            <string/>
           </property>
           <layout class="QGridLayout" name="gridLayout_8">
+           <item row="3" column="0" colspan="2">
+            <layout class="QHBoxLayout" name="horizontalLayout_6">
+             <item>
+              <widget class="QPushButton" name="pbModifierStaff">
+               <property name="text">
+                <string>Modifier</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pbModifOKStaff">
+               <property name="text">
+                <string>OK</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pbModifAnnulerStaff">
+               <property name="text">
+                <string>Annuler</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
            <item row="2" column="0" colspan="2">
             <layout class="QHBoxLayout" name="horizontalLayout_7">
              <item>
@@ -320,31 +345,6 @@
                  <width>256</width>
                  <height>192</height>
                 </size>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item row="3" column="0" colspan="2">
-            <layout class="QHBoxLayout" name="horizontalLayout_6">
-             <item>
-              <widget class="QPushButton" name="pbModifierStaff">
-               <property name="text">
-                <string>Modifier</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="pbModifOKStaff">
-               <property name="text">
-                <string>OK</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="pbModifAnnulerStaff">
-               <property name="text">
-                <string>Annuler</string>
                </property>
               </widget>
              </item>
@@ -386,8 +386,8 @@
              </item>
             </layout>
            </item>
-           <item row="0" column="0">
-            <layout class="QFormLayout" name="formLayout">
+           <item row="0" column="0" rowspan="2">
+            <layout class="QGridLayout" name="gridLayout">
              <item row="0" column="0">
               <widget class="QLabel" name="lbNomStaff">
                <property name="text">
@@ -413,34 +413,54 @@
               </widget>
              </item>
              <item row="2" column="0">
-              <widget class="QLabel" name="lbSexe">
+              <widget class="QLabel" name="lbNationalite">
                <property name="text">
-                <string>Genre :</string>
+                <string>Nationalité 1: </string>
                </property>
               </widget>
              </item>
              <item row="2" column="1">
-              <widget class="QLineEdit" name="leSexe"/>
+              <widget class="QLineEdit" name="leNationalite"/>
              </item>
              <item row="3" column="0">
-              <widget class="QLabel" name="lbNationalite">
+              <widget class="QLabel" name="lbVO_3">
                <property name="text">
-                <string>Nationalité: </string>
+                <string>Nationalité 2 :</string>
                </property>
               </widget>
              </item>
              <item row="3" column="1">
-              <widget class="QLineEdit" name="leNationalite"/>
+              <widget class="QLineEdit" name="leNationaliteB"/>
              </item>
              <item row="4" column="0">
-              <widget class="QLabel" name="lbVO_3">
+              <widget class="QLabel" name="label">
                <property name="text">
-                <string>Profession: </string>
+                <string>Profession 1 : </string>
                </property>
               </widget>
              </item>
              <item row="4" column="1">
-              <widget class="QLineEdit" name="leProfession"/>
+              <widget class="QLineEdit" name="leProfessionA"/>
+             </item>
+             <item row="5" column="0">
+              <widget class="QLabel" name="label_2">
+               <property name="text">
+                <string>Profession 2 :</string>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="1">
+              <widget class="QLineEdit" name="leProfessionB"/>
+             </item>
+             <item row="6" column="0">
+              <widget class="QLabel" name="label_3">
+               <property name="text">
+                <string>Profession 3 :</string>
+               </property>
+              </widget>
+             </item>
+             <item row="6" column="1">
+              <widget class="QLineEdit" name="leProfessionC"/>
              </item>
             </layout>
            </item>

@@ -30,6 +30,7 @@ public:
     int conversion_en_int();
     void DisplayFilm(Film f);
     QDataWidgetMapper * MappingFilm(QSortFilterProxyModel *FilmSortingModel);
+    QDataWidgetMapper * MappingStaff(QSortFilterProxyModel *StaffSortingModel);
 
 private slots:
     void ajouter_Film();
