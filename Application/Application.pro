@@ -41,8 +41,8 @@ HEADERS += \
 
 SOURCES += \
     staff.cpp \
-    traitementdata.cpp \
-    traitementdatastaff.cpp
+    traitementdatastaff.cpp \
+    traitementdataFilm.cpp
 
 DISTFILES += \
     staff.pri
