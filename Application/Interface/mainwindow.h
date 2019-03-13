@@ -27,7 +27,7 @@ public:
 
 private slots:
     void ajouter_Film();
-    void enregistrementAjout();
+    void enregistrementAjout(Film film_ajoute);
     void conversion_min_en_heure();
     void apparition_texte();
     void suppression();
@@ -40,6 +40,7 @@ private slots:
     void cache_btn();
     void annuler_la_modif();
     void modification_photo();
+    void image_loading(QModelIndex);
 
 
 private:

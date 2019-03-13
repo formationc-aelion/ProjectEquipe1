@@ -2,6 +2,7 @@
 #include "ui_ajouterfilm.h"
 #include<QDebug>
 #include "film.h"
+#include<QBuffer>
 
 AjouterFilm::AjouterFilm(QWidget *parent) :
     QDialog(parent),
@@ -11,6 +12,7 @@ AjouterFilm::AjouterFilm(QWidget *parent) :
 
     connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
     connect(ui->buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    connect(ui->pbAjoutPhoto, SIGNAL(clicked()),this, SLOT (AjoutPhoto ()));
 }
 
 AjouterFilm::~AjouterFilm()
@@ -20,21 +22,28 @@ AjouterFilm::~AjouterFilm()
 
 Film AjouterFilm::validation_donnees()
 {
-    Film film;
-    film.setTitre(ui->leAjoutTitre->text());
-    film.setAnnee(ui->leAjoutAnnee->text().toInt());
-    film.setGenre(ui->leAjoutGenre->text());
-    film.setDuree(ui->leAjoutDuree->text().toInt());
-    film.setLangue(ui->leAjoutVO->text());
+
+    mFilm.setTitre(ui->leAjoutTitre->text());
+    mFilm.setAnnee(ui->leAjoutAnnee->text().toInt());
+    mFilm.setGenre(ui->leAjoutGenre->text());
+    mFilm.setDuree(ui->leAjoutDuree->text().toInt());
+    mFilm.setLangue(ui->leAjoutVO->text());
+
     // att: .h QString infoFilm = ui-> teAjoutInfo->toPlainText();
     // ? ui->labelPhoto->pixmap()->toImage());
 
-    return film;
+    return mFilm;
 }
 
 void AjouterFilm::AjoutPhoto()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "c:/", tr("Image Files (*.png *.jpg *.bmp)"));
-        QImage img= QImage(fileName).scaled(ui->lbAjoutAffiche->size(),Qt::KeepAspectRatio,Qt::SmoothTransformation);
-        ui->lbAjoutAffiche->setPixmap(QPixmap::fromImage(img));
+    QImage img= QImage(fileName).scaled(ui->lbAjoutAffiche->size(),Qt::KeepAspectRatio,Qt::SmoothTransformation);
+    ui->lbAjoutAffiche->setPixmap(QPixmap::fromImage(img));
+
+        QByteArray byteArray;
+        QBuffer buffer(&byteArray);
+        img.save(&buffer, "PNG");
+        mFilm.setPhoto(byteArray);
+
 }

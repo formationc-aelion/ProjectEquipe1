@@ -25,6 +25,9 @@ public:
     int annee() const;
     void setAnnee(int annee);
 
+    QByteArray photo() const;
+    void setPhoto(const QByteArray &photo);
+
 private:
     QString mTitre;
     QString mGenre;

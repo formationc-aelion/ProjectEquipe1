@@ -65,3 +65,13 @@ void Film::setAnnee(int annee)
 {
     mAnnee = annee;
 }
+
+QByteArray Film::photo() const
+{
+    return mPhoto;
+}
+
+void Film::setPhoto(const QByteArray &photo)
+{
+    mPhoto = photo;
+}

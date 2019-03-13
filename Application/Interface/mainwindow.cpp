@@ -58,6 +58,12 @@ MainWindow::MainWindow(QWidget *parent) :
             this,
             SLOT(conversion_min_en_heure()));
 
+
+    connect(ui->lvListeRecherche->selectionModel(),SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
+            this,
+            SLOT(image_loading(QModelIndex)));
+
+
     connect(ui->pbInfo,SIGNAL(clicked()),this,SLOT(apparition_texte()));
     connect(ui->pbMasquer,SIGNAL(clicked()),this,SLOT(masquer_texte()));
 
@@ -178,13 +184,13 @@ void MainWindow::ajouter_Film()
 
         Film film = af.validation_donnees();
         this->DisplayFilm(film);
-        this->enregistrementAjout();
+        this->enregistrementAjout(film);
 
     }
     else{}
 }
 
-void MainWindow::enregistrementAjout()
+void MainWindow::enregistrementAjout(Film film_ajoute)
 {
     mFilmModel->insertRow(mFilmModel->rowCount());
     int lastrow=mFilmModel->rowCount()-1;
@@ -194,6 +200,7 @@ void MainWindow::enregistrementAjout()
     mFilmModel->setData(mFilmModel->index(lastrow,3),ui->leGenre->text());
     mFilmModel->setData(mFilmModel->index(lastrow,4),ui->leDuree->text());
     mFilmModel->setData(mFilmModel->index(lastrow,5),ui->leVO->text());
+    mFilmModel->setData(mFilmModel->index(lastrow,6),film_ajoute.photo());
 
     mFilmModel->submitAll();
 }
@@ -272,8 +279,6 @@ void MainWindow::suppression()
         ui->leVO->clear();
         ui->teInfo->clear();
 
-
-        QMessageBox::information(this,"Suppression","Element supprimé");
 
     }
 
@@ -374,5 +379,36 @@ void MainWindow::modification_photo()
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "c:/", tr("Image Files (*.png *.jpg *.bmp)"));
     QImage img= QImage(fileName).scaled(ui->lbAffiche->size(),Qt::KeepAspectRatio,Qt::SmoothTransformation);
     ui->lbAffiche->setPixmap(QPixmap::fromImage(img));
+
+}
+
+void MainWindow::image_loading(QModelIndex indexselected)
+{
+
+       //QString photo= ui->lbAffiche->text();
+        QVariant datacurrent = mFilmSortingModel->data(mFilmSortingModel->index(indexselected.row(), 6));
+        QByteArray image = datacurrent.toByteArray();
+        //QString photo = image;
+
+       qDebug () << image;
+
+       QImage affiche;
+
+   if (image.isNull())
+       {
+           //voir comment le gerer dans le .qrc
+           affiche.load(":/img/Interface/img/cinema.jpg");
+       }
+       else
+       {
+           affiche.loadFromData(image);//conversion
+       }
+
+       QPixmap PhotoPix; // transformation QImage en QPixmap
+
+           PhotoPix.convertFromImage(affiche);//conversion
+           ui->lbAffiche->setPixmap(PhotoPix);//affichage de la QPixmap
+
+
 }
 

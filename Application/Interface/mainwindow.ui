@@ -132,6 +132,12 @@
            <height>371</height>
           </size>
          </property>
+         <property name="maximumSize">
+          <size>
+           <width>251</width>
+           <height>379</height>
+          </size>
+         </property>
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
          </property>
@@ -139,7 +145,10 @@
           <number>11</number>
          </property>
          <property name="text">
-          <string>AfficheQuiPrendBeaucoupDePlace</string>
+          <string/>
+         </property>
+         <property name="scaledContents">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
