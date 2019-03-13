@@ -157,4 +157,6 @@ void DeleteFilm(QSortFilterProxyModel *FilmSortingModel,QModelIndex IndexASuppr,
     FilmModel->select();
 }
 
+void modificationfilm(Film FilmAdd,QSqlTableModel *FilmModel,QSortFilterProxyModel *FilmSortingModel,QModelIndex IndexAModifier);
+
 #endif // TRAITEMENTDATA_H

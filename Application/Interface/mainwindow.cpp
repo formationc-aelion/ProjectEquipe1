@@ -235,7 +235,8 @@ void MainWindow::modif_pris_en_compte_Film()
 {
 
     QString titre = ui->leTitreFilm->text();
-    QString annee = ui->leAnneeFilm->text();
+    QString anneestring = ui->leAnneeFilm->text();
+    int annee=anneestring.toInt();
     QString genre = ui->leGenreFilm->text();
     QString duree = ui->leDureeFilm->text();
     QString vo = ui->leVOFilm->text();
@@ -248,18 +249,12 @@ void MainWindow::modif_pris_en_compte_Film()
         duree = QString("%1")
                 .arg(a);
     }
-    ui->leTitreFilm->setText(titre);
-    ui->leAnneeFilm->setText(annee);
-    ui->leGenreFilm->setText(genre);
-    ui->leDureeFilm->setText(duree);
-    ui->leVOFilm->setText(vo);
 
-
-    mFilmModel->submitAll();
+    Film Filmtemp (titre,genre,vo,annee,duree.toInt());
+    QModelIndex a_modifier = ui->lvListeRechercheFilm->currentIndex();
+    modificationfilm(Filmtemp,mFilmModel,mFilmSortingModel,a_modifier);
 
     VerouillageFilm();
-
-
 }
 
 
