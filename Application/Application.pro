@@ -36,8 +36,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     Staff.h
 
-    Staff.h
-
 SOURCES += \
     staff.cpp
 
