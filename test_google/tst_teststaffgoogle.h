@@ -2,12 +2,12 @@
 #include<QString>
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
-#include "staff.h"
+#include "Staff.h"
 
 using namespace testing;
 
 
-TEST(TestFilmConstructor, NewOne)
+TEST(TestStaffConstructor, NewOne)
 {
     //given
         QString titre = "Terminator";

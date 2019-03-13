@@ -34,8 +34,9 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    Staff.h
 
-    staff.h
+    Staff.h
 
 SOURCES += \
     staff.cpp
