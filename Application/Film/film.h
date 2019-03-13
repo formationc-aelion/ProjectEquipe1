@@ -28,6 +28,9 @@ public:
     QByteArray photo() const;
     void setPhoto(const QByteArray &photo);
 
+    QString info() const;
+    void setInfo(const QString &info);
+
 private:
     QString mTitre;
     QString mGenre;

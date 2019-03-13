@@ -20,33 +20,45 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    void Verouillage();
-    void Deverouillage();
+    void VerouillageFilm();
+    void VerouillageStaff();
+    void initialisation();
+    void ModelFilmSetup();
+    void ModelStaffSetup();
+    void DeverouillageFilm();
+    void DeverouillageStaff();
     int conversion_en_int();
     void DisplayFilm(Film f);
+    QDataWidgetMapper * MappingFilm(QSortFilterProxyModel *FilmSortingModel);
 
 private slots:
     void ajouter_Film();
-    void enregistrementAjout(Film film_ajoute);
+
+    void enregistrementAjoutFilm(Film filmAjoute);
     void conversion_min_en_heure();
     void apparition_texte();
-    void suppression();
-    void modification();
+    void suppressionFilm();
+    void modificationFilm();
    // void annuler();
-    void modif_pris_en_compte();
-    void masquer_texte();
-    void filtreRecherche(QString tri);
+    void modif_pris_en_compte_Film();
+    void masquer_texte_Film();
+    void filtreRechercheFilm(QString tri);
     void demasquage_btn();
     void cache_btn();
-    void annuler_la_modif();
-    void modification_photo();
+
     void image_loading(QModelIndex);
+
+    void annuler_la_modif_Film();
+    void modification_photo_Film();
+
 
 
 private:
     Ui::MainWindow *ui;
     QSqlTableModel *mFilmModel;
     QSortFilterProxyModel *mFilmSortingModel;
+    QSqlTableModel *mStaffModel;
+    QSortFilterProxyModel *mStaffSortingModel;
 
 };
 

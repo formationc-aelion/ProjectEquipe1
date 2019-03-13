@@ -7,11 +7,13 @@ CONFIG += thread
 
 
 HEADERS += \
-        tst_testconstructor.h
+        tst_testconstructor.h \
+    tst_teststaffgoogle.h
 
 SOURCES += \
         main.cpp
 		
 include(../Application/film.pri)
+include(../Application/staff.pri)
 
 INCLUDEPATH += ../Application/Film 

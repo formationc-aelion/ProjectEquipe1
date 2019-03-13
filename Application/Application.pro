@@ -33,5 +33,22 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
+<<<<<<< HEAD
 RESOURCES += \
     resource_image.qrc
+=======
+HEADERS += \
+    Staff.h \
+    traitementdataFilm.h \
+    traitementdatestaff.h
+
+
+SOURCES += \
+    staff.cpp \
+    traitementdata.cpp \
+    traitementdatastaff.cpp
+
+DISTFILES += \
+    staff.pri
+
+>>>>>>> 888d07b692d07cd543f3548b265e1d4032d957f4
