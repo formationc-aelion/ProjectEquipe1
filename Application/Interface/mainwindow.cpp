@@ -49,10 +49,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->leRechercheFilm,SIGNAL(textChanged(QString)),this,SLOT(filtreRechercheFilm(QString)));
 
     //Connection des boutons de l'interface Staff
-
-
-
-
 }
 
 MainWindow::~MainWindow()
@@ -73,10 +69,12 @@ void MainWindow::VerouillageFilm()
 void MainWindow::VerouillageStaff()
 {
     ui->leNomPrenom->setReadOnly(true);
-    ui->leSexe->setReadOnly(true);
-    ui->leProfession->setReadOnly(true);
-    ui->leNationalite->setReadOnly(true);
     ui->leDateNaissance->setReadOnly(true);
+    ui->leNationalite->setReadOnly(true);
+    ui->leNationaliteB->setReadOnly(true);
+    ui->leProfessionA->setReadOnly(true);
+    ui->leProfessionB->setReadOnly(true);
+    ui->leProfessionC->setReadOnly(true);
     ui->teBio->setReadOnly(true);
 }
 
@@ -129,11 +127,14 @@ void MainWindow::DeverouillageFilm()
 void MainWindow::DeverouillageStaff()
 {
     ui->leNomPrenom->setReadOnly(false);
-    ui->leSexe->setReadOnly(false);
-    ui->leProfession->setReadOnly(false);
-    ui->leNationalite->setReadOnly(false);
     ui->leDateNaissance->setReadOnly(false);
+    ui->leNationalite->setReadOnly(false);
+    ui->leNationaliteB->setReadOnly(false);
+    ui->leProfessionA->setReadOnly(false);
+    ui->leProfessionB->setReadOnly(false);
+    ui->leProfessionC->setReadOnly(false);
     ui->teBio->setReadOnly(false);
+    //
 }
 
 int MainWindow::conversion_en_int()
@@ -155,6 +156,23 @@ QDataWidgetMapper* MainWindow::MappingFilm(QSortFilterProxyModel *FilmSortingMod
     mapperfilm->addMapping(ui->lbAfficheFilm,6);
     mapperfilm->addMapping(ui->teInfoFilm, 7);
     return mapperfilm;
+}
+
+QDataWidgetMapper* MainWindow::MappingStaff(QSortFilterProxyModel *StaffSortingModel)
+{
+    QDataWidgetMapper *mapperstaff = new QDataWidgetMapper;
+    mapperstaff->setModel(StaffSortingModel);
+
+    mapperstaff->addMapping(ui->leNomPrenom, 1);
+    mapperstaff->addMapping(ui->leDateNaissance, 2);
+    mapperstaff->addMapping(ui->leNationalite, 3);
+    mapperstaff->addMapping(ui->leNationaliteB, 4);
+    mapperstaff->addMapping(ui->leProfessionA, 5);
+    mapperstaff->addMapping(ui->leProfessionB, 6);
+    mapperstaff->addMapping(ui->leProfessionC, 7);
+    mapperstaff->addMapping(ui->lbAffiche_3, 8);
+    mapperstaff->addMapping(ui->teBio, 9);
+    return mapperstaff;
 }
 
 void MainWindow::ajouter_Film()
