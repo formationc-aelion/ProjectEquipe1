@@ -207,32 +207,22 @@ void MainWindow::apparition_texte()
 
 void MainWindow::suppressionFilm()
 {
-
     int response = QMessageBox::critical(this,"Supprimer le fichier","Voulez-vous vraiment supprimer cette entrée de façon permanente?",
                                          QMessageBox::Yes | QMessageBox::No);
     if (response == QMessageBox::Yes)
     {
         QModelIndex a_supprimer = ui->lvListeRechercheFilm->currentIndex();
-        mFilmSortingModel->removeRow(a_supprimer.row());
+        DeleteFilm(mFilmSortingModel,a_supprimer,mFilmModel);
 
+        QMessageBox::information(this,"Suppression","Element supprimé");
         ui->leTitreFilm->clear();
         ui->leAnneeFilm->clear();
         ui->leGenreFilm->clear();
         ui->leDureeFilm->clear();
         ui->leVOFilm->clear();
         ui->teInfoFilm->clear();
-
-
-
-        QMessageBox::information(this,"Suppression","Element supprimé");
-
     }
-    mFilmModel->submitAll();
-    mFilmModel->select();
-
 }
-
-
 
 void MainWindow::modificationFilm()
 {
