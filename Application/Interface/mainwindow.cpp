@@ -45,6 +45,9 @@ MainWindow::MainWindow(QWidget *parent) :
             this,
 
             SLOT(conversion_min_en_heure()));
+    connect(ui->lvListeRechercheFilm->selectionModel(),SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
+            this,
+            SLOT(image_loading_Film(QModelIndex)));
 
 
 
