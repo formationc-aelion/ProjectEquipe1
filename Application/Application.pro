@@ -39,7 +39,8 @@ RESOURCES += \
 HEADERS += \
     Staff.h \
     traitementdataFilm.h \
-    traitementdatestaff.h
+    traitementdatestaff.h \
+    traitementdatastatistique.h
 
 
 SOURCES += \

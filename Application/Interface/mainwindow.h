@@ -8,7 +8,11 @@
 #include "ajouterfilm.h"
 #include<QDataWidgetMapper>
 #include<QFileDialog>
+<<<<<<< HEAD
 #include <Staff.h>
+=======
+#include<QComboBox>
+>>>>>>> a954df43ec76efa53881168d3926542d3d467fa1
 
 namespace Ui {
 class MainWindow;
@@ -35,20 +39,31 @@ public:
     QDataWidgetMapper * MappingFilm(QSortFilterProxyModel *FilmSortingModel);
     QDataWidgetMapper * MappingStaff(QSortFilterProxyModel *StaffSortingModel);
 
+<<<<<<< HEAD
     Staff staff() const;
+=======
+>>>>>>> a954df43ec76efa53881168d3926542d3d467fa1
 
 private slots:
     void ajouter_Film();
     void ajouter_Staff();
     void enregistrementAjoutFilm(Film filmAjoute);
+<<<<<<< HEAD
     void enregistrementAjoutStaff(Staff staffAjoute);
+=======
+
+>>>>>>> a954df43ec76efa53881168d3926542d3d467fa1
     void conversion_min_en_heure();
     void apparition_texte();
     void suppressionFilm();
     void suppressionStaff();
     void modificationFilm();
+<<<<<<< HEAD
     void modificationStaff();
    // void annuler();
+=======
+
+>>>>>>> a954df43ec76efa53881168d3926542d3d467fa1
     void modif_pris_en_compte_Film();
     void modif_pris_en_compte_Staff();
     void masquer_texte_Film();
@@ -59,12 +74,22 @@ private slots:
     void cache_btn();
     void cache_btnStaff();
 
-    void image_loading(QModelIndex);
+    void image_loading_Film(QModelIndex);
+    void image_loading_Staff(QModelIndex);
 
     void annuler_la_modif_Film();
+<<<<<<< HEAD
     void annuler_la_modif_Staff();
+=======
+
+>>>>>>> a954df43ec76efa53881168d3926542d3d467fa1
     void modification_photo_Film();
     void modification_photo_Staff();
+
+    void liaisonFilmReal();
+
+    void modification_photo_Staff();
+
 
 
 

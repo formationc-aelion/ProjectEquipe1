@@ -59,8 +59,8 @@ void modificationStaff(Staff staffAdd,QSqlTableModel *StaffModel,QSortFilterProx
     StaffSortingModel->setData(StaffSortingModel->index(IndexAModifier.row(),5),staffAdd.professionA());
     StaffSortingModel->setData(StaffSortingModel->index(IndexAModifier.row(),6),staffAdd.professionB());
     StaffSortingModel->setData(StaffSortingModel->index(IndexAModifier.row(),7),staffAdd.professionC());
-    StaffSortingModel->setData(StaffSortingModel->index(IndexAModifier.row(),7),staffAdd.photo());
-    StaffSortingModel->setData(StaffSortingModel->index(IndexAModifier.row(),7),staffAdd.bio());
+    StaffSortingModel->setData(StaffSortingModel->index(IndexAModifier.row(),8),staffAdd.photo());
+    StaffSortingModel->setData(StaffSortingModel->index(IndexAModifier.row(),9),staffAdd.bio());
     StaffModel->submitAll();
 
 }

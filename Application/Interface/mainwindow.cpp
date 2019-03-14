@@ -5,15 +5,16 @@
 #include "film.h"
 #include <QVariant>
 #include <QSqlRecord>
+#include<QSqlQuery>
 #include "traitementdataFilm.h"
 #include "traitementdatestaff.h"
+#include "traitementdatastatistique.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
 
     initialisation(); //Initialisation de l'interface
     ModelFilmSetup();// Création et liaison à l'interface du model de film ainsi que le tri
@@ -22,24 +23,23 @@ MainWindow::MainWindow(QWidget *parent) :
     QDataWidgetMapper * mapperfilm = MappingFilm( mFilmSortingModel ); // Création du Mapper pour l'interface Film
     QDataWidgetMapper * mapperstaff = MappingStaff( mStaffSortingModel ); // Création du Mapper pour l'interface Realisateur
 
+    //creation label Combobox
+    fillCbGenre(ui->cbGenreFilm);
+    fillCbGenre(ui->cbGenreStat);
+
+
     //Connection des boutons de l'interface Film
     connect(ui->lvListeRechercheFilm->selectionModel(),SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
             mapperfilm,
-
             SLOT(setCurrentModelIndex(QModelIndex)));
 
     connect(ui->lvListeRechercheFilm->selectionModel(),SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
             this,
-            SLOT(conversion_min_en_heure()));
 
+            SLOT(conversion_min_en_heure()));
     connect(ui->lvListeRechercheFilm->selectionModel(),SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
             this,
-            SLOT(image_loading()));
-
-
-    connect(ui->pbInfoFilm,SIGNAL(clicked()),this,SLOT(apparition_texte()));
-    connect(ui->pbMasquerFilm,SIGNAL(clicked()),this,SLOT(masquer_texte_Film()));
-
+            SLOT(image_loading_Film(QModelIndex)));
 
     connect(ui->pbSupprimerFilm,SIGNAL(clicked()),this,SLOT(suppressionFilm()));
 
@@ -50,19 +50,15 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->pbModifOKFilm,SIGNAL(clicked()),this, SLOT(cache_btn()));
     connect(ui->pbModifAnnulerFilm,SIGNAL(clicked()),this, SLOT(cache_btn()));
     connect(ui->pbModifAnnulerFilm,SIGNAL(clicked()),this, SLOT(annuler_la_modif_Film()));
-    connect(ui->load_picFilm,SIGNAL(clicked()),this,SLOT(modification_photo_Film()));
+    connect(ui->pbload_picFilm,SIGNAL(clicked()),this,SLOT(modification_photo_Film()));
     connect(ui->leRechercheFilm,SIGNAL(textChanged(QString)),this,SLOT(filtreRechercheFilm(QString)));
 
-    connect(ui->lvListeRechercheFilm->selectionModel(),SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
-            this,
-            SLOT(image_loading(QModelIndex)));
-
-
     connect(ui->pbInfoFilm,SIGNAL(clicked()),this,SLOT(apparition_texte()));
-    connect(ui->pbMasquerFilm,SIGNAL(clicked()),this,SLOT(masquer_texte()));
+    connect(ui->pbMasquerFilm,SIGNAL(clicked()),this,SLOT(masquer_texte_Film()));
 
 
     //Connection des boutons de l'interface Staff
+
     connect(ui->lvListeRechercheStaff->selectionModel(), SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
             mapperstaff,
             SLOT(setCurrentModelIndex(QModelIndex)));
@@ -79,12 +75,12 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->pbModifOKStaff,SIGNAL(clicked()),this, SLOT(cache_btnStaff()));
     connect(ui->pbModifAnnulerFilm,SIGNAL(clicked()),this, SLOT(cache_btnStaff()));
     connect(ui->pbModifAnnulerStaff,SIGNAL(clicked()),this, SLOT(annuler_la_modif_Staff()));
-    connect(ui->load_pic_3,SIGNAL(clicked()),this,SLOT(modification_photo_Staff()));
+    connect(ui->pbload_pic_staff,SIGNAL(clicked()),this,SLOT(modification_photo_Staff()));
 
     connect(ui->leRechercheStaff,SIGNAL(textChanged(QString)),this,SLOT(filtreRechercheStaff(QString)));
     connect(ui->lvListeRechercheStaff->selectionModel(),SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
             this,
-            SLOT(image_loading(QModelIndex)));
+            SLOT(image_loading_Staff()));
 
 }
 
@@ -122,13 +118,13 @@ void MainWindow::initialisation()
     ui->pbMasquerFilm->setVisible(false);
     ui->pbModifOKFilm->setHidden(true);
     ui->pbModifAnnulerFilm->setHidden(true);
-    ui->load_picFilm->setHidden(true);
+    ui->pbload_picFilm->setHidden(true);
     VerouillageFilm();
 
     //Initialisation de l'interface Staff
     ui->pbModifAnnulerStaff->setHidden(true);
     ui->pbModifOKStaff->setHidden(true);
-    ui->load_pic_3->setHidden(true);
+    ui->pbload_pic_staff->setHidden(true);
     VerouillageStaff();
 
 }
@@ -171,7 +167,6 @@ void MainWindow::DeverouillageStaff()
     ui->leProfessionB->setReadOnly(false);
     ui->leProfessionC->setReadOnly(false);
     ui->teBio->setReadOnly(false);
-    //
 }
 
 int MainWindow::conversion_en_int()
@@ -190,7 +185,6 @@ QDataWidgetMapper* MainWindow::MappingFilm(QSortFilterProxyModel *FilmSortingMod
     mapperfilm->addMapping(ui->leGenreFilm, 3);
     mapperfilm->addMapping(ui->leDureeFilm, 4);
     mapperfilm->addMapping(ui->leVOFilm, 5);
-    mapperfilm->addMapping(ui->lbAfficheFilm,6);
     mapperfilm->addMapping(ui->teInfoFilm, 7);
     return mapperfilm;
 }
@@ -207,10 +201,11 @@ QDataWidgetMapper* MainWindow::MappingStaff(QSortFilterProxyModel *StaffSortingM
     mapperstaff->addMapping(ui->leProfessionA, 5);
     mapperstaff->addMapping(ui->leProfessionB, 6);
     mapperstaff->addMapping(ui->leProfessionC, 7);
-    mapperstaff->addMapping(ui->lbAffiche_3, 8);
     mapperstaff->addMapping(ui->teBio, 9);
     return mapperstaff;
 }
+
+
 
 void MainWindow::ajouter_Film()
 {
@@ -243,7 +238,6 @@ void MainWindow::DisplayFilm(Film filmAjoute)
     ui->leGenreFilm->setText(filmAjoute.genre());
     ui->leDureeFilm->setText(QString::number(filmAjoute.duree()));
     ui->leVOFilm->setText(filmAjoute.langue());
-    //ui->leAffiche->setpixmap(film_ajoute.photo());
 }
 
 void MainWindow::DisplayStaff(Staff staffAjoute)
@@ -268,9 +262,7 @@ Staff MainWindow::validation_donneesStaff()
     mStaff.setProfessionA(ui->leProfessionA->text());
     mStaff.setProfessionB(ui->leProfessionB->text());
     mStaff.setProfessionC(ui->leProfessionC->text());
-    // ? ui->labelPhoto->pixmap()->toImage());
-    // mStaff.setBio(ui->teBio->text());
-
+    mStaff.setBio(ui->teBio->text());
 }
 
 void MainWindow::enregistrementAjoutFilm(Film filmAjoute)
@@ -310,7 +302,7 @@ void MainWindow::suppressionFilm()
         QModelIndex a_supprimer = ui->lvListeRechercheFilm->currentIndex();
         DeleteFilm(mFilmSortingModel,a_supprimer,mFilmModel);
 
-        QMessageBox::information(this,"Suppression","Element supprimé");
+
         ui->leTitreFilm->clear();
         ui->leAnneeFilm->clear();
         ui->leGenreFilm->clear();
@@ -341,7 +333,6 @@ void MainWindow::suppressionStaff()
         ui->leProfessionC->clear();
         ui->lbAffiche_3->clear();
         ui->teBio->clear();
-        //rajouter filmo ?
 
         mStaffModel->submitAll();
         mStaffModel->select();
@@ -362,41 +353,42 @@ void MainWindow::modificationStaff()
 
 void MainWindow::modif_pris_en_compte_Film()
 {
-
+    QModelIndex a_modifier = ui->lvListeRechercheFilm->currentIndex();
     QString titre = ui->leTitreFilm->text();
     QString anneestring = ui->leAnneeFilm->text();
     int annee=anneestring.toInt();
     QString genre = ui->leGenreFilm->text();
     QString duree = ui->leDureeFilm->text();
     QString vo = ui->leVOFilm->text();
-    //QString resume = ui->teInfo->text();
-
+    QString resume = ui->teInfoFilm->toPlainText();
+    QPixmap const *imageaModifier= ui->lbAfficheFilm->pixmap() ;
+    QByteArray imgByteArr= photoPixMaptoBytearray(imageaModifier);
     if (duree.contains('h', Qt::CaseInsensitive))
     {
         int a = conversion_en_int();
         duree = QString("%1")
                 .arg(a);
     }
-
-    Film Filmtemp (titre,genre,vo,annee,duree.toInt());
-    QModelIndex a_modifier = ui->lvListeRechercheFilm->currentIndex();
+    Film Filmtemp (titre,genre,vo,annee,duree.toInt(), imgByteArr ,resume);
     modificationfilm(Filmtemp,mFilmModel,mFilmSortingModel,a_modifier);
-    modification_photo_Film();
+
     VerouillageFilm();
 }
 
 void MainWindow::modif_pris_en_compte_Staff()
 {
     QString nom = ui->leNomPrenom->text();
-    // QDate dateNaissance = ui->leDateNaissance->text();
+    QDate dateNaissance;
     QString nationaliteA = ui->leNationalite->text();
     QString nationaliteB = ui->leNationaliteB->text();
     QString professionA = ui->leProfessionA->text();
     QString professionB = ui->leProfessionB->text();
     QString professionC = ui->leProfessionC->text();
-    // QString bio = ui->teBio->text();
+    QPixmap const *imageaModifier= ui->lbAffiche_Staff->pixmap() ;
+    QByteArray imgByteArr= photoPixMaptoBytearray(imageaModifier);
+    QString bio = ui->teBio->toPlainText();
 
-    Staff Stafftemp (nom,dateNaissance,nationaliteA,nationaliteB,professionA, professionB, professionC);
+    Staff Stafftemp (nom,dateNaissance,nationaliteA,nationaliteB,professionA, professionB, professionC, imgByteArr, bio);
     QModelIndex a_modifier = ui->lvListeRechercheStaff->currentIndex();
     modificationStaff(Stafftemp,mStaffModel,mStaffSortingModel,a_modifier);
     // modification_photo_Staff();
@@ -415,7 +407,6 @@ void MainWindow::masquer_texte_Film()
 void MainWindow::filtreRechercheFilm(QString tri)
 {
     QString find ="*"+tri+"*";
-
 
     mFilmSortingModel->setFilterWildcard(find);
     mFilmSortingModel->setFilterKeyColumn(1);
@@ -438,7 +429,7 @@ void MainWindow::demasquage_btn()
     ui->pbModifierFilm->setHidden(true);
     ui->pbModifOKFilm->setHidden(false);
     ui->pbModifAnnulerFilm->setHidden(false);
-    ui->load_picFilm->setHidden(false);
+    ui->pbload_picFilm->setHidden(false);
 
 }
 
@@ -447,14 +438,14 @@ void MainWindow::demasquage_btnStaff()
     ui->pbModifierStaff->setHidden(true);
     ui->pbModifOKStaff->setHidden(false);
     ui->pbModifAnnulerStaff->setHidden(false);
-    ui->load_pic_3->setHidden(false);
+    ui->pbload_pic_staff->setHidden(false);
 }
 
 void MainWindow::cache_btn()
 {
     ui->pbModifOKFilm->setHidden(true);
     ui->pbModifAnnulerFilm->setHidden(true);
-    ui->load_picFilm->setHidden(true);
+    ui->pbload_picFilm->setHidden(true);
     ui->pbModifierFilm->setHidden(false);
 }
 
@@ -462,13 +453,12 @@ void MainWindow::cache_btnStaff()
 {
     ui->pbModifOKStaff->setHidden(true);
     ui->pbModifAnnulerStaff->setHidden(true);
-    ui->load_pic_3->setHidden(true);
+    ui->pbload_pic_staff->setHidden(true);
     ui->pbModifierStaff->setHidden(false);
 }
 
 void MainWindow::annuler_la_modif_Film()
 {
-
 
     mFilmModel->select();
     VerouillageFilm();
@@ -484,9 +474,9 @@ void MainWindow::annuler_la_modif_Staff()
 void MainWindow::modification_photo_Film()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "c:/", tr("Image Files (*.png *.jpg *.bmp)"));
+
     QModelIndex a_modifier = ui->lvListeRechercheFilm->currentIndex();
     QImage img= QImage(fileName).scaled(ui->lbAfficheFilm->size(),Qt::KeepAspectRatio,Qt::SmoothTransformation);
-    photoImagetoBytearray(mFilmModel, mFilmSortingModel,a_modifier,img);
     ui->lbAfficheFilm->setPixmap(QPixmap::fromImage(img));
 
 }
@@ -495,9 +485,8 @@ void MainWindow::modification_photo_Staff()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "c:/", tr("Image Files (*.png *.jpg *.bmp)"));
     QModelIndex a_modifier = ui->lvListeRechercheStaff->currentIndex();
-    QImage img= QImage(fileName).scaled(ui->lbAffiche_3->size(),Qt::KeepAspectRatio,Qt::SmoothTransformation);
-    photoImagetoBytearray(mStaffModel, mStaffSortingModel,a_modifier,img);
-    ui->lbAffiche_3->setPixmap(QPixmap::fromImage(img));
+    QImage img= QImage(fileName).scaled(ui->lbAffiche_Staff->size(),Qt::KeepAspectRatio,Qt::SmoothTransformation);
+    ui->lbAffiche_Staff->setPixmap(QPixmap::fromImage(img));
 }
 
 Staff MainWindow::staff() const
@@ -505,10 +494,31 @@ Staff MainWindow::staff() const
     return mStaff;
 }
 
-void MainWindow::image_loading(QModelIndex indexselected)
+
+void MainWindow::image_loading_Film(QModelIndex indexselected)
 {
     QPixmap PhotoPix=photobytearraytoPixmap(mFilmSortingModel,indexselected);
 
     ui->lbAfficheFilm->setPixmap(PhotoPix);//affichage de la QPixmap
 }
+
+void MainWindow::image_loading_Staff(QModelIndex indexselected)
+{
+    QPixmap PhotoPix=photobytearraytoPixmap(mStaffSortingModel,indexselected);
+
+    ui->lbAffiche_Staff->setPixmap(PhotoPix);//affichage de la QPixmap
+
+}
+
+
+void MainWindow:: liaisonFilmReal()
+{
+
+    QSqlQueryModel *model = new QSqlQueryModel;
+    model->setQuery("SELECT staff.st_pseudo, film.fi_titre FROM staff JOIN film ON staff.id_staff = film.id_real");
+    ui->tvFilmo->setModel(model);
+}
+
+
+
 
