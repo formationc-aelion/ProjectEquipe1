@@ -56,16 +56,15 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //Connection des boutons de l'interface Staff
 
-            connect(ui->lvListeRechercheStaff->selectionModel(), SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
-                    mapperstaff,
-                    SLOT(setCurrentModelIndex(QModelIndex)));
+    connect(ui->lvListeRechercheStaff->selectionModel(), SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
+            mapperstaff,
+            SLOT(setCurrentModelIndex(QModelIndex)));
 
-    connect(ui->lvListeRechercheFilm->selectionModel(),SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
-            this,
-            SLOT()); // fonction image loading pour réalisateur à rajouter
+    connect(ui->lvListeRechercheStaff->selectionModel(),SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
+            this,SLOT(image_loading_Staff(QModelIndex))); // fonction image loading pour réalisateur à rajouter
 
-    connect(ui->pbSupprimerStaff,SIGNAL(clicked()),SLOT(suppressionStaff));
-    connect(ui->pbAjouterStaff, SIGNAL(clicked()),this, SLOT(ajouter_Staff));
+    connect(ui->pbSupprimerStaff,SIGNAL(clicked()),SLOT(suppressionStaff()));
+    connect(ui->pbAjouterStaff, SIGNAL(clicked()),this, SLOT(ajouter_Staff()));
     connect(ui->pbModifierStaff,SIGNAL(clicked()),this, SLOT(modificationStaff()));
     connect(ui->pbModifOKStaff,SIGNAL(clicked()),this, SLOT(modif_pris_en_compte_Staff()));
     connect(ui->pbModifierStaff,SIGNAL(clicked()),this, SLOT(demasquage_btnStaff()));
@@ -259,6 +258,8 @@ Staff MainWindow::validation_donneesStaff()
     mStaff.setProfessionB(ui->leProfessionB->text());
     mStaff.setProfessionC(ui->leProfessionC->text());
     mStaff.setBio(ui->teBio->toPlainText());
+
+    return mStaff;
 }
 
 void MainWindow::enregistrementAjoutFilm(Film filmAjoute)
@@ -464,8 +465,6 @@ void MainWindow::annuler_la_modif_Staff()
 void MainWindow::modification_photo_Film()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "c:/", tr("Image Files (*.png *.jpg *.bmp)"));
-
-    QModelIndex a_modifier = ui->lvListeRechercheFilm->currentIndex();
     QImage img= QImage(fileName).scaled(ui->lbAfficheFilm->size(),Qt::KeepAspectRatio,Qt::SmoothTransformation);
     ui->lbAfficheFilm->setPixmap(QPixmap::fromImage(img));
 
@@ -474,7 +473,6 @@ void MainWindow::modification_photo_Film()
 void MainWindow::modification_photo_Staff()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "c:/", tr("Image Files (*.png *.jpg *.bmp)"));
-    QModelIndex a_modifier = ui->lvListeRechercheStaff->currentIndex();
     QImage img= QImage(fileName).scaled(ui->lbAffiche_Staff->size(),Qt::KeepAspectRatio,Qt::SmoothTransformation);
     ui->lbAffiche_Staff->setPixmap(QPixmap::fromImage(img));
 }

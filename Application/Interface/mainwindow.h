@@ -53,12 +53,7 @@ public:
     void suppressionFilm();
     void suppressionStaff();
     void modificationFilm();
-
     void modificationStaff();
-    // void annuler();
-
-
-
     void modif_pris_en_compte_Film();
     void modif_pris_en_compte_Staff();
     void masquer_texte_Film();
