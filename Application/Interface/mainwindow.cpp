@@ -63,6 +63,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->lvListeRechercheStaff->selectionModel(),SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
             this,SLOT(image_loading_Staff(QModelIndex))); // fonction image loading pour réalisateur à rajouter
 
+    connect(ui->lvListeRechercheStaff->selectionModel(),SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
+                this,SLOT(liaisonFilmReal(QModelIndex)));
+
+
     connect(ui->pbSupprimerStaff,SIGNAL(clicked()),SLOT(suppressionStaff()));
     connect(ui->pbAjouterStaff, SIGNAL(clicked()),this, SLOT(ajouter_Staff()));
     connect(ui->pbModifierStaff,SIGNAL(clicked()),this, SLOT(modificationStaff()));
@@ -97,7 +101,7 @@ void MainWindow::VerouillageFilm()
 void MainWindow::VerouillageStaff()
 {
     ui->leNomPrenom->setReadOnly(true);
-    ui->leDateNaissance->setReadOnly(true);
+    ui->deDateNaissance->setReadOnly(true);
     ui->leNationalite->setReadOnly(true);
     ui->leNationaliteB->setReadOnly(true);
     ui->leProfessionA->setReadOnly(true);
@@ -155,7 +159,7 @@ void MainWindow::DeverouillageFilm()
 void MainWindow::DeverouillageStaff()
 {
     ui->leNomPrenom->setReadOnly(false);
-    ui->leDateNaissance->setReadOnly(false);
+    ui->deDateNaissance->setReadOnly(false);
     ui->leNationalite->setReadOnly(false);
     ui->leNationaliteB->setReadOnly(false);
     ui->leProfessionA->setReadOnly(false);
@@ -190,7 +194,7 @@ QDataWidgetMapper* MainWindow::MappingStaff(QSortFilterProxyModel *StaffSortingM
     mapperstaff->setModel(StaffSortingModel);
 
     mapperstaff->addMapping(ui->leNomPrenom, 1);
-    mapperstaff->addMapping(ui->leDateNaissance, 2);
+    mapperstaff->addMapping(ui->deDateNaissance, 2);
     mapperstaff->addMapping(ui->leNationalite, 3);
     mapperstaff->addMapping(ui->leNationaliteB, 4);
     mapperstaff->addMapping(ui->leProfessionA, 5);
@@ -321,7 +325,7 @@ void MainWindow::suppressionStaff()
         DeleteStaff(mStaffSortingModel,a_supprimer,mStaffModel);
         QMessageBox::information(this,"Suppression","Element supprimé");
         ui->leNomPrenom->clear();
-        ui->leDateNaissance->clear();
+        ui->deDateNaissance->clear();
         ui->leNationalite->clear();
         ui->leNationaliteB->clear();
         ui->leProfessionA->clear();
@@ -498,10 +502,29 @@ void MainWindow::image_loading_Staff(QModelIndex indexselected)
 
 }
 
-void MainWindow:: liaisonFilmReal()
-{
+    void MainWindow:: liaisonFilmReal(QModelIndex indexRealisateur)
+    {
+       QSqlDatabase db = QSqlDatabase::database("connexionBDDfilm");
+       QVariant indexreal = mStaffSortingModel->data(mStaffSortingModel->index(indexRealisateur.row(),0));
+       qDebug ()<<indexreal;
+       int index = indexreal.toInt();
+        qDebug ()<<index;
 
-    QSqlQueryModel *model = new QSqlQueryModel;
-    model->setQuery("SELECT staff.st_pseudo, film.fi_titre FROM staff JOIN film ON staff.id_staff = film.id_real");
-    ui->tvFilmo->setModel(model);
-}
+
+        QSqlQuery filmo (db);
+        QString realisateur = ui->leNomPrenom->text();
+        filmo.prepare("SELECT film.fi_titre, film.fi_date_sortie, film.fi_genre FROM staff JOIN film ON staff.id_staff = film.id_real WHERE id_staff = :index ");
+        filmo.bindValue(":index",index);
+        filmo.exec();
+
+        QSqlQueryModel *model = new QSqlQueryModel;
+        model->setQuery(filmo);
+        model->setHeaderData(0, Qt::Horizontal, tr("Titre"));
+        model->setHeaderData(1, Qt::Horizontal, tr("Année"));
+        model->setHeaderData(2, Qt::Horizontal, tr("Genre"));
+        ui->tvFilmo->setModel(model);
+        ui->tvFilmo->show();
+
+    }
+
+

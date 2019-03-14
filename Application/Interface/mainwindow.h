@@ -69,7 +69,7 @@ public:
     void annuler_la_modif_Staff();
     void modification_photo_Film();
     void modification_photo_Staff();
-    void liaisonFilmReal();
+    void liaisonFilmReal(QModelIndex);
 
 
 
