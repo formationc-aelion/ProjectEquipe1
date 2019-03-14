@@ -304,6 +304,7 @@ void MainWindow::modif_pris_en_compte_Film()
     Film Filmtemp (titre,genre,vo,annee,duree.toInt());
     QModelIndex a_modifier = ui->lvListeRechercheFilm->currentIndex();
     modificationfilm(Filmtemp,mFilmModel,mFilmSortingModel,a_modifier);
+    modification_photo_Film();
     VerouillageFilm();
 }
 
@@ -366,8 +367,9 @@ void MainWindow::annuler_la_modif_Film()
 void MainWindow::modification_photo_Film()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "c:/", tr("Image Files (*.png *.jpg *.bmp)"));
-
+    QModelIndex a_modifier = ui->lvListeRechercheFilm->currentIndex();
     QImage img= QImage(fileName).scaled(ui->lbAfficheFilm->size(),Qt::KeepAspectRatio,Qt::SmoothTransformation);
+    photoImagetoBytearray(mFilmModel, mFilmSortingModel,a_modifier,img);
     ui->lbAfficheFilm->setPixmap(QPixmap::fromImage(img));
 
 }
