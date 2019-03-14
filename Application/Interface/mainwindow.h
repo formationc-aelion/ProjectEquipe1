@@ -38,11 +38,12 @@ private slots:
     void ajouter_Film();
 
     void enregistrementAjoutFilm(Film filmAjoute);
+
     void conversion_min_en_heure();
     void apparition_texte();
     void suppressionFilm();
     void modificationFilm();
-   // void annuler();
+
     void modif_pris_en_compte_Film();
     void masquer_texte_Film();
     void filtreRechercheFilm(QString tri);
@@ -50,11 +51,17 @@ private slots:
     void demasquage_btn();
     void cache_btn();
 
-    void image_loading(QModelIndex);
+    void image_loading_Film(QModelIndex);
+    void image_loading_Staff(QModelIndex);
 
     void annuler_la_modif_Film();
+
     void modification_photo_Film();
+
     void liaisonFilmReal();
+
+    void modification_photo_Staff();
+
 
 
 

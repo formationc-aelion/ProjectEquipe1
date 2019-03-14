@@ -24,6 +24,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QDataWidgetMapper * mapperfilm = MappingFilm( mFilmSortingModel ); // Création du Mapper pour l'interface Film
 
     QDataWidgetMapper * mapperstaff = MappingStaff( mStaffSortingModel );
+
     //creation label Combobox
     fillCbGenre(ui->cbGenreFilm);
     fillCbGenre(ui->cbGenreStat);
@@ -32,7 +33,6 @@ MainWindow::MainWindow(QWidget *parent) :
     //Connection des boutons de l'interface Film
     connect(ui->lvListeRechercheFilm->selectionModel(),SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
             mapperfilm,
-
             SLOT(setCurrentModelIndex(QModelIndex)));
 
     connect(ui->lvListeRechercheStaff->selectionModel(),SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
@@ -43,7 +43,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->lvListeRechercheFilm->selectionModel(),SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
             this,
+
             SLOT(conversion_min_en_heure()));
+
 
 
     connect(ui->pbInfoFilm,SIGNAL(clicked()),this,SLOT(apparition_texte()));
@@ -63,17 +65,19 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->leRechercheFilm,SIGNAL(textChanged(QString)),this,SLOT(filtreRechercheFilm(QString)));
     connect(ui->leRechercheStaff,SIGNAL(textChanged(QString)),this,SLOT(filtreRechercheStaff(QString)));
 
-
-    connect(ui->lvListeRechercheFilm->selectionModel(),SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
-            this,
-            SLOT(image_loading(QModelIndex)));
-
-
     connect(ui->pbInfoFilm,SIGNAL(clicked()),this,SLOT(apparition_texte()));
     connect(ui->pbMasquerFilm,SIGNAL(clicked()),this,SLOT(masquer_texte_Film()));
 
 
     //Connection des boutons de l'interface Staff
+    connect(ui->lvListeRechercheFilm->selectionModel(),SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
+            mapperfilm,
+            SLOT(setCurrentModelIndex(QModelIndex)));
+
+    connect(ui->lvListeRechercheStaff->selectionModel(),SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
+            this,
+            SLOT(image_loading_Staff()));
+
     connect(ui->pbModifierStaff, SIGNAL(clicked()),this, SLOT());
     connect(ui->pbModifOKStaff,SIGNAL(clicked()), this, SLOT());
     connect(ui->pbModifAnnulerStaff, SIGNAL(clicked()),SLOT());
@@ -183,7 +187,6 @@ QDataWidgetMapper* MainWindow::MappingFilm(QSortFilterProxyModel *FilmSortingMod
     mapperfilm->addMapping(ui->leGenreFilm, 3);
     mapperfilm->addMapping(ui->leDureeFilm, 4);
     mapperfilm->addMapping(ui->leVOFilm, 5);
-    //mapperfilm->addMapping(ui->lbAfficheFilm,6);
     mapperfilm->addMapping(ui->teInfoFilm, 7);
     return mapperfilm;
 }
@@ -233,7 +236,6 @@ void MainWindow::DisplayFilm(Film filmAjoute)
     ui->leGenreFilm->setText(filmAjoute.genre());
     ui->leDureeFilm->setText(QString::number(filmAjoute.duree()));
     ui->leVOFilm->setText(filmAjoute.langue());
-    //ui->leAffiche->setpixmap(film_ajoute.photo());
 }
 
 
@@ -332,7 +334,6 @@ void MainWindow::filtreRechercheFilm(QString tri)
 {
     QString find ="*"+tri+"*";
 
-
     mFilmSortingModel->setFilterWildcard(find);
     mFilmSortingModel->setFilterKeyColumn(1);
 }
@@ -385,13 +386,23 @@ void MainWindow::modification_photo_Film()
 
 }
 
-void MainWindow::image_loading(QModelIndex indexselected)
+void MainWindow::modification_photo_Staff()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "c:/", tr("Image Files (*.png *.jpg *.bmp)"));
+
+    QModelIndex a_modifier = ui->lvListeRechercheStaff->currentIndex();
+    QImage img= QImage(fileName).scaled(ui->lbAffiche_3->size(),Qt::KeepAspectRatio,Qt::SmoothTransformation);
+    ui->lbAffiche_3->setPixmap(QPixmap::fromImage(img));
+}
+
+void MainWindow::image_loading_Film(QModelIndex indexselected)
 {
     QPixmap PhotoPix=photobytearraytoPixmap(mFilmSortingModel,indexselected);
 
     ui->lbAfficheFilm->setPixmap(PhotoPix);//affichage de la QPixmap
 
 }
+
 
 void MainWindow:: liaisonFilmReal()
 {
@@ -400,3 +411,13 @@ void MainWindow:: liaisonFilmReal()
     model->setQuery("SELECT staff.st_pseudo, film.fi_titre FROM staff JOIN film ON staff.id_staff = film.id_real");
     ui->tvFilmo->setModel(model);
 }
+
+void MainWindow::image_loading_Staff(QModelIndex indexselected)
+{
+    QPixmap PhotoPix=photobytearraytoPixmap(mFilmSortingModel,indexselected);
+
+    ui->lbAffiche_3->setPixmap(PhotoPix);//affichage de la QPixmap
+
+}
+
+
