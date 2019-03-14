@@ -4,6 +4,7 @@
 #include "film.h"
 #include<QBuffer>
 #include <QIntValidator>
+#include "traitementdataFilm.h"
 
 AjouterFilm::AjouterFilm(QWidget *parent) :
     QDialog(parent),
@@ -31,11 +32,10 @@ Film AjouterFilm::validation_donnees()
     mFilm.setGenre(ui->leAjoutGenre->text());
     mFilm.setDuree(ui->leAjoutDuree->text().toInt());
     mFilm.setLangue(ui->leAjoutVO->text());
+    mFilm.setInfo(ui->teAjoutInfo->toPlainText());
 
-    // att: .h QString infoFilm = ui-> teAjoutInfo->toPlainText();
-    // ? ui->labelPhoto->pixmap()->toImage());
 
-    return mFilm;
+            return mFilm;
 }
 
 void AjouterFilm::AjoutPhoto()
@@ -43,10 +43,10 @@ void AjouterFilm::AjoutPhoto()
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "c:/", tr("Image Files (*.png *.jpg *.bmp)"));
     QImage img= QImage(fileName).scaled(ui->lbAjoutAffiche->size(),Qt::KeepAspectRatio,Qt::SmoothTransformation);
     ui->lbAjoutAffiche->setPixmap(QPixmap::fromImage(img));
-
-        QByteArray byteArray;
-        QBuffer buffer(&byteArray);
-        img.save(&buffer, "PNG");
-        mFilm.setPhoto(byteArray);
+    mCheminImg=fileName;
+    QByteArray byteArray;
+    QBuffer buffer(&byteArray);
+    img.save(&buffer, "PNG");
+    mFilm.setPhoto(byteArray);
 
 }
