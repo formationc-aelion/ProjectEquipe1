@@ -186,11 +186,14 @@ QPixmap photobytearraytoPixmap(QSortFilterProxyModel *FilmSortingModel, QModelIn
 }
 
 
-void photoImagetoBytearray(QSortFilterProxyModel *FilmSortingModel, QModelIndex indexselected, QImage image)
+QByteArray photoPixMaptoBytearray(const QPixmap *image )
 {
-    QByteArray byteArray;
-    QBuffer buffer(&byteArray);
-            image.save(&buffer, "PNG");
-    QString photoBase64 = QString::fromLatin1(byteArray.toBase64().data());
-    FilmSortingModel->setData(FilmSortingModel->index(indexselected.row(),6),photoBase64);
+
+    // Preparation of our QPixmap
+    QByteArray bArray;
+    QBuffer buffer(&bArray);
+    buffer.open(QIODevice::WriteOnly);
+    image->save(&buffer, "PNG");
+
+    return bArray;
 }

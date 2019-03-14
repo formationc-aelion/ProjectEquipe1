@@ -5,8 +5,10 @@
 #include "film.h"
 #include <QVariant>
 #include <QSqlRecord>
+#include<QSqlQuery>
 #include "traitementdataFilm.h"
 #include "traitementdatestaff.h"
+#include "traitementdatastatistique.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -21,11 +23,23 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QDataWidgetMapper * mapperfilm = MappingFilm( mFilmSortingModel ); // Création du Mapper pour l'interface Film
 
+    QDataWidgetMapper * mapperstaff = MappingStaff( mStaffSortingModel );
+    //creation label Combobox
+    fillCbGenre(ui->cbGenreFilm);
+    fillCbGenre(ui->cbGenreStat);
+
+
     //Connection des boutons de l'interface Film
     connect(ui->lvListeRechercheFilm->selectionModel(),SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
             mapperfilm,
 
             SLOT(setCurrentModelIndex(QModelIndex)));
+
+    connect(ui->lvListeRechercheStaff->selectionModel(),SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
+            mapperstaff,
+
+            SLOT(setCurrentModelIndex(QModelIndex)));
+
 
     connect(ui->lvListeRechercheFilm->selectionModel(),SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
             this,
@@ -45,7 +59,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->pbModifOKFilm,SIGNAL(clicked()),this, SLOT(cache_btn()));
     connect(ui->pbModifAnnulerFilm,SIGNAL(clicked()),this, SLOT(cache_btn()));
     connect(ui->pbModifAnnulerFilm,SIGNAL(clicked()),this, SLOT(annuler_la_modif_Film()));
-    connect(ui->load_picFilm,SIGNAL(clicked()),this,SLOT(modification_photo_Film()));
+    connect(ui->pbload_picFilm,SIGNAL(clicked()),this,SLOT(modification_photo_Film()));
     connect(ui->leRechercheFilm,SIGNAL(textChanged(QString)),this,SLOT(filtreRechercheFilm(QString)));
     connect(ui->leRechercheStaff,SIGNAL(textChanged(QString)),this,SLOT(filtreRechercheStaff(QString)));
 
@@ -101,13 +115,13 @@ void MainWindow::initialisation()
     ui->pbMasquerFilm->setVisible(false);
     ui->pbModifOKFilm->setHidden(true);
     ui->pbModifAnnulerFilm->setHidden(true);
-    ui->load_picFilm->setHidden(true);
+    ui->pbload_picFilm->setHidden(true);
     VerouillageFilm();
 
     //Initialisation de l'interface Staff
     ui->pbModifAnnulerStaff->setHidden(true);
     ui->pbModifOKStaff->setHidden(true);
-    ui->load_pic_3->setHidden(true);
+    ui->pbload_pic_staff->setHidden(true);
     VerouillageStaff();
 
 }
@@ -169,7 +183,7 @@ QDataWidgetMapper* MainWindow::MappingFilm(QSortFilterProxyModel *FilmSortingMod
     mapperfilm->addMapping(ui->leGenreFilm, 3);
     mapperfilm->addMapping(ui->leDureeFilm, 4);
     mapperfilm->addMapping(ui->leVOFilm, 5);
-    mapperfilm->addMapping(ui->lbAfficheFilm,6);
+    //mapperfilm->addMapping(ui->lbAfficheFilm,6);
     mapperfilm->addMapping(ui->teInfoFilm, 7);
     return mapperfilm;
 }
@@ -190,6 +204,8 @@ QDataWidgetMapper* MainWindow::MappingStaff(QSortFilterProxyModel *StaffSortingM
     mapperstaff->addMapping(ui->teBio, 9);
     return mapperstaff;
 }
+
+
 
 void MainWindow::ajouter_Film()
 {
@@ -281,25 +297,25 @@ void MainWindow::modificationFilm()
 
 void MainWindow::modif_pris_en_compte_Film()
 {
-
+    QModelIndex a_modifier = ui->lvListeRechercheFilm->currentIndex();
     QString titre = ui->leTitreFilm->text();
     QString anneestring = ui->leAnneeFilm->text();
     int annee=anneestring.toInt();
     QString genre = ui->leGenreFilm->text();
     QString duree = ui->leDureeFilm->text();
     QString vo = ui->leVOFilm->text();
-    //QString resume = ui->teInfo->text();
-
+    QString resume = ui->teInfoFilm->toPlainText();
+    QPixmap const *imageaModifier= ui->lbAfficheFilm->pixmap() ;
+    QByteArray imgByteArr= photoPixMaptoBytearray(imageaModifier);
     if (duree.contains('h', Qt::CaseInsensitive))
     {
         int a = conversion_en_int();
         duree = QString("%1")
                 .arg(a);
     }
-
-    Film Filmtemp (titre,genre,vo,annee,duree.toInt());
-    QModelIndex a_modifier = ui->lvListeRechercheFilm->currentIndex();
+    Film Filmtemp (titre,genre,vo,annee,duree.toInt(), imgByteArr ,resume);
     modificationfilm(Filmtemp,mFilmModel,mFilmSortingModel,a_modifier);
+
     VerouillageFilm();
 }
 
@@ -338,7 +354,7 @@ void MainWindow::demasquage_btn()
     ui->pbModifierFilm->setHidden(true);
     ui->pbModifOKFilm->setHidden(false);
     ui->pbModifAnnulerFilm->setHidden(false);
-    ui->load_picFilm->setHidden(false);
+    ui->pbload_picFilm->setHidden(false);
 
 }
 
@@ -346,7 +362,7 @@ void MainWindow::cache_btn()
 {
     ui->pbModifOKFilm->setHidden(true);
     ui->pbModifAnnulerFilm->setHidden(true);
-    ui->load_picFilm->setHidden(true);
+    ui->pbload_picFilm->setHidden(true);
     ui->pbModifierFilm->setHidden(false);
 }
 
@@ -363,6 +379,7 @@ void MainWindow::modification_photo_Film()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "c:/", tr("Image Files (*.png *.jpg *.bmp)"));
 
+    QModelIndex a_modifier = ui->lvListeRechercheFilm->currentIndex();
     QImage img= QImage(fileName).scaled(ui->lbAfficheFilm->size(),Qt::KeepAspectRatio,Qt::SmoothTransformation);
     ui->lbAfficheFilm->setPixmap(QPixmap::fromImage(img));
 
@@ -373,6 +390,7 @@ void MainWindow::image_loading(QModelIndex indexselected)
     QPixmap PhotoPix=photobytearraytoPixmap(mFilmSortingModel,indexselected);
 
     ui->lbAfficheFilm->setPixmap(PhotoPix);//affichage de la QPixmap
+
 }
 
 void MainWindow:: liaisonFilmReal()

@@ -24,6 +24,7 @@ private slots:
 
 private:
     Ui::AjouterFilm *ui;
+    QString mCheminImg;
     Film mFilm;
 };
 

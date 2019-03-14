@@ -18,7 +18,7 @@
     <item row="0" column="0">
      <widget class="QTabWidget" name="tbwSelectType">
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="Film">
        <attribute name="title">
@@ -117,6 +117,12 @@
           <layout class="QGridLayout" name="gridLayout_4">
            <item row="0" column="2" rowspan="8">
             <widget class="QLabel" name="lbAfficheFilm">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="minimumSize">
               <size>
                <width>251</width>
@@ -131,6 +137,9 @@
              </property>
              <property name="text">
               <string>AfficheQuiPrendBeaucoupDePlace</string>
+             </property>
+             <property name="scaledContents">
+              <bool>true</bool>
              </property>
             </widget>
            </item>
@@ -227,7 +236,7 @@
             </widget>
            </item>
            <item row="8" column="2">
-            <widget class="QPushButton" name="load_picFilm">
+            <widget class="QPushButton" name="pbload_picFilm">
              <property name="text">
               <string>Charger Photo</string>
              </property>
@@ -378,7 +387,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="load_pic_3">
+              <widget class="QPushButton" name="pbload_pic_staff">
                <property name="text">
                 <string>Charger Photo</string>
                </property>
@@ -468,6 +477,151 @@
          </widget>
         </item>
        </layout>
+      </widget>
+      <widget class="QWidget" name="Statistiques">
+       <attribute name="title">
+        <string>Statistiques</string>
+       </attribute>
+       <widget class="QLabel" name="lbRealisateur">
+        <property name="geometry">
+         <rect>
+          <x>60</x>
+          <y>60</y>
+          <width>101</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Réalisateurs</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="lbFilms">
+        <property name="geometry">
+         <rect>
+          <x>60</x>
+          <y>130</y>
+          <width>55</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Films</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="lbFilmReal">
+        <property name="geometry">
+         <rect>
+          <x>60</x>
+          <y>200</y>
+          <width>121</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Film par réalisateur</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="lbFilmGenre">
+        <property name="geometry">
+         <rect>
+          <x>60</x>
+          <y>270</y>
+          <width>111</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Film par genre</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="lbFilmNat">
+        <property name="geometry">
+         <rect>
+          <x>60</x>
+          <y>350</y>
+          <width>141</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Film par nationalité</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="lbRealStat">
+        <property name="geometry">
+         <rect>
+          <x>290</x>
+          <y>60</y>
+          <width>55</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="lbFilmsStat">
+        <property name="geometry">
+         <rect>
+          <x>290</x>
+          <y>130</y>
+          <width>55</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="lbFilmRealStat">
+        <property name="geometry">
+         <rect>
+          <x>290</x>
+          <y>200</y>
+          <width>55</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="lbFilmGenreStat">
+        <property name="geometry">
+         <rect>
+          <x>390</x>
+          <y>270</y>
+          <width>55</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="lbFilmNatStat">
+        <property name="geometry">
+         <rect>
+          <x>290</x>
+          <y>350</y>
+          <width>55</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+       </widget>
+       <widget class="QComboBox" name="cbGenreStat">
+        <property name="geometry">
+         <rect>
+          <x>280</x>
+          <y>270</y>
+          <width>73</width>
+          <height>22</height>
+         </rect>
+        </property>
+       </widget>
       </widget>
      </widget>
     </item>

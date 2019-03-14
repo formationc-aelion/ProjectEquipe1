@@ -27,5 +27,5 @@ void DeleteFilm(QSortFilterProxyModel *FilmSortingModel,QModelIndex IndexASuppr,
 void modificationfilm(Film FilmAdd,QSqlTableModel *FilmModel,QSortFilterProxyModel *FilmSortingModel,QModelIndex IndexAModifier);
 
 QPixmap photobytearraytoPixmap(QSortFilterProxyModel *FilmSortingModel, QModelIndex indexselected);
-void photoImagetoBytearray(QSortFilterProxyModel *FilmSortingModel, QModelIndex indexselected,QImage image);
+QByteArray photoPixMaptoBytearray( const QPixmap *image);
 #endif // TRAITEMENTDATA_H
