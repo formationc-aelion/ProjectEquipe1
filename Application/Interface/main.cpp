@@ -11,10 +11,10 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL", "connexionBDDfilm");
-    db.setHostName("127.0.0.1");
+    db.setHostName("10.31.1.72");
     db.setDatabaseName("Application_Film");
     db.setUserName("postgres");
-    db.setPassword("");
+    db.setPassword("password");
     bool ok = db.open();
 
     qDebug ()<< ok;
