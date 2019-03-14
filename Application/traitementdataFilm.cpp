@@ -164,16 +164,15 @@ void modificationfilm(Film FilmAdd,QSqlTableModel *FilmModel,QSortFilterProxyMod
 
 }
 
-QPixmap photobytearraytoPixmap(QSortFilterProxyModel *FilmSortingModel, QModelIndex indexselected)
+QPixmap photobytearraytoPixmap(QSortFilterProxyModel *SortingModel, QModelIndex indexselected)
 {
-    QVariant datacurrent = FilmSortingModel->data(FilmSortingModel->index(indexselected.row(), 6));
+    QVariant datacurrent = SortingModel->data(SortingModel->index(indexselected.row(), 6));
     QByteArray image = datacurrent.toByteArray();
 
     QImage affiche;
 
     if (image.isNull())
     {
-        //voir comment le gerer dans le .qrc
         affiche.load(":/img/Interface/img/cinema.jpg");
     }
     else
@@ -188,8 +187,6 @@ QPixmap photobytearraytoPixmap(QSortFilterProxyModel *FilmSortingModel, QModelIn
 
 QByteArray photoPixMaptoBytearray(const QPixmap *image )
 {
-
-    // Preparation of our QPixmap
     QByteArray bArray;
     QBuffer buffer(&bArray);
     buffer.open(QIODevice::WriteOnly);
