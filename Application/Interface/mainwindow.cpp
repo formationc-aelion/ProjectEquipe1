@@ -30,16 +30,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //Connection des boutons de l'interface Film
     connect(ui->lvListeRechercheFilm->selectionModel(),SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
-            mapperfilm,
-            SLOT(setCurrentModelIndex(QModelIndex)));
+            mapperfilm,SLOT(setCurrentModelIndex(QModelIndex)));
 
     connect(ui->lvListeRechercheFilm->selectionModel(),SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
-            this,
+            this,SLOT(image_loading_Film(QModelIndex)));
 
-            SLOT(conversion_min_en_heure()));
     connect(ui->lvListeRechercheFilm->selectionModel(),SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
-            this,
-            SLOT(image_loading_Film(QModelIndex)));
+            this,SLOT(conversion_min_en_heure()));
 
     connect(ui->pbSupprimerFilm,SIGNAL(clicked()),this,SLOT(suppressionFilm()));
 
@@ -59,9 +56,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //Connection des boutons de l'interface Staff
 
-    connect(ui->lvListeRechercheStaff->selectionModel(), SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
-            mapperstaff,
-            SLOT(setCurrentModelIndex(QModelIndex)));
+            connect(ui->lvListeRechercheStaff->selectionModel(), SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
+                    mapperstaff,
+                    SLOT(setCurrentModelIndex(QModelIndex)));
 
     connect(ui->lvListeRechercheFilm->selectionModel(),SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
             this,
@@ -79,8 +76,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->leRechercheStaff,SIGNAL(textChanged(QString)),this,SLOT(filtreRechercheStaff(QString)));
     connect(ui->lvListeRechercheStaff->selectionModel(),SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
-            this,
-            SLOT(image_loading_Staff()));
+            mapperstaff,SLOT(setCurrentModelIndex(QModelIndex)));
 
 }
 
@@ -302,7 +298,6 @@ void MainWindow::suppressionFilm()
         QModelIndex a_supprimer = ui->lvListeRechercheFilm->currentIndex();
         DeleteFilm(mFilmSortingModel,a_supprimer,mFilmModel);
 
-
         ui->leTitreFilm->clear();
         ui->leAnneeFilm->clear();
         ui->leGenreFilm->clear();
@@ -331,7 +326,7 @@ void MainWindow::suppressionStaff()
         ui->leProfessionA->clear();
         ui->leProfessionB->clear();
         ui->leProfessionC->clear();
-        ui->lbAffiche_3->clear();
+        ui->lbAffiche_Staff->clear();
         ui->teBio->clear();
 
         mStaffModel->submitAll();
@@ -416,13 +411,9 @@ void MainWindow::filtreRechercheStaff(QString tri)
 {
     QString find ="*"+tri+"*";
 
-
     mStaffSortingModel->setFilterWildcard(find);
     mStaffSortingModel->setFilterKeyColumn(1);
 }
-
-
-
 
 void MainWindow::demasquage_btn()
 {
@@ -451,6 +442,7 @@ void MainWindow::cache_btn()
 
 void MainWindow::cache_btnStaff()
 {
+
     ui->pbModifOKStaff->setHidden(true);
     ui->pbModifAnnulerStaff->setHidden(true);
     ui->pbload_pic_staff->setHidden(true);
@@ -459,10 +451,8 @@ void MainWindow::cache_btnStaff()
 
 void MainWindow::annuler_la_modif_Film()
 {
-
     mFilmModel->select();
     VerouillageFilm();
-
 }
 
 void MainWindow::annuler_la_modif_Staff()
@@ -510,7 +500,6 @@ void MainWindow::image_loading_Staff(QModelIndex indexselected)
 
 }
 
-
 void MainWindow:: liaisonFilmReal()
 {
 
@@ -518,7 +507,3 @@ void MainWindow:: liaisonFilmReal()
     model->setQuery("SELECT staff.st_pseudo, film.fi_titre FROM staff JOIN film ON staff.id_staff = film.id_real");
     ui->tvFilmo->setModel(model);
 }
-
-
-
-
