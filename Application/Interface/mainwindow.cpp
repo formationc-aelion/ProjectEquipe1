@@ -24,7 +24,6 @@ MainWindow::MainWindow(QWidget *parent) :
     //Connection des boutons de l'interface Film
     connect(ui->lvListeRechercheFilm->selectionModel(),SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
             mapperfilm,
-
             SLOT(setCurrentModelIndex(QModelIndex)));
 
     connect(ui->lvListeRechercheFilm->selectionModel(),SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
@@ -33,7 +32,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->lvListeRechercheFilm->selectionModel(),SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
             this,
-            SLOT(image_loading()));
+            SLOT(image_loading_Film()));
 
 
     connect(ui->pbInfoFilm,SIGNAL(clicked()),this,SLOT(apparition_texte()));
@@ -53,17 +52,19 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->leRechercheFilm,SIGNAL(textChanged(QString)),this,SLOT(filtreRechercheFilm(QString)));
     connect(ui->leRechercheStaff,SIGNAL(textChanged(QString)),this,SLOT(filtreRechercheStaff(QString)));
 
-
-    connect(ui->lvListeRechercheFilm->selectionModel(),SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
-            this,
-            SLOT(image_loading(QModelIndex)));
-
-
     connect(ui->pbInfoFilm,SIGNAL(clicked()),this,SLOT(apparition_texte()));
     connect(ui->pbMasquerFilm,SIGNAL(clicked()),this,SLOT(masquer_texte()));
 
 
     //Connection des boutons de l'interface Staff
+    connect(ui->lvListeRechercheFilm->selectionModel(),SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
+            mapperfilm,
+            SLOT(setCurrentModelIndex(QModelIndex)));
+
+    connect(ui->lvListeRechercheStaff->selectionModel(),SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
+            this,
+            SLOT(image_loading_Staff()));
+
     connect(ui->pbModifierStaff, SIGNAL(clicked()),this, SLOT());
     connect(ui->pbModifOKStaff,SIGNAL(clicked()), this, SLOT());
     connect(ui->pbModifAnnulerStaff, SIGNAL(clicked()),SLOT());
@@ -319,7 +320,6 @@ void MainWindow::filtreRechercheFilm(QString tri)
 {
     QString find ="*"+tri+"*";
 
-
     mFilmSortingModel->setFilterWildcard(find);
     mFilmSortingModel->setFilterKeyColumn(1);
 }
@@ -372,11 +372,28 @@ void MainWindow::modification_photo_Film()
 
 }
 
-void MainWindow::image_loading(QModelIndex indexselected)
+void MainWindow::modification_photo_Staff()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "c:/", tr("Image Files (*.png *.jpg *.bmp)"));
+
+    QModelIndex a_modifier = ui->lvListeRechercheStaff->currentIndex();
+    QImage img= QImage(fileName).scaled(ui->lbAffiche_3->size(),Qt::KeepAspectRatio,Qt::SmoothTransformation);
+    ui->lbAffiche_3->setPixmap(QPixmap::fromImage(img));
+}
+
+void MainWindow::image_loading_Film(QModelIndex indexselected)
 {
     QPixmap PhotoPix=photobytearraytoPixmap(mFilmSortingModel,indexselected);
 
     ui->lbAfficheFilm->setPixmap(PhotoPix);//affichage de la QPixmap
+
+}
+
+void MainWindow::image_loading_Staff(QModelIndex indexselected)
+{
+    QPixmap PhotoPix=photobytearraytoPixmap(mFilmSortingModel,indexselected);
+
+    ui->lbAffiche_3->setPixmap(PhotoPix);//affichage de la QPixmap
 
 }
 
