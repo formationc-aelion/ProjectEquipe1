@@ -97,7 +97,7 @@ void MainWindow::VerouillageFilm()
 void MainWindow::VerouillageStaff()
 {
     ui->leNomPrenom->setReadOnly(true);
-    ui->leDateNaissance->setReadOnly(true);
+    ui->deDateNaissance->setReadOnly(true);
     ui->leNationalite->setReadOnly(true);
     ui->leNationaliteB->setReadOnly(true);
     ui->leProfessionA->setReadOnly(true);
@@ -155,7 +155,7 @@ void MainWindow::DeverouillageFilm()
 void MainWindow::DeverouillageStaff()
 {
     ui->leNomPrenom->setReadOnly(false);
-    ui->leDateNaissance->setReadOnly(false);
+    ui->deDateNaissance->setReadOnly(false);
     ui->leNationalite->setReadOnly(false);
     ui->leNationaliteB->setReadOnly(false);
     ui->leProfessionA->setReadOnly(false);
@@ -190,7 +190,7 @@ QDataWidgetMapper* MainWindow::MappingStaff(QSortFilterProxyModel *StaffSortingM
     mapperstaff->setModel(StaffSortingModel);
 
     mapperstaff->addMapping(ui->leNomPrenom, 1);
-    mapperstaff->addMapping(ui->leDateNaissance, 2);
+    mapperstaff->addMapping(ui->deDateNaissance, 2);
     mapperstaff->addMapping(ui->leNationalite, 3);
     mapperstaff->addMapping(ui->leNationaliteB, 4);
     mapperstaff->addMapping(ui->leProfessionA, 5);
@@ -238,7 +238,7 @@ void MainWindow::DisplayFilm(Film filmAjoute)
 void MainWindow::DisplayStaff(Staff staffAjoute)
 {
     ui->leNomPrenom->setText(staffAjoute.nom());
-    // QDATE ? ui->leDateNaissance->setText(QString::number(filmAjoute.dateNaissance()));
+    ui->deDateNaissance->setDate(staffAjoute.dateNaissance());
     ui->leNationalite->setText(staffAjoute.nationaliteA());
     ui->leNationaliteB->setText(staffAjoute.nationaliteB());
     ui->leProfessionA->setText(staffAjoute.professionA());
@@ -251,7 +251,7 @@ void MainWindow::DisplayStaff(Staff staffAjoute)
 Staff MainWindow::validation_donneesStaff()
 {
     mStaff.setNom(ui->leNomPrenom->text());
-    //mStaff.setDateNaissance(ui->leDateNaissance->text().toInt());
+    mStaff.setDateNaissance(ui->deDateNaissance->date());
     mStaff.setNationaliteA(ui->leNationalite->text());
     mStaff.setNationaliteB(ui->leNationaliteB->text());
     mStaff.setProfessionA(ui->leProfessionA->text());
@@ -321,7 +321,7 @@ void MainWindow::suppressionStaff()
         DeleteStaff(mStaffSortingModel,a_supprimer,mStaffModel);
         QMessageBox::information(this,"Suppression","Element supprimé");
         ui->leNomPrenom->clear();
-        ui->leDateNaissance->clear();
+        ui->deDateNaissance->clear();
         ui->leNationalite->clear();
         ui->leNationaliteB->clear();
         ui->leProfessionA->clear();
@@ -374,7 +374,7 @@ void MainWindow::modif_pris_en_compte_Film()
 void MainWindow::modif_pris_en_compte_Staff()
 {
     QString nom = ui->leNomPrenom->text();
-    QDate dateNaissance;
+    QDate dateNaissance = ui->deDateNaissance->date();
     QString nationaliteA = ui->leNationalite->text();
     QString nationaliteB = ui->leNationaliteB->text();
     QString professionA = ui->leProfessionA->text();
