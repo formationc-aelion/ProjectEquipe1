@@ -105,13 +105,13 @@ void MainWindow::initialisation()
     ui->pbMasquerFilm->setVisible(false);
     ui->pbModifOKFilm->setHidden(true);
     ui->pbModifAnnulerFilm->setHidden(true);
-    ui->load_picFilm->setHidden(true);
+    ui->pbload_picFilm->setHidden(true);
     VerouillageFilm();
 
     //Initialisation de l'interface Staff
     ui->pbModifAnnulerStaff->setHidden(true);
     ui->pbModifOKStaff->setHidden(true);
-    ui->load_pic_3->setHidden(true);
+    ui->pbload_pic_staff->setHidden(true);
     VerouillageStaff();
 
 }
@@ -343,7 +343,7 @@ void MainWindow::demasquage_btn()
     ui->pbModifierFilm->setHidden(true);
     ui->pbModifOKFilm->setHidden(false);
     ui->pbModifAnnulerFilm->setHidden(false);
-    ui->load_picFilm->setHidden(false);
+    ui->pbload_picFilm->setHidden(false);
 
 }
 
@@ -351,7 +351,7 @@ void MainWindow::cache_btn()
 {
     ui->pbModifOKFilm->setHidden(true);
     ui->pbModifAnnulerFilm->setHidden(true);
-    ui->load_picFilm->setHidden(true);
+    ui->pbload_picFilm->setHidden(true);
     ui->pbModifierFilm->setHidden(false);
 }
 
