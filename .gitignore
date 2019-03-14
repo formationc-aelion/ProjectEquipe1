@@ -30,4 +30,5 @@
 *.exe
 *.out
 *.app
-ProjectEquipe1.pro.user
+*.pro.user
+*.autosave
