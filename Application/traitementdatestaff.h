@@ -10,6 +10,7 @@
 #include <QSqlTableModel>
 #include <QSortFilterProxyModel>
 #include <mainwindow.h>
+#include <QSqlQuery>
 
 QSqlTableModel* CreateModelStaff (QObject *ui);
 

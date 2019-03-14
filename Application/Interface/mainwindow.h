@@ -52,6 +52,7 @@ private slots:
 
     void annuler_la_modif_Film();
     void modification_photo_Film();
+    void liaisonFilmReal();
 
 
 

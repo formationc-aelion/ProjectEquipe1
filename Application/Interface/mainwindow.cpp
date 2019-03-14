@@ -31,10 +31,6 @@ MainWindow::MainWindow(QWidget *parent) :
             this,
             SLOT(conversion_min_en_heure()));
 
-    connect(ui->lvListeRechercheFilm->selectionModel(),SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
-            this,
-            SLOT(image_loading()));
-
 
     connect(ui->pbInfoFilm,SIGNAL(clicked()),this,SLOT(apparition_texte()));
     connect(ui->pbMasquerFilm,SIGNAL(clicked()),this,SLOT(masquer_texte_Film()));
@@ -60,7 +56,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     connect(ui->pbInfoFilm,SIGNAL(clicked()),this,SLOT(apparition_texte()));
-    connect(ui->pbMasquerFilm,SIGNAL(clicked()),this,SLOT(masquer_texte()));
+    connect(ui->pbMasquerFilm,SIGNAL(clicked()),this,SLOT(masquer_texte_Film()));
 
 
     //Connection des boutons de l'interface Staff
@@ -258,7 +254,7 @@ void MainWindow::suppressionFilm()
         QModelIndex a_supprimer = ui->lvListeRechercheFilm->currentIndex();
         DeleteFilm(mFilmSortingModel,a_supprimer,mFilmModel);
 
-        QMessageBox::information(this,"Suppression","Element supprimé");
+
         ui->leTitreFilm->clear();
         ui->leAnneeFilm->clear();
         ui->leGenreFilm->clear();
@@ -379,3 +375,10 @@ void MainWindow::image_loading(QModelIndex indexselected)
     ui->lbAfficheFilm->setPixmap(PhotoPix);//affichage de la QPixmap
 }
 
+void MainWindow:: liaisonFilmReal()
+{
+
+    QSqlQueryModel *model = new QSqlQueryModel;
+    model->setQuery("SELECT staff.st_pseudo, film.fi_titre FROM staff JOIN film ON staff.id_staff = film.id_real");
+    ui->tvFilmo->setModel(model);
+}
