@@ -242,7 +242,7 @@ void MainWindow::DisplayFilm(Film filmAjoute)
 void MainWindow::DisplayStaff(Staff staffAjoute)
 {
     ui->leNomPrenom->setText(staffAjoute.nom());
-    // QDATE ? ui->leDateNaissance->setText(QString::number(filmAjoute.dateNaissance()));
+    ui->deDateNaissance->setDate(staffAjoute.dateNaissance());
     ui->leNationalite->setText(staffAjoute.nationaliteA());
     ui->leNationaliteB->setText(staffAjoute.nationaliteB());
     ui->leProfessionA->setText(staffAjoute.professionA());
@@ -255,7 +255,7 @@ void MainWindow::DisplayStaff(Staff staffAjoute)
 Staff MainWindow::validation_donneesStaff()
 {
     mStaff.setNom(ui->leNomPrenom->text());
-    //mStaff.setDateNaissance(ui->leDateNaissance->text().toInt());
+    mStaff.setDateNaissance(ui->deDateNaissance->date());
     mStaff.setNationaliteA(ui->leNationalite->text());
     mStaff.setNationaliteB(ui->leNationaliteB->text());
     mStaff.setProfessionA(ui->leProfessionA->text());
@@ -378,7 +378,7 @@ void MainWindow::modif_pris_en_compte_Film()
 void MainWindow::modif_pris_en_compte_Staff()
 {
     QString nom = ui->leNomPrenom->text();
-    QDate dateNaissance;
+    QDate dateNaissance = ui->deDateNaissance->date();
     QString nationaliteA = ui->leNationalite->text();
     QString nationaliteB = ui->leNationaliteB->text();
     QString professionA = ui->leProfessionA->text();
