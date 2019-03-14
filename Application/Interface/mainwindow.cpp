@@ -49,7 +49,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->pbModifOKFilm,SIGNAL(clicked()),this, SLOT(cache_btn()));
     connect(ui->pbModifAnnulerFilm,SIGNAL(clicked()),this, SLOT(cache_btn()));
     connect(ui->pbModifAnnulerFilm,SIGNAL(clicked()),this, SLOT(annuler_la_modif_Film()));
-    connect(ui->load_picFilm,SIGNAL(clicked()),this,SLOT(modification_photo_Film()));
+    connect(ui->pbload_picFilm,SIGNAL(clicked()),this,SLOT(modification_photo_Film()));
     connect(ui->leRechercheFilm,SIGNAL(textChanged(QString)),this,SLOT(filtreRechercheFilm(QString)));
     connect(ui->leRechercheStaff,SIGNAL(textChanged(QString)),this,SLOT(filtreRechercheStaff(QString)));
 
@@ -364,11 +364,10 @@ void MainWindow::annuler_la_modif_Film()
 
 }
 
-void MainWindow::modification_photo_Film()
+void MainWindow::modification_photo_Film(QString filename)
 {
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "c:/", tr("Image Files (*.png *.jpg *.bmp)"));
     QModelIndex a_modifier = ui->lvListeRechercheFilm->currentIndex();
-    QImage img= QImage(fileName).scaled(ui->lbAfficheFilm->size(),Qt::KeepAspectRatio,Qt::SmoothTransformation);
+    QImage img= QImage(filename).scaled(ui->lbAfficheFilm->size(),Qt::KeepAspectRatio,Qt::SmoothTransformation);
     photoImagetoBytearray(mFilmModel, mFilmSortingModel,a_modifier,img);
     ui->lbAfficheFilm->setPixmap(QPixmap::fromImage(img));
 
