@@ -187,7 +187,7 @@ QDataWidgetMapper* MainWindow::MappingFilm(QSortFilterProxyModel *FilmSortingMod
     mapperfilm->addMapping(ui->leGenreFilm, 3);
     mapperfilm->addMapping(ui->leDureeFilm, 4);
     mapperfilm->addMapping(ui->leVOFilm, 5);
-    mapperfilm->addMapping(ui->lbAfficheFilm,6);
+    //mapperfilm->addMapping(ui->lbAfficheFilm,6);
     mapperfilm->addMapping(ui->teInfoFilm, 7);
     return mapperfilm;
 }
@@ -301,26 +301,25 @@ void MainWindow::modificationFilm()
 
 void MainWindow::modif_pris_en_compte_Film()
 {
-
+    QModelIndex a_modifier = ui->lvListeRechercheFilm->currentIndex();
     QString titre = ui->leTitreFilm->text();
     QString anneestring = ui->leAnneeFilm->text();
     int annee=anneestring.toInt();
     QString genre = ui->leGenreFilm->text();
     QString duree = ui->leDureeFilm->text();
     QString vo = ui->leVOFilm->text();
-    //QString resume = ui->teInfo->text();
-
+    QString resume = ui->teInfoFilm->toPlainText();
+    QPixmap const *imageaModifier= ui->lbAfficheFilm->pixmap() ;
+    QByteArray imgByteArr= photoPixMaptoBytearray(imageaModifier);
     if (duree.contains('h', Qt::CaseInsensitive))
     {
         int a = conversion_en_int();
         duree = QString("%1")
                 .arg(a);
     }
-
-    Film Filmtemp (titre,genre,vo,annee,duree.toInt());
-    QModelIndex a_modifier = ui->lvListeRechercheFilm->currentIndex();
+    Film Filmtemp (titre,genre,vo,annee,duree.toInt(), imgByteArr ,resume);
     modificationfilm(Filmtemp,mFilmModel,mFilmSortingModel,a_modifier);
-    //modification_photo_Film();
+
     VerouillageFilm();
 }
 
@@ -380,11 +379,12 @@ void MainWindow::annuler_la_modif_Film()
 
 }
 
-void MainWindow::modification_photo_Film(QString filename)
+void MainWindow::modification_photo_Film()
 {
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "c:/", tr("Image Files (*.png *.jpg *.bmp)"));
+
     QModelIndex a_modifier = ui->lvListeRechercheFilm->currentIndex();
-    QImage img= QImage(filename).scaled(ui->lbAfficheFilm->size(),Qt::KeepAspectRatio,Qt::SmoothTransformation);
-    photoImagetoBytearray(mFilmModel, mFilmSortingModel,a_modifier,img);
+    QImage img= QImage(fileName).scaled(ui->lbAfficheFilm->size(),Qt::KeepAspectRatio,Qt::SmoothTransformation);
     ui->lbAfficheFilm->setPixmap(QPixmap::fromImage(img));
 
 }
@@ -394,5 +394,6 @@ void MainWindow::image_loading(QModelIndex indexselected)
     QPixmap PhotoPix=photobytearraytoPixmap(mFilmSortingModel,indexselected);
 
     ui->lbAfficheFilm->setPixmap(PhotoPix);//affichage de la QPixmap
+
 }
 

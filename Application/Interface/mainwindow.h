@@ -53,7 +53,7 @@ private slots:
     void image_loading(QModelIndex);
 
     void annuler_la_modif_Film();
-    void modification_photo_Film(QString filename);
+    void modification_photo_Film();
 
 
 
