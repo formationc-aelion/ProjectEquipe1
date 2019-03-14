@@ -5,8 +5,10 @@
 #include "film.h"
 #include <QVariant>
 #include <QSqlRecord>
+#include<QSqlQuery>
 #include "traitementdataFilm.h"
 #include "traitementdatestaff.h"
+#include "traitementdatastatistique.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -21,19 +23,27 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QDataWidgetMapper * mapperfilm = MappingFilm( mFilmSortingModel ); // Création du Mapper pour l'interface Film
 
+    QDataWidgetMapper * mapperstaff = MappingStaff( mStaffSortingModel );
+    //creation label Combobox
+    fillCbGenre(ui->cbGenreFilm);
+    fillCbGenre(ui->cbGenreStat);
+
+
     //Connection des boutons de l'interface Film
     connect(ui->lvListeRechercheFilm->selectionModel(),SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
             mapperfilm,
 
             SLOT(setCurrentModelIndex(QModelIndex)));
 
-    connect(ui->lvListeRechercheFilm->selectionModel(),SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
-            this,
-            SLOT(conversion_min_en_heure()));
+    connect(ui->lvListeRechercheStaff->selectionModel(),SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
+            mapperstaff,
+
+            SLOT(setCurrentModelIndex(QModelIndex)));
+
 
     connect(ui->lvListeRechercheFilm->selectionModel(),SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
             this,
-            SLOT(image_loading()));
+            SLOT(conversion_min_en_heure()));
 
 
     connect(ui->pbInfoFilm,SIGNAL(clicked()),this,SLOT(apparition_texte()));
@@ -60,7 +70,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     connect(ui->pbInfoFilm,SIGNAL(clicked()),this,SLOT(apparition_texte()));
-    connect(ui->pbMasquerFilm,SIGNAL(clicked()),this,SLOT(masquer_texte()));
+    connect(ui->pbMasquerFilm,SIGNAL(clicked()),this,SLOT(masquer_texte_Film()));
 
 
     //Connection des boutons de l'interface Staff
@@ -195,6 +205,8 @@ QDataWidgetMapper* MainWindow::MappingStaff(QSortFilterProxyModel *StaffSortingM
     return mapperstaff;
 }
 
+
+
 void MainWindow::ajouter_Film()
 {
     AjouterFilm af; // déclaration de la boîte de dialogue affichage
@@ -258,7 +270,7 @@ void MainWindow::suppressionFilm()
         QModelIndex a_supprimer = ui->lvListeRechercheFilm->currentIndex();
         DeleteFilm(mFilmSortingModel,a_supprimer,mFilmModel);
 
-        QMessageBox::information(this,"Suppression","Element supprimé");
+
         ui->leTitreFilm->clear();
         ui->leAnneeFilm->clear();
         ui->leGenreFilm->clear();
@@ -303,6 +315,7 @@ void MainWindow::modif_pris_en_compte_Film()
     }
     Film Filmtemp (titre,genre,vo,annee,duree.toInt(), imgByteArr ,resume);
     modificationfilm(Filmtemp,mFilmModel,mFilmSortingModel,a_modifier);
+
     VerouillageFilm();
 }
 
@@ -380,3 +393,10 @@ void MainWindow::image_loading(QModelIndex indexselected)
 
 }
 
+void MainWindow:: liaisonFilmReal()
+{
+
+    QSqlQueryModel *model = new QSqlQueryModel;
+    model->setQuery("SELECT staff.st_pseudo, film.fi_titre FROM staff JOIN film ON staff.id_staff = film.id_real");
+    ui->tvFilmo->setModel(model);
+}
