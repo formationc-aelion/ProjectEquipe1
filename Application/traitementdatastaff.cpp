@@ -49,7 +49,7 @@ void DeleteStaff(QSortFilterProxyModel *StaffSortingModel,QModelIndex IndexASupp
     StaffModel->select();
 }
 
-void modificationStaff(Staff staffAdd,QSqlTableModel *StaffModel,QSortFilterProxyModel *StaffSortingModel,QModelIndex IndexAModifier)
+void modificationstaff(Staff staffAdd,QSqlTableModel *StaffModel,QSortFilterProxyModel *StaffSortingModel,QModelIndex IndexAModifier)
 {
 
     StaffSortingModel->setData(StaffSortingModel->index(IndexAModifier.row(),1),staffAdd.nom());

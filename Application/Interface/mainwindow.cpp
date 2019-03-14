@@ -258,7 +258,7 @@ Staff MainWindow::validation_donneesStaff()
     mStaff.setProfessionA(ui->leProfessionA->text());
     mStaff.setProfessionB(ui->leProfessionB->text());
     mStaff.setProfessionC(ui->leProfessionC->text());
-    mStaff.setBio(ui->teBio->text());
+    mStaff.setBio(ui->teBio->toPlainText());
 }
 
 void MainWindow::enregistrementAjoutFilm(Film filmAjoute)
@@ -385,7 +385,7 @@ void MainWindow::modif_pris_en_compte_Staff()
 
     Staff Stafftemp (nom,dateNaissance,nationaliteA,nationaliteB,professionA, professionB, professionC, imgByteArr, bio);
     QModelIndex a_modifier = ui->lvListeRechercheStaff->currentIndex();
-    modificationStaff(Stafftemp,mStaffModel,mStaffSortingModel,a_modifier);
+    modificationstaff(Stafftemp,mStaffModel,mStaffSortingModel,a_modifier);
     // modification_photo_Staff();
     VerouillageStaff();
 }
