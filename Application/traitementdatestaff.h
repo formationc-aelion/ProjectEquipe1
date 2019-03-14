@@ -22,5 +22,5 @@ void DeleteStaff(QSortFilterProxyModel *StaffSortingModel,QModelIndex IndexASupp
 
 void modificationstaff(Staff staffAdd,QSqlTableModel *StaffModel,QSortFilterProxyModel *StaffSortingModel,QModelIndex IndexAModifier);
 
-
+QPixmap photobytearraytoPixmapStaff(QSortFilterProxyModel *FilmSortingModel, QModelIndex indexselected);
 #endif // TRAITEMENTDATESTAFF_H

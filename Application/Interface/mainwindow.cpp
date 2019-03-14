@@ -496,7 +496,7 @@ void MainWindow::image_loading_Film(QModelIndex indexselected)
 
 void MainWindow::image_loading_Staff(QModelIndex indexselected)
 {
-    QPixmap PhotoPix=photobytearraytoPixmap(mStaffSortingModel,indexselected);
+    QPixmap PhotoPix=photobytearraytoPixmapStaff(mStaffSortingModel,indexselected);
 
     ui->lbAffiche_Staff->setPixmap(PhotoPix);//affichage de la QPixmap
 

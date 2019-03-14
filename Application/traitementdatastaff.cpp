@@ -66,3 +66,23 @@ void modificationstaff(Staff staffAdd,QSqlTableModel *StaffModel,QSortFilterProx
 
 }
 
+QPixmap photobytearraytoPixmapStaff(QSortFilterProxyModel *SortingModel, QModelIndex indexselected)
+{
+    QVariant datacurrent = SortingModel->data(SortingModel->index(indexselected.row(), 8));
+    QByteArray image = datacurrent.toByteArray();
+
+    QImage affiche;
+
+    if (image.isNull())
+    {
+        affiche.load(":/img/Interface/img/cinema.jpg");
+    }
+    else
+    {
+        affiche.loadFromData(image);//conversion
+    }
+    QPixmap PhotoPix;
+    PhotoPix.convertFromImage(affiche);
+    return PhotoPix;
+}
+
