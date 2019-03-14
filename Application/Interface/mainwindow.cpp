@@ -5,8 +5,10 @@
 #include "film.h"
 #include <QVariant>
 #include <QSqlRecord>
+#include<QSqlQuery>
 #include "traitementdataFilm.h"
 #include "traitementdatestaff.h"
+#include "traitementdatastatistique.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -21,11 +23,23 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QDataWidgetMapper * mapperfilm = MappingFilm( mFilmSortingModel ); // Création du Mapper pour l'interface Film
 
+    QDataWidgetMapper * mapperstaff = MappingStaff( mStaffSortingModel );
+    //creation label Combobox
+    fillCbGenre(ui->cbGenreFilm);
+    fillCbGenre(ui->cbGenreStat);
+
+
     //Connection des boutons de l'interface Film
     connect(ui->lvListeRechercheFilm->selectionModel(),SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
             mapperfilm,
 
             SLOT(setCurrentModelIndex(QModelIndex)));
+
+    connect(ui->lvListeRechercheStaff->selectionModel(),SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
+            mapperstaff,
+
+            SLOT(setCurrentModelIndex(QModelIndex)));
+
 
     connect(ui->lvListeRechercheFilm->selectionModel(),SIGNAL(currentRowChanged (QModelIndex,QModelIndex)),
             this,
@@ -60,7 +74,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     connect(ui->pbInfoFilm,SIGNAL(clicked()),this,SLOT(apparition_texte()));
-    connect(ui->pbMasquerFilm,SIGNAL(clicked()),this,SLOT(masquer_texte()));
+    connect(ui->pbMasquerFilm,SIGNAL(clicked()),this,SLOT(masquer_texte_Film()));
 
 
     //Connection des boutons de l'interface Staff
@@ -105,13 +119,13 @@ void MainWindow::initialisation()
     ui->pbMasquerFilm->setVisible(false);
     ui->pbModifOKFilm->setHidden(true);
     ui->pbModifAnnulerFilm->setHidden(true);
-    ui->load_picFilm->setHidden(true);
+    ui->pbload_picFilm->setHidden(true);
     VerouillageFilm();
 
     //Initialisation de l'interface Staff
     ui->pbModifAnnulerStaff->setHidden(true);
     ui->pbModifOKStaff->setHidden(true);
-    ui->load_pic_3->setHidden(true);
+    ui->pbload_pic_staff->setHidden(true);
     VerouillageStaff();
 
 }
@@ -194,6 +208,8 @@ QDataWidgetMapper* MainWindow::MappingStaff(QSortFilterProxyModel *StaffSortingM
     mapperstaff->addMapping(ui->teBio, 9);
     return mapperstaff;
 }
+
+
 
 void MainWindow::ajouter_Film()
 {
@@ -304,7 +320,7 @@ void MainWindow::modif_pris_en_compte_Film()
     Film Filmtemp (titre,genre,vo,annee,duree.toInt());
     QModelIndex a_modifier = ui->lvListeRechercheFilm->currentIndex();
     modificationfilm(Filmtemp,mFilmModel,mFilmSortingModel,a_modifier);
-    modification_photo_Film();
+    //modification_photo_Film();
     VerouillageFilm();
 }
 
@@ -343,7 +359,7 @@ void MainWindow::demasquage_btn()
     ui->pbModifierFilm->setHidden(true);
     ui->pbModifOKFilm->setHidden(false);
     ui->pbModifAnnulerFilm->setHidden(false);
-    ui->load_picFilm->setHidden(false);
+    ui->pbload_picFilm->setHidden(false);
 
 }
 
@@ -351,7 +367,7 @@ void MainWindow::cache_btn()
 {
     ui->pbModifOKFilm->setHidden(true);
     ui->pbModifAnnulerFilm->setHidden(true);
-    ui->load_picFilm->setHidden(true);
+    ui->pbload_picFilm->setHidden(true);
     ui->pbModifierFilm->setHidden(false);
 }
 

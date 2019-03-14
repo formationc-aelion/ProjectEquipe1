@@ -8,6 +8,7 @@
 #include "ajouterfilm.h"
 #include<QDataWidgetMapper>
 #include<QFileDialog>
+#include<QComboBox>
 
 namespace Ui {
 class MainWindow;
@@ -31,6 +32,7 @@ public:
     void DisplayFilm(Film f);
     QDataWidgetMapper * MappingFilm(QSortFilterProxyModel *FilmSortingModel);
     QDataWidgetMapper * MappingStaff(QSortFilterProxyModel *StaffSortingModel);
+
 
 private slots:
     void ajouter_Film();

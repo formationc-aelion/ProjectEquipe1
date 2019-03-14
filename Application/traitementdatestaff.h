@@ -16,6 +16,7 @@ QSqlTableModel* CreateModelStaff (QObject *ui);
 QSortFilterProxyModel* CreateSortingModelStaff (QObject *ui,QSqlTableModel *StaffModel);
 
 void AjoutStaff(Staff staffAdd,QSqlTableModel *StaffModel );
+
 void DeleteStaff(QSortFilterProxyModel *StaffSortingModel,QModelIndex IndexASuppr,QSqlTableModel *StaffModel);
 
 void modificationStaff(Staff staffAdd,QSqlTableModel *StaffModel,QSortFilterProxyModel *StaffSortingModel,QModelIndex IndexAModifier);
