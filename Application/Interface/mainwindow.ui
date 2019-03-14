@@ -18,7 +18,7 @@
     <item row="0" column="0">
      <widget class="QTabWidget" name="tbwSelectType">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="Film">
        <attribute name="title">
@@ -127,6 +127,12 @@
               <size>
                <width>251</width>
                <height>371</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>251</width>
+               <height>540</height>
               </size>
              </property>
              <property name="frameShape">
@@ -372,6 +378,12 @@
                <property name="minimumSize">
                 <size>
                  <width>150</width>
+                 <height>250</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>199</width>
                  <height>250</height>
                 </size>
                </property>
