@@ -38,7 +38,6 @@ void AjoutStaff(Staff staffAdd,QSqlTableModel *StaffModel )
     StaffModel->setData(StaffModel->index(lastrow,8),staffAdd.photo());
     StaffModel->setData(StaffModel->index(lastrow,9),staffAdd.bio());
 
-
     StaffModel->submitAll();
 }
 
@@ -63,7 +62,6 @@ void modificationStaff(Staff staffAdd,QSqlTableModel *StaffModel,QSortFilterProx
     StaffSortingModel->setData(StaffSortingModel->index(IndexAModifier.row(),7),staffAdd.photo());
     StaffSortingModel->setData(StaffSortingModel->index(IndexAModifier.row(),7),staffAdd.bio());
     StaffModel->submitAll();
-
 
 }
 

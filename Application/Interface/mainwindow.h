@@ -8,6 +8,7 @@
 #include "ajouterfilm.h"
 #include<QDataWidgetMapper>
 #include<QFileDialog>
+#include <Staff.h>
 
 namespace Ui {
 class MainWindow;
@@ -29,29 +30,41 @@ public:
     void DeverouillageStaff();
     int conversion_en_int();
     void DisplayFilm(Film f);
+    void DisplayStaff(Staff staffAjoute);
+    Staff validation_donneesStaff();
     QDataWidgetMapper * MappingFilm(QSortFilterProxyModel *FilmSortingModel);
     QDataWidgetMapper * MappingStaff(QSortFilterProxyModel *StaffSortingModel);
 
+    Staff staff() const;
+
 private slots:
     void ajouter_Film();
-
+    void ajouter_Staff();
     void enregistrementAjoutFilm(Film filmAjoute);
+    void enregistrementAjoutStaff(Staff staffAjoute);
     void conversion_min_en_heure();
     void apparition_texte();
     void suppressionFilm();
+    void suppressionStaff();
     void modificationFilm();
+    void modificationStaff();
    // void annuler();
     void modif_pris_en_compte_Film();
+    void modif_pris_en_compte_Staff();
     void masquer_texte_Film();
     void filtreRechercheFilm(QString tri);
     void filtreRechercheStaff(QString tri);
     void demasquage_btn();
+    void demasquage_btnStaff();
     void cache_btn();
+    void cache_btnStaff();
 
     void image_loading(QModelIndex);
 
     void annuler_la_modif_Film();
+    void annuler_la_modif_Staff();
     void modification_photo_Film();
+    void modification_photo_Staff();
 
 
 
@@ -61,6 +74,7 @@ private:
     QSortFilterProxyModel *mFilmSortingModel;
     QSqlTableModel *mStaffModel;
     QSortFilterProxyModel *mStaffSortingModel;
+    Staff mStaff;
 
 };
 
